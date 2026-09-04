@@ -25,6 +25,14 @@ from task_gaming.prompts import load_tasks, render  # noqa: E402
 
 MODEL = "Qwen/Qwen3.5-9B"
 THINK_CLOSE_ID = 248069   # '</think>', verified single-token in step1_smoke.json
+IM_END_ID = 248046        # '<|im_end|>' — the real end of an assistant turn
+ENDOFTEXT_ID = 248044     # '<|endoftext|>'
+# Qwen/Qwen3.5-9B ships no generation_config.json, so transformers falls back to
+# config.eos_token_id = 248044 (<|endoftext|>). An assistant turn actually ends with
+# <|im_end|> (248046), so generation ran straight past the end of the turn and hallucinated the
+# next user turn until it degenerated into repetition (found in the first pilot run). Both ids
+# are passed explicitly here; do not rely on the default.
+EOS_IDS = [IM_END_ID, ENDOFTEXT_ID]
 
 
 def main() -> None:
@@ -66,7 +74,8 @@ def main() -> None:
             t0 = time.time()
             with t.no_grad():
                 gen = model.generate(**enc, max_new_tokens=args.max_new_tokens, do_sample=True,
-                                     temperature=0.7, top_p=0.95, pad_token_id=tok.pad_token_id)
+                                     temperature=0.7, top_p=0.95, pad_token_id=ENDOFTEXT_ID,
+                                     eos_token_id=EOS_IDS)
             elapsed = time.time() - t0
             n_new = gen.shape[1] - n_pad_prompt
             print(f"batch {start // args.batch_size}: {len(chunk)} seqs, {n_new} new tokens, "
@@ -77,7 +86,12 @@ def main() -> None:
                 n_real_prompt = int(enc["attention_mask"][row].sum().item())
                 new_ids = gen[row, n_pad_prompt:].tolist()
                 # generate() right-pads finished sequences with pad_token_id
-                while new_ids and new_ids[-1] == tok.pad_token_id:
+                while new_ids and new_ids[-1] == ENDOFTEXT_ID:
+                    new_ids.pop()
+                stopped_on = ("im_end" if new_ids and new_ids[-1] == IM_END_ID
+                              else "endoftext" if len(new_ids) < args.max_new_tokens
+                              else "token_limit")
+                if new_ids and new_ids[-1] == IM_END_ID:
                     new_ids.pop()
                 closed = THINK_CLOSE_ID in new_ids
                 k = new_ids.index(THINK_CLOSE_ID) if closed else None
@@ -90,7 +104,8 @@ def main() -> None:
                     "closed_think": closed, "think_end_offset": k,
                     "n_thinking_tokens": k if closed else len(new_ids),
                     "n_answer_tokens": (len(new_ids) - k - 1) if closed else 0,
-                    "hit_token_limit": len(new_ids) >= args.max_new_tokens,
+                    "hit_token_limit": stopped_on == "token_limit",
+                    "stopped_on": stopped_on,
                     "thinking": thinking, "answer": answer,
                     "generated_token_ids": new_ids,
                 }) + "\n")
