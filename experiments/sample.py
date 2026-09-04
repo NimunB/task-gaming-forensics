@@ -43,7 +43,13 @@ def main() -> None:
     ap.add_argument("--batch-size", type=int, default=15)
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--out", type=Path, required=True)
+    ap.add_argument("--force", action="store_true", help="allow overwriting an existing --out file")
     args = ap.parse_args()
+
+    # The first pilot run was overwritten by the re-run, so the raw evidence for the eos bug was
+    # lost and had to be described from memory rather than shown. Never again by accident.
+    if args.out.exists() and not args.force:
+        raise SystemExit(f"{args.out} exists. Pass --force to overwrite, or choose a new path.")
 
     tasks = load_tasks()
     if args.tasks == "impossible":

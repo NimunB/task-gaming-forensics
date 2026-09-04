@@ -29,6 +29,11 @@
 - Added `.venv/` to `.gitignore`, and re-included `exported_probes/*.pt`, which the existing `*.pt` rule would have excluded — that would have silently dropped a BRIEF §9 deliverable.
 - Set `max_new_tokens=8192`. 1024 and 4096 were both too small to close the thinking block.
 
+## Where the narrative for the write-up lives
+- `experiments/sanity_checks.md` — every defect and every check, grouped by issue, with reproduction commands. This is the file to write from.
+- `CHANGELOG.md` — the same material in time order, with agent-active minutes per step.
+- `experiments/pilot_readable.md` — the 15 transcripts themselves.
+
 ## Waiting on you
 **GATE 1. Read `experiments/pilot_readable.md` — all 15, they are short apart from two.** Then three decisions:
 
