@@ -47,6 +47,7 @@ def main() -> None:
                     help="substring filter on task id, e.g. 'broken_test_runner'")
     ap.add_argument("--final-turn-as-user", action="store_true",
                     help="move the final-turn note out of the tool result into a real user turn")
+    ap.add_argument("--repetition-penalty", type=float, default=1.0)
     ap.add_argument("--force", action="store_true", help="allow overwriting an existing --out file")
     args = ap.parse_args()
 
@@ -90,7 +91,8 @@ def main() -> None:
             with t.no_grad():
                 gen = model.generate(**enc, max_new_tokens=args.max_new_tokens, do_sample=True,
                                      temperature=0.7, top_p=0.95, pad_token_id=ENDOFTEXT_ID,
-                                     eos_token_id=EOS_IDS)
+                                     eos_token_id=EOS_IDS,
+                                     repetition_penalty=args.repetition_penalty)
             elapsed = time.time() - t0
             n_new = gen.shape[1] - n_pad_prompt
             print(f"batch {start // args.batch_size}: {len(chunk)} seqs, {n_new} new tokens, "
@@ -115,6 +117,7 @@ def main() -> None:
                 fh.write(json.dumps({
                     "task_id": task["id"], "setting": task["setting"], "possible": task["possible"],
                     "final_turn_as_user": args.final_turn_as_user,
+                    "repetition_penalty": args.repetition_penalty,
                     "sample_index": sample_i, "seed": args.seed,
                     "n_prompt_tokens": n_real_prompt, "n_generated_tokens": len(new_ids),
                     "closed_think": closed, "think_end_offset": k,
