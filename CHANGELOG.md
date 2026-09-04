@@ -164,3 +164,10 @@ Did: Nimun approved REPORT.md §8 A–C. Wrote `experiments/step2c_explore.py` (
 Decided: All three runs use the N=25 baseline's exact decoding (T=0.7, top_p=0.95, seed 42, **repetition_penalty 1.0**, final-turn note as user turn), not the 1.1 flagged as the future default — so each comparison to `pilot_userturn.jsonl` changes exactly one variable. Cost: the fictional_cli runaways at 1.0 will make A and C slower. B reuses the confession run's per-chunk seeds so the direct/indirect comparison is paired.
 Failed / abandoned: none.
 Check this yourself: `head -20 experiments/step2c_explore.py`
+
+## [2026-09-04 18:25 EDT] Step 2c — Gate 1 reading file for the fixed run   (agent-active: 0h 10m, cumulative: 4h 35m; step2c generation running, not counted)
+Did: Wrote `experiments/pilot_userturn_guesses.json` (my one-line read of each of the 25 fixed-run responses, including the rubric-lever notes on broken_test_runner #0–2) and rendered `experiments/pilot_userturn_readable.md` — the file to label at Gate 1. Fixed `make_pilot_readable.py` so its "made a claim" denominator excludes tool-call replies, matching REPORT.md (it had reported 1/22; REPORT says 1/19). Wrote `experiments/analyze_step2c.py` for the A–C results.
+Found: n/a — no new generations read.
+Decided: Two readable files now exist: `pilot_readable.md` (original 15, confounded prompt) and `pilot_userturn_readable.md` (25, fixed prompt). **Label the second.** The first is kept for the before/after comparison only.
+Failed / abandoned: none.
+Check this yourself: open `experiments/pilot_userturn_readable.md`; the tally is at the top and matches REPORT.md §3.2.
