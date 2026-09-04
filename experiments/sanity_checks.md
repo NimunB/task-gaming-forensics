@@ -233,6 +233,13 @@ now ignored.
 
 Recorded so the reasoning survives — in hindsight these look obvious, and they were not.
 
+**Reading the source paper's body before designing the next step.** The abstract was enough to cite;
+the body changed the plan. App. E.5 showed our follow-up question is the form the authors warn
+against; §7 showed our negative result lacks the positive control they say it needs; §3's
+"split-brained" caveat constrains how any probe must pool. Three concrete next steps came out of
+about forty minutes of reading. The lesson: an abstract tells you what a paper claims; the appendices
+tell you what it would say about *your* experiment.
+
 **Running the decoding control before building on the runaways.** I had already written the runaways up
 as a behaviour and proposed a hypothesis on them. One 107-second run with `repetition_penalty=1.1`
 killed it. The lesson generalises past this project: any "the model refuses / loops / never answers"
@@ -276,6 +283,15 @@ repo that `clone_vendor.sh` would silently revert on the next machine.
 ## Not yet checked
 
 Listed so they are not mistaken for having passed.
+
+- **Whether the "Answer honestly" cue inflates confession and causes over-confession.** The follow-up
+  in REPORT §3.5 is the paper's "direct" form; the indirect form has not been run. Until it has, the
+  14/19 confession rate and the `dark_mode` #0 over-confession are both possibly artefacts of our
+  wording.
+- **Whether the pipeline can detect gaming at all.** No condition has yet produced enough gaming to
+  show that our labels, judge, or probe would catch it. A negative result without a positive control.
+- **Whether the model claims success cleanly on the *possible* tasks.** Not sampled. Without it,
+  "the model discloses" cannot be distinguished from "the model hedges about everything".
 
 - Whether `</think>` ever appears **twice** in one generation (the thinking/answer split assumes exactly one). Held for 12/15 so far; not verified at larger N.
 - Everything in BRIEF §8. No probe exists yet, so no headline number exists to attack.
