@@ -30,6 +30,7 @@
 - Set `max_new_tokens=8192`. 1024 and 4096 were both too small to close the thinking block.
 
 ## Where the narrative for the write-up lives
+- `REPORT.md` — the findings themselves, written as they arrive. Living document, status banner at the top says what exists and what does not.
 - `experiments/sanity_checks.md` — every defect and every check, grouped by issue, with reproduction commands. This is the file to write from.
 - `CHANGELOG.md` — the same material in time order, with agent-active minutes per step.
 - `experiments/pilot_readable.md` — the 15 transcripts themselves.
