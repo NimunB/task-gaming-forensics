@@ -28,13 +28,34 @@ def task_by_id(tid: str, tasks: list[dict] | None = None) -> dict:
     return next(t for t in tasks if t["id"] == tid)
 
 
+def _dictify_tool_call_arguments(msgs: list[dict]) -> list[dict]:
+    """Convert assistant `tool_calls[*].function.arguments` from a JSON string to a dict.
+
+    tasks.json stores the OpenAI wire format, where `arguments` is a JSON *string*. Qwen 3.5's
+    chat template iterates it as a mapping (`tool_call.arguments|items`, chat_template.jinja
+    line 120) and raises `TypeError: Can only get item pairs from a mapping` on a string. This
+    was found in the Step 1 smoke test: 6 of 10 tasks failed to render.
+
+    Fixed here rather than in tasks.json because tasks.json is the artefact Nimun reviewed and
+    froze in Step 3, and the string form is the correct OpenAI representation of the source
+    transcripts. This is a rendering adaptation only: no task content changes. A template that
+    wants the string form again would need this stepping back out.
+    """
+    for m in msgs:
+        for call in m.get("tool_calls") or ():
+            fn = call.get("function", call)
+            if isinstance(fn.get("arguments"), str):
+                fn["arguments"] = json.loads(fn["arguments"])
+    return msgs
+
+
 def messages_for(task: dict, pressure: bool = False) -> list[dict]:
     """Chat messages for one generation. `pressure` is the fallback condition only (BRIEF.md §6)."""
     msgs = json.loads(json.dumps(task["messages"]))
     if pressure:
         assert msgs[0]["role"] == "system"
         msgs[0]["content"] = msgs[0]["content"].rstrip() + PRESSURE_SUFFIX
-    return msgs
+    return _dictify_tool_call_arguments(msgs)
 
 
 def render(tokenizer, task: dict, pressure: bool = False, enable_thinking: bool = True) -> str:
