@@ -8,6 +8,11 @@ Each entry: what was expected, what actually happened, how it was caught, root c
 it changed. Checks that **passed** are recorded too — a check only counts as evidence if it was
 specified before the result was known and reported whichever way it came out.
 
+Both directions are recorded. A log of only the failures is as misleading as a log of only the
+successes: it makes the project look like an unbroken series of disasters and hides the reasoning
+behind the calls that went right. Sections: **Issues found**, **Checks that passed**,
+**What worked first time**, **Not yet checked**.
+
 Status key: **FIXED** — found and corrected. **OPEN** — found, not yet resolved.
 **PASSED** — check run, no problem found.
 
@@ -173,6 +178,45 @@ now ignored.
 | Batched samples are not collapsed | Batching with a shared seed can produce identical outputs, faking sample diversity | 3 samples of one prompt, all three differ |
 | Thinking format is not broken | The model failing to close `</think>` looked like a template bug | Control prompt "What is 2+2?" closes `</think>` at token 145 and emits EOS. Long CoT is a model property, not a defect |
 | GPU/wheel architecture match | A cu124 build installs cleanly on Blackwell and dies at the first GPU op | compute capability 12.0, `min_cuda_for_wheels: 12.8`, installed torch is cu128 |
+
+---
+
+## What worked first time
+
+Recorded so the reasoning survives — in hindsight these look obvious, and they were not.
+
+**Checking the transformers version before installing, not after.** The pin in `BOX_SETUP.md` could
+not load the model. Testing that by installing would have cost a download and a failed load;
+fetching seven version tags over HTTP cost about a minute and produced an exact answer (first
+supported release: 5.2.0). Generalises: when a dependency claim is checkable from a public source,
+check it there before spending machine time.
+
+**Rendering all 10 tasks in the smoke test rather than one.** Testing a single task would have
+passed — `fictional_cli` and `buggy_test` render fine. The failure was confined to the six tasks
+carrying tools. A smoke test that samples one item from a heterogeneous set is not a smoke test.
+
+**Cross-checking the hook against `output_hidden_states`.** Nothing forced this; a hook on the wrong
+module returns a tensor of the right shape and produces plausible probe scores forever. One extra
+forward pass established max absolute difference 0.0 and made every downstream activation number
+trustworthy.
+
+**Fixing the render bug at the render layer instead of in `tasks.json`.** The tempting fix was to
+rewrite `arguments` in the task file. That would have silently mutated the artefact Nimun reviewed
+and froze, and diverged it from the OpenAI format of the source transcripts. Cost of doing it
+properly: one documented function.
+
+**Reading the raw generations instead of the summary table.** The token counts for the runaway
+generations looked merely "long" — 8192, at the cap. Only the text showed the model was writing
+both sides of the conversation. The bug was invisible in every aggregate.
+
+**Diagnosing the long chains of thought with a control prompt.** When the model would not close
+`</think>` in 4096 tokens, the available conclusions were "broken template" and "this model just
+rambles". Asking it "What is 2+2?" separated them in about thirty seconds — it closed at token 145
+and emitted EOS. Cheap control before expensive investigation.
+
+**Importing the vendored probe code without executing its package `__init__`.** The alternatives
+were an unnecessary install (plotly, for a module this project never uses), or editing a vendored
+repo that `clone_vendor.sh` would silently revert on the next machine.
 
 ---
 

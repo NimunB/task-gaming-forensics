@@ -22,10 +22,16 @@ Nimun is not watching the terminal. Everything they know about this project come
    Failed / abandoned: ... (so later sessions do not retry)
    Check this yourself: <one-line command or file to open>
    ```
-3. **Checkpoints** happen (a) at the end of every step, (b) every 45 minutes of agent-active work regardless, (c) immediately before starting any job longer than 5 minutes, and (d) whenever a result contradicts the pre-registration or a previous entry. At each checkpoint: append to CHANGELOG, rewrite STATUS, commit both with message `checkpoint: step N — title`.
-4. **Explain, do not just record.** When you report a result, say in one or two sentences what it means for the liar-versus-bullshitter question and what it does not mean. Define any term the first time it appears (AUROC, kappa, difference-of-means, detection mask).
-5. **Track time.** Log agent-active minutes per step in CHANGELOG headers. Setup, downloads, and waiting on generation are logged separately as "not counted".
-6. **Gates.** At the four gates in BRIEF.md §5, write the decision question to STATUS.md under "Waiting on you", do every piece of work that does not depend on the answer, then stop.
+3. **`experiments/sanity_checks.md`** — the lab record, grouped by issue and never by date. Update it at every checkpoint, alongside STATUS and CHANGELOG. **Record what worked as well as what broke** — a record of only the failures is as misleading as a record of only the successes. Four sections:
+   - **Issues found:** each with expected / observed (quote the raw output, do not paraphrase it) / how it was caught / root cause / fix / what it changed / a reproduction command. Mark `FIXED` or `OPEN`.
+   - **Checks that passed:** the check, why the result could have been false without it, and the outcome. A check is only evidence if it was specified before the answer was known and reported whichever way it came out. Never quietly drop one because it passed.
+   - **What worked first time:** decisions and methods that paid off, and why. This is where the reasoning behind a good call gets preserved instead of vanishing into a result that looks obvious in hindsight.
+   - **Not yet checked:** so that untested is never mistaken for passed.
+   Own errors go in under my name, not in the passive voice. If evidence is lost, say it is lost rather than describing it from memory as though it survived.
+4. **Checkpoints** happen (a) at the end of every step, (b) every 45 minutes of agent-active work regardless, (c) immediately before starting any job longer than 5 minutes, and (d) whenever a result contradicts the pre-registration or a previous entry. At each checkpoint: append to CHANGELOG, rewrite STATUS, update `experiments/sanity_checks.md` if anything was found or checked, and commit with message `checkpoint: step N — title`.
+5. **Explain, do not just record.** When you report a result, say in one or two sentences what it means for the liar-versus-bullshitter question and what it does not mean. Define any term the first time it appears (AUROC, kappa, difference-of-means, detection mask).
+6. **Track time.** Log agent-active minutes per step in CHANGELOG headers. Setup, downloads, and waiting on generation are logged separately as "not counted".
+7. **Gates.** At the four gates in BRIEF.md §5, write the decision question to STATUS.md under "Waiting on you", do every piece of work that does not depend on the answer, then stop.
 
 ## Hard rules
 

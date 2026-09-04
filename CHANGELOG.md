@@ -77,3 +77,10 @@ Found: The pre-fix sampler is still recoverable at commit `4c06b33` (it passes n
 Decided: Keep the defect record separate from CHANGELOG. CHANGELOG is append-only and chronological; the write-up needs the same material grouped by issue, and Neel's doc asks specifically for "Document your checking in the write-up — tell me what you verified and how". Recorded passing checks alongside failing ones, since a check is only evidence if it is reported whichever way it comes out.
 Failed / abandoned: none.
 Check this yourself: open `experiments/sanity_checks.md`; every entry has a reproduction line.
+
+## [2026-09-04 16:45 EDT] Step 2 (cont.) — lab record made a standing rule   (agent-active: 0h 10m, cumulative: 2h 10m)
+Did: Added `experiments/sanity_checks.md` to the reporting protocol in `CLAUDE.md` as item 3, so every future session in this repo maintains it at every checkpoint rather than it being a one-off. Specified its four sections (issues found, checks that passed, what worked first time, not yet checked) and the rule that own errors are named as mine and lost evidence is declared lost rather than recalled. Added the "What worked first time" section to the file itself, with seven entries.
+Found: n/a — documentation only, no experiment run.
+Decided: Record successes alongside failures at Nimun's request. A log of only defects misrepresents the project and, more usefully, loses the reasoning behind decisions that look obvious in hindsight but were not (checking a dependency version from a public source before installing; rendering all 10 tasks rather than 1 in a smoke test; cross-checking the hook against `output_hidden_states` when nothing forced it; using a trivial control prompt to separate "broken template" from "model rambles").
+Failed / abandoned: none.
+Check this yourself: `grep -n "sanity_checks" CLAUDE.md` shows the standing rule; `grep -n "^## " experiments/sanity_checks.md` shows the four sections.
