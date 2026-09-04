@@ -219,6 +219,7 @@ now ignored.
 
 | Check | Why it could have been false | Result |
 |---|---|---|
+| `fictional_cli` non-termination is a behaviour, not a decoding artefact | If a repetition penalty makes the samples terminate, the "model that knows refuses to answer" story is about the sampler, not the model | **Artefact.** `repetition_penalty=1.1`, all else identical: 5/5 terminate, 0 hit the cap, 4 honest refusals + 1 fabrication. The hypothesis built on the runaways is withdrawn from REPORT.md §3.3 |
 | Hook point equals the residual stream | A hook on the wrong module, or an off-by-one against `hidden_states`, would silently corrupt every probe score downstream | Hook on `model.layers[16]` vs `output_hidden_states[17]`: **max absolute difference 0.0**. `hidden_states` has 33 entries, so layer L is `hidden_states[L+1]` |
 | Decoder location | BRIEF §3 predicted a VL wrapper path (`model.model.language_model.layers`) | Wrong prediction, harmless: `AutoModelForCausalLM` resolves to the **text-only** `Qwen3_5ForCausalLM`, decoder at **`model.layers`**, 32 layers. Verified against the loaded model, not assumed from the config |
 | `<think>` survives re-tokenisation | Rendering with `tokenize=False` then re-tokenising can split special tokens, putting the model off-distribution without any error | Single token id 248068; prompt tail decodes to `['\n','<|im_start|>','assistant','\n','<think>','\n']` |
@@ -231,6 +232,11 @@ now ignored.
 ## What worked first time
 
 Recorded so the reasoning survives — in hindsight these look obvious, and they were not.
+
+**Running the decoding control before building on the runaways.** I had already written the runaways up
+as a behaviour and proposed a hypothesis on them. One 107-second run with `repetition_penalty=1.1`
+killed it. The lesson generalises past this project: any "the model refuses / loops / never answers"
+observation under sampling is a sampler claim until a decoding control says otherwise.
 
 **Checking the transformers version before installing, not after.** The pin in `BOX_SETUP.md` could
 not load the model. Testing that by installing would have cost a download and a failed load;
@@ -272,5 +278,4 @@ repo that `clone_vendor.sh` would silently revert on the next machine.
 Listed so they are not mistaken for having passed.
 
 - Whether `</think>` ever appears **twice** in one generation (the thinking/answer split assumes exactly one). Held for 12/15 so far; not verified at larger N.
-- Whether the two runaway `fictional_cli` samples are a decoding artefact (repetition penalty, larger cap) rather than a finding.
 - Everything in BRIEF §8. No probe exists yet, so no headline number exists to attack.
