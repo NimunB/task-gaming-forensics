@@ -43,6 +43,10 @@ def main() -> None:
     ap.add_argument("--batch-size", type=int, default=15)
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--out", type=Path, required=True)
+    ap.add_argument("--only", default=None,
+                    help="substring filter on task id, e.g. 'broken_test_runner'")
+    ap.add_argument("--final-turn-as-user", action="store_true",
+                    help="move the final-turn note out of the tool result into a real user turn")
     ap.add_argument("--force", action="store_true", help="allow overwriting an existing --out file")
     args = ap.parse_args()
 
@@ -56,6 +60,10 @@ def main() -> None:
         tasks = [x for x in tasks if not x["possible"]]
     elif args.tasks == "possible":
         tasks = [x for x in tasks if x["possible"]]
+    if args.only:
+        tasks = [x for x in tasks if args.only in x["id"]]
+    if not tasks:
+        raise SystemExit("no tasks matched")
 
     tok = AutoTokenizer.from_pretrained(MODEL)
     if tok.pad_token is None:
@@ -72,7 +80,8 @@ def main() -> None:
     with args.out.open("w") as fh:
         for start in range(0, len(jobs), args.batch_size):
             chunk = jobs[start:start + args.batch_size]
-            prompts = [render(tok, task) for task, _ in chunk]
+            prompts = [render(tok, task, final_turn_as_user=args.final_turn_as_user)
+                       for task, _ in chunk]
             enc = tok(prompts, return_tensors="pt", add_special_tokens=False, padding=True).to(model.device)
             n_pad_prompt = enc["input_ids"].shape[1]
 
@@ -105,6 +114,7 @@ def main() -> None:
                 answer = tok.decode(new_ids[k + 1:], skip_special_tokens=True) if closed else ""
                 fh.write(json.dumps({
                     "task_id": task["id"], "setting": task["setting"], "possible": task["possible"],
+                    "final_turn_as_user": args.final_turn_as_user,
                     "sample_index": sample_i, "seed": args.seed,
                     "n_prompt_tokens": n_real_prompt, "n_generated_tokens": len(new_ids),
                     "closed_think": closed, "think_end_offset": k,

@@ -49,23 +49,51 @@ def _dictify_tool_call_arguments(msgs: list[dict]) -> list[dict]:
     return msgs
 
 
-def messages_for(task: dict, pressure: bool = False) -> list[dict]:
+FINAL_TURN_NOTE = json.loads(TASKS_PATH.read_text())["final_turn_note"]
+
+
+def _final_turn_as_user(msgs: list[dict]) -> list[dict]:
+    """Move the final-turn note out of the last tool result and into a real user turn.
+
+    Four tasks (broken_test_runner and dark_mode, both variants) end on a `role: tool` message with
+    the note appended to its content. Qwen renders tool results inside a `<tool_response>` block, so
+    the instruction "reply with a plain text report, with no tool call" arrives as tool OUTPUT, not
+    as an instruction. In the Step 2 pilot those two settings answered with another tool call in 5 of
+    6 samples, while test_regression — whose last message is already a user turn — produced a proper
+    report in 3 of 3. This function tests whether that difference is the cause.
+
+    Prompt plumbing only: the note text and every task message are unchanged, the note just arrives
+    in a turn the model reads as instruction.
+    """
+    note = FINAL_TURN_NOTE
+    last = msgs[-1]
+    if last["role"] == "tool" and note.strip() in last.get("content", ""):
+        last["content"] = last["content"].replace(note, "").rstrip()
+        msgs.append({"role": "user", "content": note.strip()})
+    return msgs
+
+
+def messages_for(task: dict, pressure: bool = False, final_turn_as_user: bool = False) -> list[dict]:
     """Chat messages for one generation. `pressure` is the fallback condition only (BRIEF.md §6)."""
     msgs = json.loads(json.dumps(task["messages"]))
+    if final_turn_as_user:
+        msgs = _final_turn_as_user(msgs)
     if pressure:
         assert msgs[0]["role"] == "system"
         msgs[0]["content"] = msgs[0]["content"].rstrip() + PRESSURE_SUFFIX
     return _dictify_tool_call_arguments(msgs)
 
 
-def render(tokenizer, task: dict, pressure: bool = False, enable_thinking: bool = True) -> str:
+def render(tokenizer, task: dict, pressure: bool = False, enable_thinking: bool = True,
+           final_turn_as_user: bool = False) -> str:
     """Render to a prompt string with the generation prompt appended. Thinking stays ON."""
     kwargs = dict(tokenize=False, add_generation_prompt=True)
     if task.get("tools"):
         kwargs["tools"] = task["tools"]
     if not enable_thinking:  # never for task-gaming samples; only for probe-training text if needed
         kwargs["enable_thinking"] = False
-    return tokenizer.apply_chat_template(messages_for(task, pressure), **kwargs)
+    return tokenizer.apply_chat_template(
+        messages_for(task, pressure, final_turn_as_user=final_turn_as_user), **kwargs)
 
 
 def confession_messages(task: dict, response_text: str) -> list[dict]:
