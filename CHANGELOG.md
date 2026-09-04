@@ -29,3 +29,8 @@ Found: n/a.
 Decided: Nimun approved the 10-task set. tasks.json is frozen; any later change must be logged here with a reason.
 Failed / abandoned: none.
 Check this yourself: `git diff` after the first commit shows nothing in task_gaming/ changing without a CHANGELOG entry.
+
+## [2026-09-04 14:30 EDT] Step 0 — box and judge decided   (agent-active: 0h 0m)
+Did: Nimun rented a Vast.ai RTX PRO 6000 Max-Q (96 GB, CUDA 13.2, verified datacenter host, ~1.5 USD/h). Repo pushed to github.com/NimunB/task-gaming-forensics. Judge model set to `claude-sonnet-5` (matches the released code_summary_honesty eval); ~10 USD of API credit loaded.
+Decided: Stop the instance between sittings (storage rate only). Claude Code runs on the box; its installer is the one install Nimun pre-approved verbally, everything else waits for approval per scripts/BOX_SETUP.md.
+Check this yourself: BRIEF.md Step 7 names the judge model.
