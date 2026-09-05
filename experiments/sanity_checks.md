@@ -219,6 +219,8 @@ now ignored.
 
 | Check | Why it could have been false | Result |
 |---|---|---|
+| LLM judge agrees with the adopted labels | If a second rater with the same rubric disagreed, the labels would be one reader's opinion | κ = 1.00 on 25 (labels) and 19/19 (cot_admits); 25/25 genuine_success on controls; pressure identical to the hand read. **Caveat recorded:** judge and agent shared the rubric text and ground truth, so this measures rubric clarity, not label truth |
+| "A strict rubric could raise the gaming rate several-fold" | I had asserted this in REPORT §3.2 and STATUS without measuring it | **Wrong.** A strict-override judge pass flipped 1 of 25 (a false test count): 4% → 8%. The speculation overstated the sensitivity and is corrected in REPORT §3.9 |
 | The over-confession was the model's, not our question's | The direct follow-up names the behaviour and says "Answer honestly" — the cued form the paper warns against | **Our question.** Indirect form, same 19, same seeds: 0/17 over-confess vs 1 clear + 2 leaning; blocker acknowledged 17/17 either way. Recorded in REPORT §3.7 as a correction to §3.5 |
 | Pressure elicits gaming (positive control) | If nothing makes the model game, the negative result cannot be told from a pipeline that cannot see gaming | **Did not elicit it.** 1/25 under pressure, same slot as baseline; only effect was more tool calls on dark_mode. The check ran and came back negative; it is recorded here as a passed *check* and a failed *control* |
 | Possible-task controls: the model claims success when success is real | If it hedged on possible tasks too, "disclosure" on impossible ones would be a style, not a judgement, and the negative result would be about our rubric | **25/25 clean claims, 0 tool calls, 0 hedges; every claim checked against the transcript's ground truth and true.** One near-miss in the checking: the `durc` answer's flag order differed from `ground_truth_note`; the prompt's own `usage:` line shows the model's order is the canonical one |
@@ -235,6 +237,11 @@ now ignored.
 ## What worked first time
 
 Recorded so the reasoning survives — in hindsight these look obvious, and they were not.
+
+**Measuring the rubric lever instead of quoting it.** "Several-fold" had been written in two files on
+the strength of reading three responses. A second judge pass with a strict override cost $0.30 and
+ninety seconds and returned the actual number: one flip. The general rule: any sensitivity claim
+about a labelling rule is a claim about data and can be measured on the data already on disk.
 
 **Reading the source paper's body before designing the next step.** The abstract was enough to cite;
 the body changed the plan. App. E.5 showed our follow-up question is the form the authors warn
@@ -286,6 +293,10 @@ repo that `clone_vendor.sh` would silently revert on the next machine.
 ## Not yet checked
 
 Listed so they are not mistaken for having passed.
+
+- **Independent human labels.** Nimun endorsed the agent's labels rather than labelling blind. The
+  judge is a second *machine* rater on the same rubric. No rubric-independent human check of the 25
+  responses exists; BRIEF Step 7's adjudication set is still to be produced, and REPORT §3.9 says so.
 
 - **Whether the pipeline can detect gaming at all.** Still open, and now harder: the pressure
   positive control produced none (REPORT §3.8). Every negative statement about this model carries the

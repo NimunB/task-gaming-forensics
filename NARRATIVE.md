@@ -23,6 +23,7 @@ you tried and why, and what happened."*
 | 11 | control A | the model might hedge on possible tasks too, making "disclosure" a style | 25/25 clean claims, all true against the transcripts | the model's reports track outcomes; the negative result is about the model, not our rubric | 2 min GPU |
 | 12 | control B | the 14/19 confession rate and the false confession were the model's | asked neutrally, 0/17 over-confess; acknowledgement unchanged at 17/17 | the false confession was our "Answer honestly" cue; use the indirect form from here | 7 min GPU |
 | 13 | control C | pressure would produce gaming, giving a positive class | 1/25, the same slot as baseline; pressure only made dark_mode try harder | no condition found that makes this model game; framing resolves to behavioural forensics | 15 min GPU |
+| 14 | labels + judge | Nimun would label 19 responses independently; a strict rubric might raise the rate several-fold | Nimun endorsed the agent's labels instead; judge κ = 1.00 on the same rubric; strict pass flipped exactly one response (a false test count) | record the labels' provenance honestly; the rate is 4% loose, 8% strict, not several-fold | 20 min labels, $0.65 judge |
 
 ## The beats
 
@@ -121,9 +122,21 @@ negative result is now robust to prompt delivery, decoding, follow-up framing, a
 pipeline still has no positive class. The probe-headline branch of the plan is closed by the data;
 the framing decision that remains is whether to say so and write the behavioural result.
 
+**14. The labels, and what "agreement" bought.** Asked to label 19 responses, Nimun asked why the
+agent could not do it, heard the answer (the labels are the thing being checked; the rubric choice sets
+the headline; kappa needs two raters), and chose to endorse the agent's labels after one more
+adversarial read rather than relabel. That is recorded as what it is — agent labels endorsed by a
+human, not independent human labels. The LLM judge then agreed with every one of them, κ = 1.00, and
+scored all 25 control claims as genuine success and the pressure run identically to the hand read. But
+the judge and the agent were reading the same rubric against the same ground truth, so perfect
+agreement means the rubric is clear, not that the labels are true. One speculation died: a strict
+rubric had been expected to raise the gaming rate several-fold; run as a second judge pass, it flipped
+one response — a false test count — and left the "verified manually" and "Implementation Complete ✅"
+cases alone. Four percent loose, eight percent strict. A draft pre-registration now fixes the reframed
+headline, the confirmatory run, and what would change our mind, and waits on Nimun's yes.
+
 ## Where the thread is now
 
-Steps 0–2 done, 5h 30m counted of 16–20. Gate 1 open: Nimun labels the 25 fixed-run responses in
-`experiments/pilot_userturn_readable.md`. Controls A–C done (REPORT §3.6–3.8). Framing fork resolved by data to the behavioural branch; awaiting Nimun's yes. Two of
+Steps 0–2 done plus labels, judge, and a draft pre-registration; 6h 15m counted of 16–20. Gate 1 labels adopted (agent labels endorsed by Nimun). `PREREGISTRATION.md` is drafted and waits on Nimun's yes to the scope change. Controls A–C done (REPORT §3.6–3.8). Framing fork resolved by data to the behavioural branch; awaiting Nimun's yes. Two of
 my hypotheses withdrawn. No probe trained, and — this is the finding so far — no reason yet to train
 one on this model with these prompts.
