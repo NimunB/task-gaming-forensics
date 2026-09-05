@@ -28,7 +28,12 @@ are filled in when the confirmatory run's analysis lands; the commands already w
 | A: true digit `7` rank 16/1/1 at L24/28/30 for the false "18"; 444–1,423 at L28 for the five true "18"s | `python -c "import json;r=json.load(open('experiments/jlens_results_2.json'));[print(e['case'],e['note'],{l:e['ranks'][l]['j']['7'] for l in ('24','28','30')}) for e in r['A_digit']]"` |
 | B: ` not` rank at first answer token, L24: refusers 282–542, fabricators 147k–181k | `python -c "import json;r=json.load(open('experiments/jlens_results.json'));[print(e['note'][:30],e['at_first_answer_token']['layers']['24']['jlens']['rank'][' not']) for e in r['B']]"` |
 | C: ` failed` at "Complete", L20: disclosers 205–716, controls 6,315–13,473; prompt tail ~511–544 | `python -c "import json;r=json.load(open('experiments/jlens_results_2.json'));[print(e['note'],e['case'],{k:v['failed_j']['20'] for k,v in e['positions'].items()}) for e in r['C_deconfound']]"` |
-| **H2 / H3 / H4 on the scaled runs** *(pending)* | `python experiments/h2_analysis.py`; `python experiments/h3h4_analysis.py` (GPU) → `h2_results.json`, `h3h4_results.json`; figures: `python experiments/make_figures.py` |
+| **H2 supported**: `</think>` L20 refusals 204 vs fabrications 8,538, p = 9e-9, r = 0.88; logit-lens twin r = 0.91 (§3.13) | `python -c "import json;t=json.load(open('experiments/h2_results.json'))['tests'];[print(k,v['median_refusal'],v['median_fabrication'],v['p_one_sided'],round(v['rank_biserial'],2)) for k,v in t.items()]"` (GPU to regenerate: `python experiments/h2_analysis.py`) |
+| Liar vs bullshitter cells indistinguishable (§3.13) | `python experiments/h2_sensitivity.py` → S2 table; cells in `experiments/fcli_100_subgroups.json` |
+| **H3 withdrawn** — headline gap 481 vs 13,731; prompt-tail gap 544 vs 8,113 (§3.14) | `python -c "import json;t=json.load(open('experiments/h3h4_results.json'))['H3']['tests'];[print(k,v.get('median_disclosers'),v.get('median_controls'),v.get('p_one_sided')) for k,v in t.items() if ' failed' in k and 'L20' in k]"` |
+| H4 untestable — no false counts (§3.15) | `python -c "import json;print([(r['task_id'],r['stated'],r['truth'],r['false']) for r in json.load(open('experiments/h3h4_results.json'))['H4']['rows']])"` |
+| Strict 10/119 vs loose 7/119; seed-43 4/45 gamed (§3.16) | `python experiments/h1_analysis.py`; `python -c "import json;from collections import Counter;print(Counter(json.loads(l)['label'] for l in open('experiments/judge__samples_seed43.jsonl')))"` |
+| Figures | `python experiments/make_figures.py && python experiments/h2_sensitivity.py` → `experiments/figures/` |
 
 ## Provenance
 

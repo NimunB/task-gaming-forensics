@@ -76,6 +76,8 @@ Nothing in 492 tokens of thinking questions whether `durc` exists. Compare the r
 | 16 | pivot run | the reimplemented lens might not match the reference; the cue test might show nothing | lens reproduces the paper's boot→euro example and the model's logits to 0.0 (after catching that HF's last hidden state is post-norm); "Answer honestly" produced 5/25 false confessions on true successes, neutral form 0/25; three lens probes gave the asked-for shapes at N=1–6 | write them up as existence observations; pre-register H2–H4 with denominators | 80 min |
 | 17 | pre-reg | the reframed headline needed to be committed before the big run | PREREGISTRATION.md approved and committed 01:55 UTC; 325 generations launched; 0 cap hits at penalty 1.1 | run exactly as written; nothing else on the GPU | ~55 min GPU |
 | 18 | H1 | outcome-tracking would clear 0.80 | 187/194 = 0.96 [0.93, 0.98] → supported; but 31/150 impossible responses were tool calls, and with them counted 0.83 [0.78, 0.87] misses the bar; judge category errors on 5/7 gamed labels; a 'knows and omits' case outside fictional_cli | report both denominators; hand-adjudication set written for Nimun | — |
+| 19 | H2 | refusals load doubt words, fabrications don't | supported, p ≈ 1e-8, effect large — but the plain logit lens shows the same; and the 3 'knew and hid it' fabrications look identical inside to the 4 'believed it' ones | report the instrument as unnecessary for this claim; treat the cell result as an observation | — |
+| 20 | H3/H4 | 'failed' held in mind while writing Complete | the gap at the headline equals the gap at the prompt tail → context, by our own pre-stated rule; only 2 controls; no false counts to test H4 on | withdraw the intent reading; report both as such | — |
 
 ## The beats
 
@@ -228,8 +230,24 @@ not reliable at scale — five of seven mis-categorised, though all seven sit on
 thinking says the test is a typo and whose answer never says so. The adjudication set for Nimun is
 written; it is the one part of this that a model must not do.
 
+**19. The lens result that held, and the two ways it humbled us.** On the hundred fake-command answers,
+every refusal has doubt words — *not, sorry, cannot* — poised in its workspace by the twentieth layer;
+every fabrication has them tens of thousands of places down the list. Pre-registered, large, unambiguous.
+Then the two footnotes the pre-registration forced. First: the plain logit lens, the crude thing we were
+supposed to be improving on, shows the same separation just as clearly — so this is a fact about the model,
+and the fancy instrument gets no credit. Second: the three fabrications whose reasoning had said *"I can't
+say I don't know"* are, at the moment the answer begins, indistinguishable inside from the four that simply
+believed a false memory. The reasoning knew. The activation that writes the answer does not carry it. Three
+against four; an observation, written down as one.
+
+**20. Two readings given back.** "The failure is held in mind while it writes Complete" had been the most
+striking picture in the pilot. The rule we had set in advance — the gap at the headline must beat the gap at
+the prompt — said no: they are the same. It is the prompt reminding the model of the error, not intent, and
+the control group was two responses anyway. And the true-number test had nothing to test: in 225 confirmatory
+responses the model never once wrote a false test count. Both are recorded as what they are.
+
 ## Where the thread is now
 
-Pre-registration binding; confirmatory run sampled and judged; H1 supported on the pre-registered denominator; H2–H4 lens analyses and GPT-OSS running; 10h 20m counted of 16–20. Gate 1 labels adopted (agent labels endorsed by Nimun). `PREREGISTRATION.md` is drafted and waits on Nimun's yes to the scope change. Controls A–C, the true-success confession test, and three J-lens probes done (REPORT §3.6–3.11). PREREGISTRATION.md (H1 behavioural, H2–H4 lens) awaits Nimun's yes; then the confirmatory run and steps D–F. Two of
+Pre-registration binding; confirmatory run sampled and judged; H1 and H2 supported, H3 withdrawn, H4 untestable; GPT-OSS running; 10h 50m counted of 16–20. Gate 1 labels adopted (agent labels endorsed by Nimun). `PREREGISTRATION.md` is drafted and waits on Nimun's yes to the scope change. Controls A–C, the true-success confession test, and three J-lens probes done (REPORT §3.6–3.11). PREREGISTRATION.md (H1 behavioural, H2–H4 lens) awaits Nimun's yes; then the confirmatory run and steps D–F. Two of
 my hypotheses withdrawn. No probe trained, and — this is the finding so far — no reason yet to train
 one on this model with these prompts.
