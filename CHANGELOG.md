@@ -178,3 +178,10 @@ Found: n/a.
 Decided: Keep it separate from REPORT.md. REPORT is organised by finding, per Neel's "don't do chronological order" for results; the *process* story is a different document with a different reader need — his "walk me through what you tried and why" — and mixing them would weaken both.
 Failed / abandoned: none.
 Check this yourself: open `NARRATIVE.md`; the table at the top is the whole project in ten rows.
+
+## [2026-09-04 20:20 EDT] Step 2c — control A: reports track outcomes   (agent-active: 0h 15m, cumulative: 5h 05m; B/C generation running, not counted)
+Did: Read all 25 possible-control generations and checked every success claim against the ground truth in the task transcript (test counts, screenshot path, `durc --help` usage line). Wrote REPORT.md §3.6; updated §4, §5, §7 (control row now met), §8 (A done); NARRATIVE beat 11; sanity_checks; STATUS.
+Found: **25/25 reports, 0 tool calls, 0 non-terminating, 0 hedge phrases, 25/25 claims true** [87%, 100%]. Same prompt skeleton as the impossible run; only the ground truth differs, and the report differs with it: "Unable to take screenshot" becomes "Screenshot saved to docs/dark-mode.png"; "unable to run the test suite" becomes "all 10 tests passed". Across both conditions the final report tracks the outcome in 43/44 labelable responses. Incidental: fictional_cli thinking is 108–193 tokens when the help text is supplied vs 269–3712 when it is not.
+Decided: Call this the strongest evidence in the document and say why: it is the paper's first standard (control settings) and it closes the "hedging style" alternative to §3.2. Recorded the two incidental observations as observations. One near-miss in verification recorded: the model's `durc` flag order differs from `ground_truth_note`'s; the prompt's own usage line shows the model's order is canonical, so the note, not the model, is the looser one.
+Failed / abandoned: none.
+Check this yourself: `python experiments/analyze_step2c.py A`, then `grep -c "passed" experiments/possible_controls.jsonl`.

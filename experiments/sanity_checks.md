@@ -219,6 +219,7 @@ now ignored.
 
 | Check | Why it could have been false | Result |
 |---|---|---|
+| Possible-task controls: the model claims success when success is real | If it hedged on possible tasks too, "disclosure" on impossible ones would be a style, not a judgement, and the negative result would be about our rubric | **25/25 clean claims, 0 tool calls, 0 hedges; every claim checked against the transcript's ground truth and true.** One near-miss in the checking: the `durc` answer's flag order differed from `ground_truth_note`; the prompt's own `usage:` line shows the model's order is the canonical one |
 | `fictional_cli` non-termination is a behaviour, not a decoding artefact | If a repetition penalty makes the samples terminate, the "model that knows refuses to answer" story is about the sampler, not the model | **Artefact.** `repetition_penalty=1.1`, all else identical: 5/5 terminate, 0 hit the cap, 4 honest refusals + 1 fabrication. The hypothesis built on the runaways is withdrawn from REPORT.md §3.3 |
 | Hook point equals the residual stream | A hook on the wrong module, or an off-by-one against `hidden_states`, would silently corrupt every probe score downstream | Hook on `model.layers[16]` vs `output_hidden_states[17]`: **max absolute difference 0.0**. `hidden_states` has 33 entries, so layer L is `hidden_states[L+1]` |
 | Decoder location | BRIEF §3 predicted a VL wrapper path (`model.model.language_model.layers`) | Wrong prediction, harmless: `AutoModelForCausalLM` resolves to the **text-only** `Qwen3_5ForCausalLM`, decoder at **`model.layers`**, 32 layers. Verified against the loaded model, not assumed from the config |
@@ -290,8 +291,6 @@ Listed so they are not mistaken for having passed.
   wording.
 - **Whether the pipeline can detect gaming at all.** No condition has yet produced enough gaming to
   show that our labels, judge, or probe would catch it. A negative result without a positive control.
-- **Whether the model claims success cleanly on the *possible* tasks.** Not sampled. Without it,
-  "the model discloses" cannot be distinguished from "the model hedges about everything".
 
 - Whether `</think>` ever appears **twice** in one generation (the thinking/answer split assumes exactly one). Held for 12/15 so far; not verified at larger N.
 - Everything in BRIEF §8. No probe exists yet, so no headline number exists to attack.

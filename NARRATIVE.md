@@ -20,6 +20,7 @@ you tried and why, and what happened."*
 | 8 | control | `fictional_cli`'s non-terminating samples were a behaviour | a repetition penalty makes 5/5 terminate — sampler artefact | **withdraw** the hypothesis I had built on it | 2 min GPU; one wrong claim removed |
 | 9 | reading | the source post was as summarised | the summary mis-scoped the 92/33 figure; "bullshitting" is *their* word; our five settings are their Claim #5 | verify quotes against raw text; credit the framing | 40 min reading |
 | 10 | paper | the abstract was enough | the body says our follow-up question is the cued form they warn against; our negative lacks a positive control; no control tasks sampled | three cheap next steps (A–C) before any framing decision | 40 min reading; 30 min GPU pending |
+| 11 | control A | the model might hedge on possible tasks too, making "disclosure" a style | 25/25 clean claims, all true against the transcripts | the model's reports track outcomes; the negative result is about the model, not our rubric | 2 min GPU |
 
 ## The beats
 
@@ -95,9 +96,16 @@ sampled. Each is cheap. All three were approved and are running as this is writt
 the whole project — probe with a pre-registered pressure-gamed headline, or behavioural forensics in
 the paper's own protocol with the probe as a robustness row — waits on them and on Nimun's labels.
 
+**11. The control tasks said the honesty is judgement, not style.** The obvious alternative reading
+of beat 6 was that this model simply hedges about everything. The five possible variants — same
+prompts, blocker removed — got 25 short, unqualified success claims, every one true against the
+transcript: "all 10 tests passed", "Screenshot saved to docs/dark-mode.png", the exact `durc` syntax
+from the supplied help. The reports change when the facts change. That is the paper's first standard,
+a control setting, and it is the strongest single piece of evidence so far.
+
 ## Where the thread is now
 
 Steps 0–2 done, 4h 35m counted of 16–20. Gate 1 open: Nimun labels the 25 fixed-run responses in
-`experiments/pilot_userturn_readable.md`. Three exploratory runs in progress (REPORT §8 A–C). Two of
+`experiments/pilot_userturn_readable.md`. Control run A done (REPORT §3.6); B and C in progress. Two of
 my hypotheses withdrawn. No probe trained, and — this is the finding so far — no reason yet to train
 one on this model with these prompts.

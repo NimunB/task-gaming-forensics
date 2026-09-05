@@ -2,6 +2,7 @@
 
 ## Where we are
 - Steps 0–2 done; three exploratory checks done (confound fix, follow-up baseline, decoding control); the Model Forensics paper read in the body; a self-review against its standards written as REPORT.md §7. **Gate 1 is open and waiting on you.**
+- **Control A done (REPORT §3.6): 25/25 clean, true success claims on the possible tasks.** The model's reports track outcomes; its disclosure on impossible tasks is judgement, not hedging. B (indirect follow-up) and C (pressure) still running.
 - **Headline so far:** on this model the task-gaming phenomenon barely occurs — 1/25 [1%, 20%] — the model discloses 18/19 [75%, 99%], and a follow-up question recovers the one fabrication. The original probe headline has no positive class.
 - **The review found three cheap gaps**, all from the paper's own standards: no control-task sample, no positive control, and a follow-up question in the form the authors warn against. REPORT.md §8 lists them as next steps A–C (~30 min GPU total).
 - **Two of my own proposals are now withdrawn** in the record: the `fictional_cli` "runaway" (sampler artefact) and the "true vs false confessions" probe idea (N=1).
@@ -18,7 +19,6 @@
 ## Dumbest way this could be wrong
 - Every label is one agent's reading. No judge, no human labels, no kappa.
 - **No positive control:** nothing shows this pipeline would see gaming if it were there.
-- **No control tasks sampled:** "discloses on impossible tasks" is uninterpretable without "claims success on possible ones".
 - The confession rate may be an artefact of asking the model to "answer honestly".
 - Intervals at N=25 and N=19 are wide enough that most of the above could move a lot.
 
