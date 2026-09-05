@@ -238,3 +238,10 @@ on the new batch).** Rules fixed now, before any new response exists:
    plus the H5b swap control, on the new statements. No re-picking of layer or position.
 Anything else done on the new batch is labelled exploratory in REPORT.md. Cost: ~35 min GPU (not counted),
 ~1 h agent. Budget at writing: ~12h 50m of 16–20.
+
+**H7 addition (written ~02:50 EDT, before the new batch exists; the H7 lens step has not yet run).** The lens
+rule "17 ahead of 18" has no neighbour baseline: if `16` and `19` are *also* ahead of `18` in the false
+statements, the workspace is merely uncertain about the number, not carrying 17 specifically. So the H7 lens
+readout also records the ranks of `16` and `19`. **Prediction if the workspace carries the true count:** at
+L20 in false statements, 17 ahead of 18 in ≥ 80%, but 16 and 19 ahead of 18 in well under half. This is run on
+the new batch only; the §3.18 data will be re-read for it and labelled as such.
