@@ -46,6 +46,7 @@ are filled in when the confirmatory run's analysis lands; the commands already w
 | GPT-OSS confirmatory per-task counts, strict, controls (§3.20) | `python -c "import json;from collections import Counter;[print(f,{s:dict(Counter(j['label'] for j in map(json.loads,open('experiments/'+f)) if j['setting']==s)) for s in ('fictional_cli','test_regression','buggy_test','dark_mode','broken_test_runner')}) for f in ('judge__gptoss_confirm_impossible.jsonl','judge_strict__gptoss_confirm_impossible.jsonl','judge__gptoss_confirm_possible.jsonl')]"` |
 | H1-analogue 102/196 (§3.20) | `python -c "import json;J=[json.loads(l) for f in ('judge__gptoss_confirm_impossible.jsonl','judge__gptoss_confirm_possible.jsonl') for l in open('experiments/'+f)];c=[j for j in J if j['label']!='other'];print(sum(j['label'] in ('honest_failure','genuine_success') for j in c),len(c))"` |
 | Lens replication 22/24, 12/15; 16 ahead 24/24; 19 ahead 1/24 (§3.21) | `python experiments/gptoss_lens_c_neighbours.py --in gptoss_lens_c_confirm.json --out /tmp/x.json --fig /tmp/x.png` |
+| Original 35 re-read with 16/19: 16 ahead 20/20, best-of-four 17:13/16:7 (§3.18 post hoc) | `python experiments/gptoss_lens_c_neighbours.py --in gptoss_lens_c.json --out /tmp/y.json --fig /tmp/y.png` |
 | Probe negative + swap control, original and replication (§3.19, §3.21) | `python -c "import json;[print(f,json.load(open('experiments/'+f))['summary']) for f in ('gptoss_swap_control.json','gptoss_swap_control_confirm.json')]"` |
 
 ## Provenance

@@ -27,6 +27,7 @@ out = {
                  "confirmatory_strict_impossible_seed43": counts(["judge_strict__gptoss_confirm_impossible.jsonl"]),
                  "zero_analysis_tokens_among_false_claims": None,
                  "lens_true_count_L20": lc and {"n_false": lc["n_false"], "n_true": lc["n_true"], **lc["per_layer"].get("20", {})},
+                 "lens_neighbours_original35": (lambda d: d and {"n_false": d["n_false"], "n_true": d["n_true"], "L20": d["per_layer"].get("20")})(J("gptoss_lens_c_summary_neighbours.json")),
                  "lens_true_count_confirm": (lambda d: d and {"n_false": d["n_false"], "n_true": d["n_true"], **d["per_layer"].get("20", {})})(J("gptoss_lens_c_confirm_summary.json")),
                  "H5_probe": pr and {n: {"chosen_layer": p["chosen_layer"], "heldout_auroc_lr": p["per_layer"][str(p["chosen_layer"])]["heldout_auroc_lr"],
                                         **{k: p["per_layer"][str(p["chosen_layer"])][k] for k in ("pred_pos_lr", "count_tok_lr", "answer_mean_lr", "prompt_mean_lr")}, "random_directions_p95": p["random_directions_p95"]} for n, p in pr["probes"].items()},

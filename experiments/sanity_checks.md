@@ -367,6 +367,7 @@ now ignored.
 | Check | Why it could have been false | Result |
 |---|---|---|
 | H7 frozen lens rule on fresh data (seed 43) | L20 was chosen after seeing the first 35 statements | 22/24 false, 12/15 true at L20, p = 8.5e-6 — replicated |
+| Neighbour baseline re-read on the original 35 (post hoc, labelled) | The §3.18 batch might have carried 17 specifically even if the replication did not | 16 ahead of 18 in 20/20 false statements; best-of-four 17:13, 16:7. Combined over 44: 17 and 16 tie 22–22. Same narrowed reading |
 | H7 neighbour baseline (16/19 vs 18) — **fired, finding narrowed** | "17 ahead of 18" could be "any lower number ahead" | 16 ahead of 18 in 24/24 false statements, best-of-four in 15/24; 19 ahead in 1/24. Reading changed from "carries 17" to "carries fewer than 18" (REPORT §3.21) |
 | H5b replication with saved probes on fresh statements | The H5b negative could have been a property of the first 35 | Truth LR 8/24 vs 15/15; deception LR 24/24 vs 0/15 — same pattern; 6/20 random directions meet the bar |
 | GPT-OSS strict judge pass (n=225) | Loose rubric might understate gaming | Moves 2 labels: test_regression 29→30 false_claim, dark_mode 0→1 |

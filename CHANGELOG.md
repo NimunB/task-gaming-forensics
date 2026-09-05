@@ -337,3 +337,9 @@ Found: Per-task gaming (n=30): fictional_cli 30, test_regression 29, buggy_test 
 Decided: Narrow the lens headline in REPORT/NARRATIVE rather than keep the p-value story; do not run H2 across tasks (honest failures all dark_mode); H6 labels marked judge-only until Nimun reads the 20.
 Failed / abandoned: H2 analogue on GPT-OSS — no within-task refusal arm on any task.
 Check this yourself: `python experiments/gptoss_lens_c_neighbours.py --in gptoss_lens_c_confirm.json`
+
+## [2026-09-05 05:20 EDT] Original 35 re-read with the neighbour ranks   (agent-active: 0h 15m, cumulative: 14h 45m; GPU 4 min not counted)
+Did: Re-ran `gptoss_lens_c.py` on the §3.18 files (now records 16/19); `gptoss_lens_c_neighbours.py` on both batches; fig_c_true_count.png redrawn with all three neighbours; REPORT §3.18 post-hoc paragraph and §3.21 combined line; sanity, VERIFY, results.json.
+Found: Original 35 at L20: 16 ahead of 18 in 20/20 false statements, 19 in 1/20; best-of-four 17:13, 16:7. Combined 44 false statements: 16 ahead 44/44, 17 ahead 41/44, 19 ahead 2/44; best-of-four 17:22, 16:22.
+Decided: The narrowed reading ("lower counts ahead, not 17") stands for both batches; the p ≈ 5e-9 headline is kept in §3.18 with the re-read attached rather than deleted.
+Check this yourself: `python experiments/gptoss_lens_c_neighbours.py --in gptoss_lens_c.json --out /tmp/y.json --fig /tmp/y.png`

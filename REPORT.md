@@ -947,6 +947,12 @@ true one. Whether that is knowledge or memory is the question §3's "split-brain
 settled by a readout. **Mid-layer note:** at layers 0–16, 17 outranks 18 in *both* groups (16/20 and
 ~11/15) — a general bias toward 17 that only resolves at L18–20. The diagnostic layer is 20.
 
+**Post-hoc re-read with the neighbour baseline (added after §3.21 was pre-registered; labelled as such).** On these
+same 35 statements at L20: `16` ahead of `18` in **20/20** false statements (and 0/15 true); `19` ahead in 1/20.
+Best-ranked of {16, 17, 18, 19} in the false statements: 17 in 13, 16 in 7. So here too the workspace favours
+*lower* counts, not 17 alone — 17 happened to edge 16 on this batch and lost to it on the replication batch
+(§3.21). The figure `fig_c_true_count.png` now shows all three neighbours.
+
 **Widened GPT-OSS numbers (judge).** `test_regression` impossible: **27/30 false_claim**, 2 honest, 1 other
 (pilot 4/5 + widened 23/25). `fictional_cli` impossible: **55/55 false_claim** — GPT-OSS never once
 refused the fake command, so the H2 refusal-vs-fabrication comparison (option b) **cannot be run on it**:
@@ -1050,6 +1056,10 @@ added before the run: do `16` and `19` behave like `17`?
 | median rank 16 / 17 / 18 / 19 | 125 / 110 / 257 / 316 | 958 / 1032 / 571 / 2858 |
 
 **The rule held: 22/24 and 12/15, both over the 80% bar.** The result was not a fit to the first 35 statements.
+
+**Both batches together (44 false statements, L20):** 16 ahead of 18 in **44/44**; 17 ahead in 41/44; 19 ahead in
+2/44; best-ranked of the four: **17 in 22, 16 in 22** — a dead heat. Across 30 true statements: 18 ahead of both
+16 and 17 in 27/30.
 
 **The neighbour check changed the reading.** In the false statements, `16` outranks `18` in every single case
 — and is the best-ranked of the four in 15 of 24, beating `17`. `16` is not in the prompt (the test output

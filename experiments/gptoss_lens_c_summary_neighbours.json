@@ -1,0 +1,614 @@
+{
+ "source": "gptoss_lens_c.json",
+ "n_false": 20,
+ "n_true": 15,
+ "per_layer": {
+  "0": {
+   "j": {
+    "false_17_ahead": "15/20",
+    "true_18_ahead": "4/15",
+    "fisher_p": 0.6058077999123607,
+    "false_16_ahead": "16/20",
+    "false_19_ahead": "16/20",
+    "true_16_ahead": "11/15",
+    "true_19_ahead": "11/15",
+    "false_best_of_four": {
+     "17": 15,
+     "16": 1,
+     "18": 4
+    },
+    "true_best_of_four": {
+     "17": 11,
+     "18": 4
+    },
+    "false_17_ahead_of_16": "16/20"
+   },
+   "ll": {
+    "false_17_ahead": "3/20",
+    "true_18_ahead": "15/15",
+    "fisher_p": 0.1741787624140565,
+    "false_16_ahead": "0/20",
+    "false_19_ahead": "5/20",
+    "true_16_ahead": "0/15",
+    "true_19_ahead": "4/15",
+    "false_best_of_four": {
+     "18": 15,
+     "19": 4,
+     "17": 1
+    },
+    "true_best_of_four": {
+     "18": 11,
+     "19": 4
+    },
+    "false_17_ahead_of_16": "5/20"
+   },
+   "median_rank_false": {
+    "16": 20765.5,
+    "17": 17525.5,
+    "18": 35223.0,
+    "19": 24434.5
+   },
+   "median_rank_true": {
+    "16": 20145,
+    "17": 16672,
+    "18": 35420,
+    "19": 23275
+   }
+  },
+  "2": {
+   "j": {
+    "false_17_ahead": "16/20",
+    "true_18_ahead": "4/15",
+    "fisher_p": 0.472595813530185,
+    "false_16_ahead": "16/20",
+    "false_19_ahead": "16/20",
+    "true_16_ahead": "11/15",
+    "true_19_ahead": "11/15",
+    "false_best_of_four": {
+     "16": 15,
+     "18": 4,
+     "17": 1
+    },
+    "true_best_of_four": {
+     "16": 4,
+     "17": 7,
+     "18": 4
+    },
+    "false_17_ahead_of_16": "2/20"
+   },
+   "ll": {
+    "false_17_ahead": "19/20",
+    "true_18_ahead": "6/15",
+    "fisher_p": 0.0158427664725512,
+    "false_16_ahead": "17/20",
+    "false_19_ahead": "4/20",
+    "true_16_ahead": "11/15",
+    "true_19_ahead": "0/15",
+    "false_best_of_four": {
+     "17": 15,
+     "19": 1,
+     "16": 3,
+     "18": 1
+    },
+    "true_best_of_four": {
+     "16": 6,
+     "18": 4,
+     "17": 5
+    },
+    "false_17_ahead_of_16": "17/20"
+   },
+   "median_rank_false": {
+    "16": 22455.0,
+    "17": 23519.0,
+    "18": 47363.5,
+    "19": 29024.0
+   },
+   "median_rank_true": {
+    "16": 21320,
+    "17": 21725,
+    "18": 44955,
+    "19": 24237
+   }
+  },
+  "4": {
+   "j": {
+    "false_17_ahead": "16/20",
+    "true_18_ahead": "4/15",
+    "fisher_p": 0.472595813530185,
+    "false_16_ahead": "16/20",
+    "false_19_ahead": "16/20",
+    "true_16_ahead": "11/15",
+    "true_19_ahead": "11/15",
+    "false_best_of_four": {
+     "16": 16,
+     "18": 4
+    },
+    "true_best_of_four": {
+     "16": 6,
+     "18": 4,
+     "17": 5
+    },
+    "false_17_ahead_of_16": "1/20"
+   },
+   "ll": {
+    "false_17_ahead": "19/20",
+    "true_18_ahead": "5/15",
+    "fisher_p": 0.04008538899430739,
+    "false_16_ahead": "17/20",
+    "false_19_ahead": "7/20",
+    "true_16_ahead": "11/15",
+    "true_19_ahead": "1/15",
+    "false_best_of_four": {
+     "16": 4,
+     "17": 15,
+     "18": 1
+    },
+    "true_best_of_four": {
+     "17": 3,
+     "16": 8,
+     "18": 4
+    },
+    "false_17_ahead_of_16": "16/20"
+   },
+   "median_rank_false": {
+    "16": 12714.0,
+    "17": 13510.5,
+    "18": 26261.0,
+    "19": 17245.5
+   },
+   "median_rank_true": {
+    "16": 9629,
+    "17": 10095,
+    "18": 20491,
+    "19": 12944
+   }
+  },
+  "6": {
+   "j": {
+    "false_17_ahead": "16/20",
+    "true_18_ahead": "4/15",
+    "fisher_p": 0.472595813530185,
+    "false_16_ahead": "18/20",
+    "false_19_ahead": "19/20",
+    "true_16_ahead": "12/15",
+    "true_19_ahead": "11/15",
+    "false_best_of_four": {
+     "16": 18,
+     "19": 1,
+     "18": 1
+    },
+    "true_best_of_four": {
+     "16": 9,
+     "19": 3,
+     "18": 3
+    },
+    "false_17_ahead_of_16": "1/20"
+   },
+   "ll": {
+    "false_17_ahead": "19/20",
+    "true_18_ahead": "3/15",
+    "fisher_p": 0.19986631016042777,
+    "false_16_ahead": "17/20",
+    "false_19_ahead": "9/20",
+    "true_16_ahead": "10/15",
+    "true_19_ahead": "1/15",
+    "false_best_of_four": {
+     "17": 14,
+     "16": 5,
+     "19": 1
+    },
+    "true_best_of_four": {
+     "17": 12,
+     "18": 3
+    },
+    "false_17_ahead_of_16": "15/20"
+   },
+   "median_rank_false": {
+    "16": 7235.5,
+    "17": 9542.0,
+    "18": 18207.0,
+    "19": 10024.5
+   },
+   "median_rank_true": {
+    "16": 6239,
+    "17": 6165,
+    "18": 12480,
+    "19": 5480
+   }
+  },
+  "8": {
+   "j": {
+    "false_17_ahead": "15/20",
+    "true_18_ahead": "4/15",
+    "fisher_p": 0.6058077999123607,
+    "false_16_ahead": "16/20",
+    "false_19_ahead": "18/20",
+    "true_16_ahead": "11/15",
+    "true_19_ahead": "12/15",
+    "false_best_of_four": {
+     "16": 15,
+     "19": 3,
+     "18": 2
+    },
+    "true_best_of_four": {
+     "19": 10,
+     "16": 2,
+     "18": 3
+    },
+    "false_17_ahead_of_16": "0/20"
+   },
+   "ll": {
+    "false_17_ahead": "17/20",
+    "true_18_ahead": "8/15",
+    "fisher_p": 0.02000900471423274,
+    "false_16_ahead": "17/20",
+    "false_19_ahead": "2/20",
+    "true_16_ahead": "6/15",
+    "true_19_ahead": "0/15",
+    "false_best_of_four": {
+     "16": 7,
+     "17": 9,
+     "19": 1,
+     "18": 3
+    },
+    "true_best_of_four": {
+     "17": 7,
+     "18": 6,
+     "16": 2
+    },
+    "false_17_ahead_of_16": "13/20"
+   },
+   "median_rank_false": {
+    "16": 3002.0,
+    "17": 4686.5,
+    "18": 5924.0,
+    "19": 3199.0
+   },
+   "median_rank_true": {
+    "16": 2622,
+    "17": 3960,
+    "18": 4683,
+    "19": 2541
+   }
+  },
+  "10": {
+   "j": {
+    "false_17_ahead": "16/20",
+    "true_18_ahead": "4/15",
+    "fisher_p": 0.472595813530185,
+    "false_16_ahead": "19/20",
+    "false_19_ahead": "20/20",
+    "true_16_ahead": "15/15",
+    "true_19_ahead": "15/15",
+    "false_best_of_four": {
+     "16": 19,
+     "19": 1
+    },
+    "true_best_of_four": {
+     "16": 12,
+     "19": 3
+    },
+    "false_17_ahead_of_16": "0/20"
+   },
+   "ll": {
+    "false_17_ahead": "16/20",
+    "true_18_ahead": "10/15",
+    "fisher_p": 0.0069803807773532595,
+    "false_16_ahead": "10/20",
+    "false_19_ahead": "1/20",
+    "true_16_ahead": "1/15",
+    "true_19_ahead": "0/15",
+    "false_best_of_four": {
+     "17": 15,
+     "18": 4,
+     "19": 1
+    },
+    "true_best_of_four": {
+     "18": 10,
+     "17": 5
+    },
+    "false_17_ahead_of_16": "19/20"
+   },
+   "median_rank_false": {
+    "16": 10590.5,
+    "17": 16523.0,
+    "18": 27585.5,
+    "19": 13852.5
+   },
+   "median_rank_true": {
+    "16": 7947,
+    "17": 12751,
+    "18": 21014,
+    "19": 10609
+   }
+  },
+  "12": {
+   "j": {
+    "false_17_ahead": "16/20",
+    "true_18_ahead": "6/15",
+    "fisher_p": 0.17927326659251017,
+    "false_16_ahead": "20/20",
+    "false_19_ahead": "20/20",
+    "true_16_ahead": "15/15",
+    "true_19_ahead": "15/15",
+    "false_best_of_four": {
+     "16": 19,
+     "19": 1
+    },
+    "true_best_of_four": {
+     "16": 13,
+     "19": 2
+    },
+    "false_17_ahead_of_16": "0/20"
+   },
+   "ll": {
+    "false_17_ahead": "2/20",
+    "true_18_ahead": "15/15",
+    "fisher_p": 0.31932773109243695,
+    "false_16_ahead": "14/20",
+    "false_19_ahead": "3/20",
+    "true_16_ahead": "2/15",
+    "true_19_ahead": "0/15",
+    "false_best_of_four": {
+     "16": 12,
+     "18": 6,
+     "19": 2
+    },
+    "true_best_of_four": {
+     "18": 12,
+     "16": 3
+    },
+    "false_17_ahead_of_16": "0/20"
+   },
+   "median_rank_false": {
+    "16": 12858.5,
+    "17": 26881.0,
+    "18": 30064.0,
+    "19": 17449.0
+   },
+   "median_rank_true": {
+    "16": 11870,
+    "17": 25065,
+    "18": 25838,
+    "19": 16001
+   }
+  },
+  "14": {
+   "j": {
+    "false_17_ahead": "16/20",
+    "true_18_ahead": "4/15",
+    "fisher_p": 0.472595813530185,
+    "false_16_ahead": "20/20",
+    "false_19_ahead": "19/20",
+    "true_16_ahead": "15/15",
+    "true_19_ahead": "14/15",
+    "false_best_of_four": {
+     "16": 20
+    },
+    "true_best_of_four": {
+     "16": 15
+    },
+    "false_17_ahead_of_16": "0/20"
+   },
+   "ll": {
+    "false_17_ahead": "1/20",
+    "true_18_ahead": "15/15",
+    "fisher_p": 0.5714285714285714,
+    "false_16_ahead": "18/20",
+    "false_19_ahead": "2/20",
+    "true_16_ahead": "9/15",
+    "true_19_ahead": "1/15",
+    "false_best_of_four": {
+     "16": 17,
+     "19": 1,
+     "18": 2
+    },
+    "true_best_of_four": {
+     "18": 6,
+     "16": 9
+    },
+    "false_17_ahead_of_16": "0/20"
+   },
+   "median_rank_false": {
+    "16": 16434.0,
+    "17": 36048.5,
+    "18": 49101.0,
+    "19": 25802.0
+   },
+   "median_rank_true": {
+    "16": 20858,
+    "17": 47225,
+    "18": 62141,
+    "19": 33415
+   }
+  },
+  "16": {
+   "j": {
+    "false_17_ahead": "16/20",
+    "true_18_ahead": "7/15",
+    "fisher_p": 0.09473489061920651,
+    "false_16_ahead": "20/20",
+    "false_19_ahead": "16/20",
+    "true_16_ahead": "15/15",
+    "true_19_ahead": "11/15",
+    "false_best_of_four": {
+     "16": 20
+    },
+    "true_best_of_four": {
+     "16": 15
+    },
+    "false_17_ahead_of_16": "0/20"
+   },
+   "ll": {
+    "false_17_ahead": "3/20",
+    "true_18_ahead": "15/15",
+    "fisher_p": 0.1741787624140565,
+    "false_16_ahead": "20/20",
+    "false_19_ahead": "1/20",
+    "true_16_ahead": "11/15",
+    "true_19_ahead": "0/15",
+    "false_best_of_four": {
+     "16": 19,
+     "19": 1
+    },
+    "true_best_of_four": {
+     "16": 11,
+     "18": 4
+    },
+    "false_17_ahead_of_16": "0/20"
+   },
+   "median_rank_false": {
+    "16": 16337.0,
+    "17": 38712.5,
+    "18": 46226.0,
+    "19": 31382.0
+   },
+   "median_rank_true": {
+    "16": 22853,
+    "17": 50640,
+    "18": 52869,
+    "19": 40146
+   }
+  },
+  "18": {
+   "j": {
+    "false_17_ahead": "20/20",
+    "true_18_ahead": "4/15",
+    "fisher_p": 0.026069518716577537,
+    "false_16_ahead": "20/20",
+    "false_19_ahead": "18/20",
+    "true_16_ahead": "15/15",
+    "true_19_ahead": "12/15",
+    "false_best_of_four": {
+     "16": 20
+    },
+    "true_best_of_four": {
+     "16": 15
+    },
+    "false_17_ahead_of_16": "0/20"
+   },
+   "ll": {
+    "false_17_ahead": "15/20",
+    "true_18_ahead": "15/15",
+    "fisher_p": 4.773482550722963e-06,
+    "false_16_ahead": "20/20",
+    "false_19_ahead": "1/20",
+    "true_16_ahead": "15/15",
+    "true_19_ahead": "0/15",
+    "false_best_of_four": {
+     "16": 20
+    },
+    "true_best_of_four": {
+     "16": 15
+    },
+    "false_17_ahead_of_16": "0/20"
+   },
+   "median_rank_false": {
+    "16": 29093.0,
+    "17": 49376.0,
+    "18": 66951.0,
+    "19": 48703.0
+   },
+   "median_rank_true": {
+    "16": 52882,
+    "17": 90014,
+    "18": 104730,
+    "19": 86576
+   }
+  },
+  "20": {
+   "j": {
+    "false_17_ahead": "19/20",
+    "true_18_ahead": "15/15",
+    "fisher_p": 4.926194582789435e-09,
+    "false_16_ahead": "20/20",
+    "false_19_ahead": "1/20",
+    "true_16_ahead": "0/15",
+    "true_19_ahead": "0/15",
+    "false_best_of_four": {
+     "17": 13,
+     "16": 7
+    },
+    "true_best_of_four": {
+     "18": 15
+    },
+    "false_17_ahead_of_16": "13/20"
+   },
+   "ll": {
+    "false_17_ahead": "18/20",
+    "true_18_ahead": "15/15",
+    "fisher_p": 4.1872653953710195e-08,
+    "false_16_ahead": "20/20",
+    "false_19_ahead": "1/20",
+    "true_16_ahead": "0/15",
+    "true_19_ahead": "0/15",
+    "false_best_of_four": {
+     "17": 9,
+     "16": 11
+    },
+    "true_best_of_four": {
+     "18": 15
+    },
+    "false_17_ahead_of_16": "9/20"
+   },
+   "median_rank_false": {
+    "16": 287.0,
+    "17": 279.5,
+    "18": 561.0,
+    "19": 698.5
+   },
+   "median_rank_true": {
+    "16": 736,
+    "17": 792,
+    "18": 546,
+    "19": 2459
+   }
+  },
+  "22": {
+   "j": {
+    "false_17_ahead": "0/20",
+    "true_18_ahead": "15/15",
+    "fisher_p": 1.0,
+    "false_16_ahead": "0/20",
+    "false_19_ahead": "0/20",
+    "true_16_ahead": "0/15",
+    "true_19_ahead": "0/15",
+    "false_best_of_four": {
+     "18": 20
+    },
+    "true_best_of_four": {
+     "18": 15
+    },
+    "false_17_ahead_of_16": "20/20"
+   },
+   "ll": {
+    "false_17_ahead": "0/20",
+    "true_18_ahead": "15/15",
+    "fisher_p": 1.0,
+    "false_16_ahead": "0/20",
+    "false_19_ahead": "0/20",
+    "true_16_ahead": "0/15",
+    "true_19_ahead": "0/15",
+    "false_best_of_four": {
+     "18": 20
+    },
+    "true_best_of_four": {
+     "18": 15
+    },
+    "false_17_ahead_of_16": "20/20"
+   },
+   "median_rank_false": {
+    "16": 5.0,
+    "17": 2.0,
+    "18": 0.0,
+    "19": 3.0
+   },
+   "median_rank_true": {
+    "16": 12,
+    "17": 3,
+    "18": 0,
+    "19": 4
+   }
+  }
+ }
+}

@@ -44,5 +44,5 @@ for ax, G, name in zip(axes, (F, T), (f"false statements: wrote 18, truth 17 (n=
     ax.grid(True, axis="y", color=GRID, linewidth=1); ax.set_axisbelow(True)
 axes[0].set_ylabel("share of statements"); axes[0].legend(frameon=False, fontsize=8.5, loc="lower left")
 fig.suptitle(f"{a.title}: before a false “18 passed”, lower counts (16 and 17) outrank 18 — not 17 alone", x=0.02, ha="left", fontsize=11.5)
-fig.text(0.02, 0.905, "gpt-oss-20b, test_regression, Jacobian lens at the position predicting the count token. The pre-registered rule was “17 ahead of 18 at layer 20”; the neighbour check asks whether 16 and 19 behave the same.", fontsize=8.3, color=INK2)
-fig.tight_layout(rect=(0, 0, 1, 0.88)); fig.savefig(E/"figures"/a.fig); print("wrote figures/" + a.fig)
+fig.text(0.02, 0.885, "gpt-oss-20b, test_regression, Jacobian lens at the position predicting the count token.\nThe pre-registered rule was “17 ahead of 18 at layer 20”; the neighbour check asks whether 16 and 19 behave the same.", fontsize=8.3, color=INK2, va="bottom")
+fig.tight_layout(rect=(0, 0, 1, 0.86)); fig.savefig(E/"figures"/a.fig); print("wrote figures/" + a.fig)
