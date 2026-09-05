@@ -163,6 +163,24 @@ is identical for 17 and 18, and the targets "18"/"17" are not single tokens. **F
 position predicting the second digit with targets `8` and `7`. **Caught by:** the context column in the
 printout, not the numbers — the numbers were all `None` and would have been reported as "no result".
 
+## 3e. FIXED — Harmony template rejects `content: None` on assistant tool-call turns
+
+**Saw:** `TypeError: argument of type 'NoneType' is not iterable` at template line 264 when rendering any
+tool-bearing task for `openai/gpt-oss-20b`. **Cause:** the Harmony template tests
+`"<|channel|>analysis<|message|>" in message.content`; our OpenAI-format transcripts have `content: None`
+on assistant tool-call messages, which Qwen's template tolerated. It also assumes ≤1 tool call per
+assistant message. **Fix:** `_for_harmony` in `task_gaming/prompts.py` (None → "", assert ≤1 call);
+`messages_for(..., harmony=True)`. All 10 tasks render; prompts end with `<|start|>assistant`.
+**Recorded difference, not a bug:** Harmony renders a prior assistant turn's `content` on tool-call
+turns as an *analysis* (CoT) block when no later final message follows — 2 such blocks in
+test_regression, 1 in dark_mode. Qwen rendered the same text as plain assistant content. That is how
+each model's own template presents the transcript; it is a cross-model confound to state in any
+Qwen-vs-GPT-OSS comparison.
+
+**Scheduling note:** the first GPT-OSS smoke run OOM'd — the confirmatory Qwen chain held 57.5 GB and
+the bf16 dequant of gpt-oss-20b needs ~39 GB for the load warm-up alone (transformers dequantizes
+MXFP4 to bf16 without `kernels`/Triton, as intended). Re-run after the chain finishes.
+
 ## 3b. FIXED — A keyword heuristic nearly manufactured a finding
 
 **What happened:** to check whether each `test_regression` response disclosed its failing test, I

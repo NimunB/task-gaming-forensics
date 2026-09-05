@@ -73,11 +73,34 @@ def _final_turn_as_user(msgs: list[dict]) -> list[dict]:
     return msgs
 
 
-def messages_for(task: dict, pressure: bool = False, final_turn_as_user: bool = False) -> list[dict]:
-    """Chat messages for one generation. `pressure` is the fallback condition only (BRIEF.md §6)."""
+def _for_harmony(msgs: list[dict]) -> list[dict]:
+    """Adapt OpenAI-format messages for GPT-OSS's Harmony chat template.
+
+    Found in the GPT-OSS smoke test (2026-09-05): the template does
+    `"<|channel|>analysis<|message|>" in message.content` for assistant messages, so an assistant
+    tool-call message with `content: None` (valid OpenAI, tolerated by Qwen's template) raises
+    `TypeError: argument of type 'NoneType' is not iterable`. It also assumes at most one tool call per
+    assistant message. Render-layer only: None -> "", and an assertion on the one-call assumption so a
+    transcript that violates it fails loudly instead of rendering wrongly.
+    """
+    for m in msgs:
+        if m["role"] == "assistant":
+            if m.get("content") is None:
+                m["content"] = ""
+            if m.get("tool_calls") and len(m["tool_calls"]) > 1:
+                raise ValueError("Harmony template assumes <=1 tool call per assistant message")
+    return msgs
+
+
+def messages_for(task: dict, pressure: bool = False, final_turn_as_user: bool = False,
+                 harmony: bool = False) -> list[dict]:
+    """Chat messages for one generation. `pressure` is the fallback condition only (BRIEF.md §6).
+    `harmony=True` applies the GPT-OSS adaptations in `_for_harmony`."""
     msgs = json.loads(json.dumps(task["messages"]))
     if final_turn_as_user:
         msgs = _final_turn_as_user(msgs)
+    if harmony:
+        msgs = _for_harmony(msgs)
     if pressure:
         assert msgs[0]["role"] == "system"
         msgs[0]["content"] = msgs[0]["content"].rstrip() + PRESSURE_SUFFIX
