@@ -25,14 +25,21 @@ LENS_PATH = ROOT / "experiments" / "lenses" / "qwen3.5-9b" / "j-lens" / "lens.pt
 
 
 class JLens:
-    def __init__(self, path: Path = LENS_PATH, device="cuda:0"):
+    def __init__(self, path: Path = LENS_PATH, device="cuda:0", target_layer: int | None = None):
         d = t.load(path, map_location="cpu", weights_only=False)
         self.J = {int(l): m.to(device=device, dtype=t.float32) for l, m in d["J"].items()}
         self.source_layers = sorted(self.J)
         self.d_model = d["d_model"]; self.provenance = d.get("provenance", {})
-        tgt = int(self.provenance.get("target_layer", self.source_layers[-1]))
-        assert t.allclose(self.J[tgt], t.eye(self.d_model, device=device)), "target-layer Jacobian is not identity"
-        self.target_layer = tgt
+        I = t.eye(self.d_model, device=device)
+        dist = {l: ((self.J[l] - I).norm() / I.norm()).item() for l in self.source_layers}
+        if target_layer is None:
+            target_layer = int(self.provenance.get("target_layer", min(dist, key=dist.get)))
+        self.target_layer = target_layer
+        # The paper-faithful recipe stores J_target = I. Neuronpedia's gpt-oss-20b lens does not contain an
+        # identity row (closest layer is still far from I), i.e. its target is the final block, which is not
+        # stored. Record how far the anchor row is from I rather than assert; callers read it from .anchor_dist.
+        self.anchor_dist = dist[self.target_layer]
+        self.identity_anchor = self.anchor_dist < 1e-4
 
     def transport(self, h: t.Tensor, layer: int) -> t.Tensor:
         """h: [..., d_model] residual at `layer` (output of block `layer`) -> final-layer basis."""

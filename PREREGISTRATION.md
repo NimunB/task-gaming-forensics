@@ -116,3 +116,32 @@ the self-fit results are reported.
 
 Nothing about the model's honesty in general, about other models, or about deception probes'
 generalisation. The claim is about elicitation of task-gaming by these five settings in this model.
+
+## 7. ADDENDUM (DRAFT, 2026-09-05 00:50 EDT) — H5: a deception probe on GPT-OSS-20B. Awaiting Nimun's approval.
+
+**Why now.** The Qwen runs produced one fabrication per ~25; a probe had nothing to separate. The GPT-OSS-20B
+pilot (REPORT §3.17) gamed 14 of 20 reports, judged, on the same tasks. The original BRIEF Steps 5 and 8 —
+train the thesis deception probe on the Apollo instructed-pair data and test whether it separates task-gamed
+from honest-failure responses — become runnable. This addendum is written **before** any GPT-OSS
+confirmatory sampling and before any probe is trained.
+
+**H5.** On GPT-OSS-20B, an LR probe trained on the Apollo instructed-pair deception data (thesis
+`datasets.py`/`probes.py`, adapted to GPT-OSS's residual stream), mean-pooled over **answer** tokens at the
+layer chosen by in-distribution cross-validation (coarse sweep every 4th layer of 24), separates
+judge-labelled *gamed* from *honest_failure* responses with AUROC > 0.70 (lower 95% bootstrap bound > 0.5).
+
+**Run.** GPT-OSS-20B, 30 samples per impossible task (150), 15 per possible task (75), same decoding and
+Harmony rendering as the pilot, seed 42; judged by the frozen judge (loose and strict). Probe scores on
+answer tokens, thinking tokens (where any exist — many GPT-OSS responses have none), and prompt-only tokens.
+
+**Kill checks, pre-specified (BRIEF §8):** (1) AUROC gamed vs genuine_success — if ≈ AUROC gamed vs
+honest_failure, the probe reads "done" language; (2) prompt-only AUROC impossible vs possible — context
+leakage; (3) AUROC honest_failure vs genuine_success — outcome detector, not honesty detector; (4) 20
+random unit directions at the chosen layer, headline percentile; (5) layer ±4 and seed 43; (6) MM probe as
+robustness row. **The headline is reported only if (1) and (3) are both materially lower than the
+headline; otherwise the finding is "the probe tracks outcome or vocabulary, not honesty."**
+
+**What would change our mind.** Headline AUROC < 0.70 → the probe does not generalise to this setting;
+report as a negative with the kill-check table. Judge–human κ on the GPT-OSS adjudication set < 0.7 →
+labels unreliable; report both raters. Cost: ~2–2.5 h agent time (sampling 15 min, probe adaptation +
+training ~1 h, scoring + checks ~45 min). Budget at drafting: 11h 30m used of 16–20.
