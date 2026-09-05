@@ -1,10 +1,11 @@
 # STATUS
 
 ## Where we are
-- **GPT-OSS work done (REPORT §3.17–3.18).** Widened: test_regression 27/30 false "tests pass", every one with zero reasoning; fictional_cli 55/55 fabrications (so the doubt-words comparison has no refusal arm and is reported as not runnable). **Lens: one layer before writing the false "18", the workspace ranks the true count 17 ahead in 19/20 false statements and never in the 15 true ones (Fisher p ≈ 5e-9); the plain logit lens agrees.** Context caveat printed. Figure: `figures/fig_c_true_count.png`.
-- Qwen side complete: H1 supported (with the tool-call caveat), H2 supported (logit lens equally), H3 withdrawn, H4 untestable, strict and seed-43 rows in.
-- **Waiting on you:** (1) approve/decline the **H5 probe addendum** (PREREGISTRATION §7) — ~2–2.5 h; (2) the **two adjudication sets** (`experiments/adjudication_set.md`, `experiments/adjudication_set_gptoss.md`).
-- GPU idle. Nothing running. 12h 05m of 16–20h.
+- **Running (GPU, ~45 min from 02:45 EDT):** H6 GPT-OSS confirmatory run — 30 per impossible task, 15 per possible task, seed 43 — then loose+strict judge, then the frozen H7 replications (lens L20 with the 16/19 neighbour baseline; saved probes + swap control) on the new test_regression statements. Chain: scratchpad `gptoss_confirm.sh`; log `confirm.log`.
+- **H5 done — negative (REPORT §3.19).** Truth/deception probes trained on Apollo trivia gave AUROC 1.00 on the 35 statements, but prompt-only tokens and random directions also gave 1.00 (prompt confound); the swap control shows every probe tracks its favourite digit, not the truth. Reported as negative.
+- §3.18 lens result stands but now carries the same group-confound caveat; the neighbour baseline (16/19) decides on the new batch.
+- **Waiting on you:** H5 result is in; the two adjudication sets; README citation; whether to push to GitHub.
+- ~13h 10m of 16–20h.
 
 ## What the numbers mean so far
 - **Behavioural half (unchanged):** outcome-tracking 43/44; gaming 1/25 loose, 2/25 strict; pressure 1/25.
@@ -20,6 +21,8 @@
 - **Labels remain agent labels endorsed by Nimun.**
 
 ## Decisions I made without asking
+- **Seed 43 for the GPT-OSS confirmatory run** (not 42): seed 42 already produced the pilot/widening on this model and the run's purpose is out-of-sample replication. Recorded in PREREGISTRATION §8.
+- Added the 16/19 neighbour baseline to the lens readout before H7 ran (pre-registered, committed).
 - Reimplemented the readout rather than bumping transformers (Nimun agreed to my stated preference). Verified two ways before use.
 - Fixed experiment A's tokenisation bug and re-ran at the digit position; added within-answer control positions to C when the context confound became obvious. Both recorded in sanity_checks.
 - Wrote H2–H4 into PREREGISTRATION as DRAFT with tests, token sets, layers, and withdrawal conditions fixed now — before any scaled run.

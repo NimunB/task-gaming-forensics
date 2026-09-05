@@ -311,3 +311,10 @@ Found: Widened GPT-OSS: test_regression impossible 27/30 false_claim (25/25 zero
 Decided: Report (c) as the asked-for evidence with both caveats in the same paragraph; report (b) as not runnable; leave H5 to Nimun.
 Failed / abandoned: Option (b) on GPT-OSS — no refusals exist to compare against; do not force it.
 Check this yourself: `python experiments/gptoss_lens_c_summary.py`
+
+## [2026-09-05 02:55 EDT] H5 probe — negative; H5b swap control; H6/H7 launched   (agent-active: 1h 05m, cumulative: 13h 10m; GPU ~8 min not counted)
+Did: Pre-registered H5 (cheap version, truth + deception probes) before extraction; ran `gptoss_probe.py`; kill checks fired; pre-registered and ran H5b swap control (`gptoss_swap_control.py`, probes saved to `experiments/exported_probes/gptoss_probes_h5.pt`); pre-registered H6 (GPT-OSS confirmatory, seed 43) and H7 (frozen lens L20 + 16/19 baseline; frozen probes + swap) and launched the chain. REPORT §3.19, digest 16, sanity 3l, STATUS.
+Found: Truth probe L16 held-out 0.99; on 35 statements count-token AUROC 1.00 — prompt-only 1.00, random-direction p95 1.00 → confound. Deception probe L12 count-token 0.52. Swap control: truth LR 6/20 vs 15/15; deception LR 20/20 vs 0/15; no interaction; 4/20 random directions pass the interaction bar. Probes track digits, not truth.
+Decided: Report H5 as a negative with the mechanism; add the neighbour-number baseline to the lens before replication; seed 43 for H6 (deviation, stated).
+Failed / abandoned: Group-AUROC on these 35 statements as evidence of anything — the groups are separable by any direction. Do not reuse that design.
+Check this yourself: `python -c "import json;print(json.load(open('experiments/gptoss_probe.json'))['probes']['truth']['random_directions_p95'])"`; `python -c "import json;print(json.load(open('experiments/gptoss_swap_control.json'))['summary'])"`

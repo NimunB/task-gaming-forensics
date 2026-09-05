@@ -366,6 +366,8 @@ now ignored.
 
 | Check | Why it could have been false | Result |
 |---|---|---|
+| H5 kill checks 1–2 (prompt-only AUROC; 20 random directions) — **fired** | Truth-probe AUROC 1.00 on 20 false vs 15 true statements would have been reported as transfer | Prompt-only 1.00; random p95 1.00. The groups differ by prompt in every direction; the 1.00 was a confound. Caught because the checks were written before the number was seen (PREREGISTRATION §7) |
+| H5b swap control (same prompt, 18↔17) | A probe could track the digit rather than the truth | Truth LR: 6/20 vs 15/15 — tracks the digit "17" as false. Deception LR: 20/20 vs 0/15 — tracks "18" as deceptive. No interaction anywhere; 4/20 random directions pass the bar by chance |
 | True-count readout on GPT-OSS (§3.18) is symmetric across groups | A one-sided design (only false statements) could not separate 'ranks the truth' from 'ranks 17 in general' | Both groups have their own truth in context and both write 18; at L20 the truth is ahead in 19/20 false and 15/15 true; at L0–16 17 is ahead in *both* groups (~16/20 and ~11/15) — recorded so the mid-layer bias is not mistaken for signal |
 | Option (b) on GPT-OSS | Forcing a refusal-vs-fabrication comparison with too few refusals | Not run: 55/55 fabrications, 0 refusals. Reported as not runnable rather than run on nothing |
 | H2 pre-registered test | A 4-vs-6 pilot pattern could have been noise | 74 vs 17, p ≈ 1e-8, rank-biserial 0.88 at `</think>` L20; holds at every pre-registered position/layer and with the frozen fabrication-proper subset |
@@ -444,6 +446,15 @@ were an unnecessary install (plotly, for a module this project never uses), or e
 repo that `clone_vendor.sh` would silently revert on the next machine.
 
 ---
+
+### 3l — My H5 design lacked a within-prompt control (FIXED by H5b)
+- **Expected:** a probe separating false from true "18 passed" statements reads the claim's truth.
+- **Observed:** `random_directions_p95: {'count_tok': 1.0, 'prompt_mean': 1.0}`; `prompt_mean LR 1.00 [1.00,1.00]`.
+- **Caught by:** the pre-specified kill checks in PREREGISTRATION §7, run in the same script.
+- **Root cause:** every false statement came from the impossible prompt and every true one from the possible prompt; the residual stream carries prompt identity in essentially every direction. Group AUROC on this test set measures nothing about the claim.
+- **Fix:** H5b — swap the digit inside each response and compare within prompt (`experiments/gptoss_swap_control.py`).
+- **What it changed:** H5 goes from "AUROC 1.00" to "negative: probes track the digit". The same confound is noted against §3.18's group comparison; the neighbour-number baseline is pre-registered for H7.
+- **Repro:** `python experiments/gptoss_probe.py; python experiments/gptoss_swap_control.py`
 
 ## Not yet checked
 

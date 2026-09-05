@@ -113,6 +113,11 @@ shape of evidence; here it is at N=35 with p ≈ 10⁻⁹, on a model that wrote
 reasoning. Two honest limits: the plain logit lens sees it as well, and each prompt contains its own true
 count, so "recalling the context" and "knowing the claim is false" cannot be told apart by this readout.
 
+**16. Probes trained on true/false trivia looked like they read the false test count perfectly — and the
+checks showed they read the prompt, then the digit, not the truth.** A random direction separated the groups
+as well as the probe did; and when the "18" is swapped for "17" inside the same response, every probe scores
+its favourite digit the same way regardless of which one is true. Negative result, kept.
+
 **What is not claimed.** Not that this model is honest in general; not that the reference result is
 wrong (different models); not that probes fail. Only that these five environments do not elicit
 task-gaming from this model, and we could not make them.
@@ -922,6 +927,45 @@ settled by a readout. **Mid-layer note:** at layers 0–16, 17 outranks 18 in *b
 (pilot 4/5 + widened 23/25). `fictional_cli` impossible: **55/55 false_claim** — GPT-OSS never once
 refused the fake command, so the H2 refusal-vs-fabrication comparison (option b) **cannot be run on it**:
 there is no refusal arm. Controls: `test_regression` possible 15/15 genuine_success.
+
+### 3.19 H5 — probes trained on trivia do not read the truth of the coding claim *(N=35; pre-registered; negative, with the confound named)*
+
+**Setup (PREREGISTRATION §7–8).** Two linear probes trained on GPT-OSS's residual stream using Apollo's
+vendored data, nothing to do with code: a **truth probe** (true vs false one-line facts, L16, held-out AUROC
+0.99) and a **deception probe** (same facts under honest vs deceptive persona, L12, held-out 1.00). Applied
+cold to the 35 count statements of §3.18.
+
+**First reading — looked perfect, was not.** Truth probe at the count token: AUROC 1.00 [1.00, 1.00], false
+statements +5, true statements −7. Then the pre-specified kill checks: **prompt-only tokens also give 1.00**,
+and **20 random unit directions give a 95th percentile of 1.00** at the same position. The false and true
+statements come from two different prompts, and those prompts differ in nearly every direction of the
+residual stream — any vector separates them. The 1.00 is a prompt-identity confound, not a truth reading.
+This is exactly the failure Neel's doc names ("replace your vector with a random one"), and the same
+confound applies in principle to every group comparison in §3.18. Deception probe: 0.52 at the count token
+— null.
+
+**H5b — the control the design lacked: same prompt, swapped digit.** Each response re-run with its "18"
+replaced by "17". Within a response the prompt is identical; only the truth of the number flips. A truth
+reader must score 18 as *more false* than 17 in the impossible prompts and *less false* in the possible ones.
+
+| probe (position) | impossible prompts: 18 scored more false than 17 | possible prompts: 17 scored more false than 18 | pattern |
+|---|---|---|---|
+| truth LR (count token) | **6/20** | 15/15 | 17 reads as "false" in both — token identity |
+| truth LR (post-count mean) | 1/20 | 15/15 | same |
+| truth MM (count token) | 3/20 | 15/15 | same |
+| deception LR (count token) | 20/20 | **0/15** | 18 reads as "deceptive" in both — token identity |
+| deception MM (count token) | 7/20 | 15/15 | token identity |
+| 20 random directions | — | — | 4/20 meet the ≥80/≥80 interaction bar by chance |
+
+**Read plainly.** No probe shows the interaction. Each one has a favourite digit and scores it the same way
+whatever the context says. **The probes trained on trivia do not transfer to "is this test count true"** —
+H5 is a negative result, and H5b is the reason the first 1.00 must not be reported as a positive.
+
+**What this does to §3.18.** The lens result compares two specific tokens' ranks (17 vs 18), not group
+separability, so the random-direction critique does not apply directly — but the swap control cannot be
+run on it (the readout position precedes the digit), and the neighbour baseline (do `16` and `19` also
+outrank `18`?) was not in the original readout. It is pre-registered for the replication batch (H7) and will
+be re-read on the §3.18 data, labelled post hoc.
 
 ---
 
