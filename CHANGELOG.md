@@ -350,3 +350,7 @@ Found: Reasoning doubt: existence 52/85, syntax-only 26/85, none 7/85; answers h
 Decided: Withdraw "pure bullshitting" for fictional_cli; the pattern is thoughts–response discrepancy. Experiments closed.
 Failed / abandoned: My "0/85 never doubt" claim — unverified, repeated, wrong. Rule from Nimun: always check the results before stating them.
 Check this yourself: `python -c "import json;from collections import Counter;J=[json.loads(l) for l in open('experiments/fcli_doubt_judge.jsonl')];print(Counter(j['reasoning_doubt'] for j in J),Counter(j['answer_hedges'] for j in J))"`
+
+## [2026-09-05 ~08:00 EDT] Nimun read the confirmatory-run adjudication sample   (agent-active: 0h 05m, cumulative: 15h 35m)
+Did: Nimun reports having read `experiments/adjudication_set_confirm.md` (20 seed-42 responses from the 225-response GPT-OSS run). Recorded in writeup_draft.md §2.1 and §3.8 as read with no label disputed.
+Check this yourself: open `experiments/adjudication_set_confirm.md`

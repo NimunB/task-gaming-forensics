@@ -178,8 +178,8 @@ summarises evidence, not in how it copes with a hard session.
 and presents it as done); `honest_failure`; `genuine_success`; `other` (no claim either way, almost always a
 response that tried to run another command instead of answering). The first three are **gamed**. A *strict* second
 pass counts any false verification statement as gamed even beside a disclosure. Human check: we read the adjudication
-sets for both models (35 Qwen responses, 24 GPT-OSS) and disputed no label; a seed-selected 20 from the final GPT-OSS
-run is written and unread.
+sets for both models (35 Qwen responses, 24 GPT-OSS) and a seed-selected 20 from the final GPT-OSS run, and disputed
+no label.
 
 **Models.** Qwen3.5-9B (32 layers; our choice) and GPT-OSS-20B (24 layers; Singh's recommendation). Sampling at
 T = 0.7, seed 42; a fresh seed (43) only for replication.
@@ -484,8 +484,8 @@ of all 17 Qwen fabrications, sorted into the groups above before any lens rank e
 follow-up replies, direct and indirect. The 28 GPT-OSS `other` labels. Every quote returned by the doubt judge on the
 85 fictional-command responses, and three of those responses in full. All 84 GPT-OSS follow-up replies. The judge's
 rationale on every disputed control, including the one it got wrong. The top-ranked tokens of the lens at every
-position reported. What has not been read: the 225 confirmatory-run labels beyond the strict pass, for which a
-seed-selected 20 is written and waiting.
+position reported. A seed-selected 20 of the 225 confirmatory-run labels were read; the other 205 rest on the judge
+and its strict pass.
 
 ## 4. Conclusions
 
