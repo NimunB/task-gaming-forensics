@@ -366,6 +366,8 @@ now ignored.
 
 | Check | Why it could have been false | Result |
 |---|---|---|
+| True-count readout on GPT-OSS (§3.18) is symmetric across groups | A one-sided design (only false statements) could not separate 'ranks the truth' from 'ranks 17 in general' | Both groups have their own truth in context and both write 18; at L20 the truth is ahead in 19/20 false and 15/15 true; at L0–16 17 is ahead in *both* groups (~16/20 and ~11/15) — recorded so the mid-layer bias is not mistaken for signal |
+| Option (b) on GPT-OSS | Forcing a refusal-vs-fabrication comparison with too few refusals | Not run: 55/55 fabrications, 0 refusals. Reported as not runnable rather than run on nothing |
 | H2 pre-registered test | A 4-vs-6 pilot pattern could have been noise | 74 vs 17, p ≈ 1e-8, rank-biserial 0.88 at `</think>` L20; holds at every pre-registered position/layer and with the frozen fabrication-proper subset |
 | The Jacobian transport adds information over the plain logit lens (H2) | If not, the instrument is decoration | **It does not, here.** J=I twins separate the groups as well (r = 0.91). Reported as such in REPORT §3.13 |
 | H3's headline loading is intent, not context | The disclosers' prompt contains the error text | **Context.** Headline gap (481 vs 13,731) ≤ prompt-tail gap (544 vs 8,113) by the pre-registered rule; reading withdrawn (§3.14) |

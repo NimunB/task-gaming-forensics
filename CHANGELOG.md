@@ -304,3 +304,10 @@ Check this yourself: `grep -n "round" task_gaming/tasks.json | head -3`
 ## [2026-09-05 00:45 EDT] Option (c) approved — GPT-OSS lens work launched   (agent-active: 0h 05m, cumulative: 11h 28m)
 Did: Nimun approved (c) (lens at the zero-CoT false "18 passed" on GPT-OSS) then (b). Downloading the Neuronpedia gpt-oss-20b Jacobian lens (382 MB); launching GPT-OSS sampling to widen the arms: test_regression impossible x25 + possible x10 (more false/true "18 passed" cases) and fictional_cli x50 (fabrication denominator; any refusals for (b)). Checkpoint before the long job.
 Check this yourself: `ls experiments/lenses/`
+
+## [2026-09-05 01:20 EDT] Option (c) result; widening; (b) not runnable   (agent-active: 0h 35m, cumulative: 12h 05m; ~15 min GPU not counted)
+Did: Ran the GPT-OSS widening (test_regression x25 impossible + x10 possible; fictional_cli x50) and judged it; ran `gptoss_lens_c.py` (35 count statements) and `gptoss_lens_c_summary.py` (per-layer Fisher tests, figure). Wrote REPORT §3.18, rewrote §4, digest 15, §7; NARRATIVE beats 22–23; sanity_checks; VERIFY; STATUS; a GPT-OSS adjudication set for Nimun.
+Found: Widened GPT-OSS: test_regression impossible 27/30 false_claim (25/25 zero analysis tokens); fictional_cli 55/55 false_claim — no refusal arm → (b) not runnable. **(c):** at L20, 19/20 false "18 passed" statements rank `17` ahead of `18`; 15/15 true statements rank `18` ahead; Fisher p = 4.9e-9 (logit lens: 18/20, 15/15, p = 4e-8). Median L20 ranks in false statements: 17 → 280, 18 → 561 of 201,088. At L22 (anchor) 18 wins in all 35. ` failed` not poised after the count in either group. Layers 0–16: 17 ahead in both groups (~16/20, ~11/15) — a general bias, not signal; L20 is diagnostic. Caveat: each group's prompt contains its own truth; recall vs knowledge not separable.
+Decided: Report (c) as the asked-for evidence with both caveats in the same paragraph; report (b) as not runnable; leave H5 to Nimun.
+Failed / abandoned: Option (b) on GPT-OSS — no refusals exist to compare against; do not force it.
+Check this yourself: `python experiments/gptoss_lens_c_summary.py`

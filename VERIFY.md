@@ -35,6 +35,14 @@ are filled in when the confirmatory run's analysis lands; the commands already w
 | Strict 10/119 vs loose 7/119; seed-43 4/45 gamed (§3.16) | `python experiments/h1_analysis.py`; `python -c "import json;from collections import Counter;print(Counter(json.loads(l)['label'] for l in open('experiments/judge__samples_seed43.jsonl')))"` |
 | Figures | `python experiments/make_figures.py && python experiments/h2_sensitivity.py` → `experiments/figures/` |
 
+## GPT-OSS-20B
+
+| claim (REPORT §) | recompute |
+|---|---|
+| Pilot gaming 14/20 claims; widened test_regression 27/30 false_claim; fictional_cli 55/55 (§3.17) | `python -c "import json;from collections import Counter;[print(f,Counter(json.loads(l)['label'] for l in open('experiments/'+f))) for f in ('judge__gptoss_impossible.jsonl','judge__gptoss_tr_impossible25.jsonl','judge__gptoss_fcli50.jsonl','judge__gptoss_possible.jsonl','judge__gptoss_tr_possible10.jsonl')]"` |
+| Zero analysis-channel tokens on prefilled tasks (§3.17) | `python -c "import json;[print(r['setting'],r['sample_index'],r['n_thinking_tokens']) for r in map(json.loads,open('experiments/gptoss_impossible.jsonl'))]"` |
+| **True count ranked ahead at L20: 19/20 false vs 15/15 true, Fisher p = 4.9e-9; logit lens 18/20** (§3.18) | `python experiments/gptoss_lens_c_summary.py` (reads `gptoss_lens_c.json`; GPU to regenerate: `python experiments/gptoss_lens_c.py`) |
+
 ## Provenance
 
 | item | check |
