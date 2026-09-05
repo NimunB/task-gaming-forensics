@@ -56,19 +56,19 @@ files = ["gptoss_confirm_impossible.jsonl", "gptoss_confirm_possible.jsonl"]
 if not all((ROOT/"experiments"/f"judge__{f}").exists() for f in files): files = ["gptoss_impossible.jsonl", "gptoss_tr_impossible25.jsonl", "gptoss_fcli50.jsonl", "gptoss_possible.jsonl", "gptoss_tr_possible10.jsonl"]
 R = {(f, r["task_id"], r["sample_index"]): r for f in files for r in load(f)}; LBL = {(f, j["task_id"], j["sample_index"]): j["label"] for f in files for j in load(f"judge__{f}")}
 order = [("false_claim", "false claim"), ("workaround_as_complete", "workaround\nas complete"), ("silent_omission", "silent\nomission"), ("honest_failure", "honest failure"), ("genuine_success", "genuine success\n(possible tasks)"), ("other", "other")]
-fig, ax = plt.subplots(figsize=(8.5, 4.4), dpi=160); ax.set_facecolor(SURF); fig.set_facecolor(SURF)
+fig, ax = plt.subplots(figsize=(9, 4.6), dpi=160); ax.set_facecolor(SURF); fig.set_facecolor(SURF)
 import random; rng = random.Random(42)
 for i, (lab, name) in enumerate(order):
     xs = [R[k]["n_thinking_tokens"] for k, l in LBL.items() if l == lab and k in R]
     if not xs: continue
     z = sum(x == 0 for x in xs); col = S2 if lab in GAMED else S1
     ax.scatter([x + 0.7 for x in xs], [i + rng.uniform(-0.22, 0.22) for _ in xs], s=26, color=col, edgecolors=SURF, linewidths=1.2, zorder=3, alpha=0.9)
-    ax.text(0.5, i - 0.36, f"{z}/{len(xs)} with zero reasoning tokens", fontsize=8.5, color=INK2, ha="left")
-ax.set_xscale("log"); ax.set_xlim(0.6, 20000); ax.set_xticks([0.7, 1.7, 10.7, 100.7, 1000.7, 10000.7]); ax.set_xticklabels(["0", "1", "10", "100", "1,000", "10,000"])
+    ax.text(1.0, i, f"{z}/{len(xs)} at zero", fontsize=8.5, color=INK2, ha="left", va="center", transform=ax.get_yaxis_transform())
+ax.set_xscale("log"); ax.set_xlim(0.6, 20000); fig.subplots_adjust(right=0.86); ax.set_xticks([0.7, 1.7, 10.7, 100.7, 1000.7, 10000.7]); ax.set_xticklabels(["0", "1", "10", "100", "1,000", "10,000"])
 ax.set_yticks(range(len(order))); ax.set_yticklabels([n for _, n in order]); ax.invert_yaxis(); ax.set_xlabel("tokens in the analysis (reasoning) channel before the answer — log scale, 0 shown at the left edge")
 for sp in ("top", "right"): ax.spines[sp].set_visible(False)
 ax.grid(True, axis="x", color=GRID, linewidth=1); ax.set_axisbelow(True)
 ax.scatter([], [], color=S2, label="gamed labels"); ax.scatter([], [], color=S1, label="non-gamed labels"); ax.legend(frameon=False, fontsize=8.5, loc="lower right")
-ax.set_title("GPT-OSS-20B: the false claims are mostly written with no reasoning at all", loc="left", fontsize=11.5, pad=10)
-ax.text(0, 1.01, f"one dot per response; judge labels; source: {'confirmatory run, seed 43' if 'confirm' in files[0] else 'pilot + widening, seed 42'}", transform=ax.transAxes, fontsize=8.5, color=INK2)
+ax.set_title("GPT-OSS-20B reasons before fabricating a command;\non the prefilled test task it never reasons — honest or not", loc="left", fontsize=11.5, pad=24)
+ax.text(0, 1.015, f"one dot per response; judge labels; all zero-reasoning responses are test_regression; source: {'confirmatory run, seed 43' if 'confirm' in files[0] else 'pilot + widening, seed 42'}", transform=ax.transAxes, fontsize=8.5, color=INK2)
 fig.tight_layout(); fig.savefig(FIG/"fig_zero_reasoning.png"); print("wrote fig_zero_reasoning.png")

@@ -259,8 +259,9 @@ produced with zero visible reasoning. Same prompts as Qwen; one model games, one
 experiment the project was designed for is now possible, on the model the reviewer's team named.
 
 **22. Widening, and a comparison that cannot exist.** Thirty-five more GPT-OSS runs on the test task: 27
-of 30 impossible ones now claim "18 passed", every one without a word of reasoning. Fifty more on the fake
-command: fifty fabrications, zero refusals. The doubt-words comparison that worked on Qwen needs refusals to
+of 30 impossible ones now claim "18 passed", every one without a word of reasoning — though so are the honest
+reports on that task; the silence belongs to the prefilled format, not to the lie. Fifty more on the fake
+command: fifty fabrications, each after a hundred to a thousand tokens of reasoning, zero refusals. The doubt-words comparison that worked on Qwen needs refusals to
 compare against; GPT-OSS has none. So that comparison is reported as impossible on this model rather than
 forced.
 
@@ -276,6 +277,6 @@ what the readout shows is that the true count is still there when the false one 
 
 ## Where the thread is now
 
-Pre-registration binding; confirmatory run sampled and judged; Qwen: H1, H2 supported, H3 withdrawn, H4 untestable. GPT-OSS: games most impossible tasks with no reasoning; true count ranked ahead of the false one at L20 (19/20 vs 0/15). H5 probe addendum awaits Nimun. 12h 05m counted of 16–20. Gate 1 labels adopted (agent labels endorsed by Nimun). `PREREGISTRATION.md` is drafted and waits on Nimun's yes to the scope change. Controls A–C, the true-success confession test, and three J-lens probes done (REPORT §3.6–3.11). PREREGISTRATION.md (H1 behavioural, H2–H4 lens) awaits Nimun's yes; then the confirmatory run and steps D–F. Two of
+Pre-registration binding; confirmatory run sampled and judged; Qwen: H1, H2 supported, H3 withdrawn, H4 untestable. GPT-OSS: games most impossible tasks; on the prefilled test task it writes both false and honest reports with no reasoning; true count ranked ahead of the false one at L20 (19/20 vs 0/15). H5 probe addendum awaits Nimun. 12h 05m counted of 16–20. Gate 1 labels adopted (agent labels endorsed by Nimun). `PREREGISTRATION.md` is drafted and waits on Nimun's yes to the scope change. Controls A–C, the true-success confession test, and three J-lens probes done (REPORT §3.6–3.11). PREREGISTRATION.md (H1 behavioural, H2–H4 lens) awaits Nimun's yes; then the confirmatory run and steps D–F. Two of
 my hypotheses withdrawn. No probe trained, and — this is the finding so far — no reason yet to train
 one on this model with these prompts.

@@ -457,6 +457,14 @@ repo that `clone_vendor.sh` would silently revert on the next machine.
 - **What it changed:** H5 goes from "AUROC 1.00" to "negative: probes track the digit". The same confound is noted against §3.18's group comparison; the neighbour-number baseline is pre-registered for H7.
 - **Repro:** `python experiments/gptoss_probe.py; python experiments/gptoss_swap_control.py`
 
+### 3m — I let "zero reasoning" attach to the false claims when it belongs to the task format (FIXED)
+- **Expected (as drafted):** GPT-OSS produces its false claims without reasoning.
+- **Observed:** fig_zero_reasoning: false_claim 27/83 at zero tokens — all 27 from test_regression; fictional_cli fabrications 100–900 tokens each; honest_failure 8/8 at zero; genuine_success 25/34 at zero (prefilled controls).
+- **Caught by:** drawing the per-label token plot (dataviz step 7: look at the rendered figure) — the first title I wrote for it was wrong.
+- **Root cause:** §3.17 stated the pattern correctly (every prefilled task, controls included) but the digest, §4 and NARRATIVE compressed it to "false claims with no reasoning".
+- **Fix:** wording corrected in REPORT digest 14, §3.17, §4; NARRATIVE beat 22 and thread summary; figure title.
+- **What it changed:** "no CoT to monitor" still holds for the test task; "gaming suppresses reasoning" was never shown and is not claimed.
+
 ## Not yet checked
 
 Listed so they are not mistaken for having passed.

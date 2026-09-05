@@ -324,3 +324,9 @@ Did: Recorded Nimun's read of both adjudication sets (approved, no disagreements
 Found: —
 Decided: The H6 labels stay marked judge-only until Nimun reads a sample of them.
 Check this yourself: open `experiments/random_examples_gptoss.md`
+
+## [2026-09-05 03:45 EDT] Figures for the write-up; a wording correction   (agent-active: 0h 25m, cumulative: 13h 45m)
+Did: `make_figures_gptoss.py` → fig_prevalence, fig_h5_swap, fig_zero_reasoning; `make_results_json.py` → results.json. Viewed every figure.
+Found: fig_zero_reasoning exposed an overgeneralisation: zero reasoning is the prefilled task's property (honest 8/8, controls 25/34 also at zero), not the false claims' (27/83; fictional_cli fabrications 100–900 tokens). Corrected in REPORT, NARRATIVE (sanity 3m).
+Decided: keep the figure — it says the true, narrower thing.
+Check this yourself: open `experiments/figures/fig_zero_reasoning.png`
