@@ -1,11 +1,11 @@
 # STATUS
 
 ## Where we are
-- **Pivot executed.** J-lens reimplemented and verified; three readouts on existing data (REPORT §3.11); true-success confession test done (§3.10). PREREGISTRATION.md now carries H1 (behavioural) and H2–H4 (lens) — still DRAFT.
-- **§3.10:** "Answer honestly" → 5/25 [9%, 39%] false confessions on genuine successes (all `dark_mode`: "I never wrote any code"); neutral form → 0/25 [0%, 13%]. Closes BRIEF §8 check 6.
-- **§3.11:** (A) the one false test count holds the true digit at internal rank 1 from L28; five true counts hold it at 444–1,423 (N=1 vs 5). (B) 0/4 fabricators load any negation/doubt at the decision point; 6/6 refusals do (` not` rank ~300–500 vs ~150k–180k at L24). (C) ` failed` at the "Complete" headline: disclosers ~200–700, controls ~6–13k, logit lens ~10× worse; context confound stated, narrowed by within-answer positions, not closed.
-- Records: REPORT §0 (findings 8–9), §3.10, §3.11, §5, §7, §8; NARRATIVE beat 16; sanity_checks 3c/3d + two checks passed; PREREGISTRATION §1b. All committed.
-- 8h 35m agent-active of 16–20h. Nothing running.
+- **PREREGISTRATION.md is binding** (commit 5de0c4e, 2026-09-05 01:55 UTC) — H1 behavioural, H2–H4 Jacobian-lens, with tests and withdrawal conditions fixed before sampling.
+- **Runs in progress, chained on the GPU:** D (fictional_cli ×100 at penalty 1.1, for H2) → confirmatory impossible ×30/task → possible ×15/task. D batch 1 of 4 done: 25 sequences, longest 4,621 tokens, **no cap hits**; judged 18 honest_failure / 5 false_claim / 2 other — a fabrication rate near the pilot's 2/8, so H2 will have ~20 fabrications to work with.
+- **GPT-OSS-20B downloaded** (27.5 GB); Harmony render adapter written and all 10 tasks render; Harmony-aware sampler written. Smoke test waits for the GPU (first attempt OOM'd against the chain's 57 GB).
+- Analysis scripts ready to run the moment sampling ends: `h1_analysis.py`, `h2_analysis.py`, `h3h4_analysis.py`, `make_figures.py` (dataviz-spec figures), `run_judge.py` (resumable; already used on D batch 1).
+- 9h 20m agent-active of 16–20h.
 
 ## What the numbers mean so far
 - **Behavioural half (unchanged):** outcome-tracking 43/44; gaming 1/25 loose, 2/25 strict; pressure 1/25.

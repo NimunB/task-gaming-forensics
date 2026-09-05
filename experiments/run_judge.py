@@ -85,7 +85,11 @@ def judge_one(client, row, strict=False):
 def main():
     strict = "--strict" in sys.argv; args = [a for a in sys.argv[1:] if a != "--strict"]
     src = Path(args[0]); out_path = ROOT/"experiments"/f"judge{'_strict' if strict else ''}__{src.stem}.jsonl"
-    rows = [json.loads(l) for l in src.read_text().splitlines() if l.strip()]
+    rows = []
+    for l in src.read_text().splitlines():            # the source may still be being appended to; skip a torn last line
+        if not l.strip(): continue
+        try: rows.append(json.loads(l))
+        except json.JSONDecodeError: print("skipping malformed line (file still being written?)"); break
     done = set()
     if out_path.exists():
         done = {(json.loads(l)["task_id"], json.loads(l)["sample_index"]) for l in out_path.read_text().splitlines() if l.strip()}
