@@ -51,8 +51,8 @@ for l in (20, 24):
 S1c, S2c, S3c = "#2a78d6", "#eb6834", "#1baf7a"; SURF, INK, INK2, MUTED, GRID, AXIS = "#fcfcfb", "#0b0b0b", "#52514e", "#898781", "#e1e0d9", "#c3c2b7"
 plt.rcParams.update({"font.family": "sans-serif", "font.size": 10, "axes.edgecolor": AXIS, "axes.labelcolor": INK2, "xtick.color": MUTED, "ytick.color": MUTED, "text.color": INK})
 layers = sorted(int(l) for l in next(iter(rows.values()))["at_first_median"])
-fig, ax = plt.subplots(figsize=(8, 4.6), dpi=160); ax.set_facecolor(SURF); fig.set_facecolor(SURF)
-for c, col, name in (("refusal", S1c, "refusal"), ("bullshitter", S2c, "fabrication — CoT asserts durc exists"), ("liar", S3c, "fabrication — CoT admits it cannot know")):
+fig, ax = plt.subplots(figsize=(9.5, 6.4), dpi=160); ax.set_facecolor(SURF); fig.set_facecolor(SURF)
+for c, col, name in (("refusal", S1c, "refusal"), ("bullshitter", S2c, "fabrication — reasoning asserts the tool exists"), ("liar", S3c, "fabrication — reasoning admits it cannot know")):
     rs = [r for r in rows.values() if r["cell"] == c]
     if not rs: continue
     for kind, dashed in (("j", False), ("ll", True)):
@@ -62,7 +62,7 @@ for c, col, name in (("refusal", S1c, "refusal"), ("bullshitter", S2c, "fabricat
     for r in rs: ax.plot(layers, [r["at_first_median"][str(l)]["j"] for l in layers], color=col, alpha=0.12, linewidth=1)
 ax.set_yscale("log"); ax.set_xticks(layers); ax.set_xlabel("decoder layer (readout at the first answer token)"); ax.set_ylabel("median rank of 5 doubt tokens (0 = top of 248k)")
 for s in ("top", "right"): ax.spines[s].set_visible(False)
-ax.grid(True, axis="y", color=GRID, linewidth=1); ax.set_axisbelow(True); ax.legend(frameon=False, fontsize=8, loc="lower left")
-ax.set_title("At the moment of answering, 'knew and hid it' looks the same inside as 'believed it'", loc="left", fontsize=12, pad=14)
-ax.text(0, 1.02, "fictional_cli ×100, Qwen3.5-9B. Hand-read cells frozen before lens ranks. Faint lines = individual responses. Lower = more poised.", transform=ax.transAxes, fontsize=9, color=INK2)
+ax.grid(True, axis="y", color=GRID, linewidth=1); ax.set_axisbelow(True); ax.legend(frameon=False, fontsize=8.5, loc="upper center", bbox_to_anchor=(0.5, -0.14), ncol=2, columnspacing=1.2, handlelength=2.2)
+ax.set_title("Qwen3.5-9B: fabrications whose reasoning admitted doubt look the same,\nat answer time, as those that did not", loc="left", fontsize=11.5, pad=40)
+ax.text(0, 1.015, "fictional_cli ×100. Groups read by hand and frozen before lens ranks were computed.\nFaint lines = individual responses. Lower rank = more poised.", transform=ax.transAxes, fontsize=8.5, color=INK2, va="bottom")
 fig.tight_layout(); FIG.mkdir(exist_ok=True); fig.savefig(FIG/"fig_h2_cells.png"); print("wrote", FIG/"fig_h2_cells.png")

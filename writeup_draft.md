@@ -32,8 +32,8 @@ the tool in 78 of 85 responses (*"There's no tool, but maybe it's a fictional co
 the answer passes that doubt on in 4 of 85 (*"Here's the one-liner you can drop straight into your terminal"*). The
 truth is in the reasoning and gone from the answer: the liar's shape. On the false test count, there is no reasoning
 at all — the model goes straight to "18 passed" — and the only place to look is inside. One layer before it writes
-the number, a Jacobian lens shows lower counts (16 and 17) ranked ahead of 18 in 44 of 44 false statements, and never
-in true ones. But 16 leads as often as 17: the workspace carries *"fewer than 18"*, not the true count. A neighbour
+the number, a Jacobian lens ranks 16 ahead of 18 in 44 of 44 false statements and in 2 of 30 true ones (17: 41 of
+44, and 3 of 30). But 16 leads as often as 17: the workspace carries *"fewer than 18"*, not the true count. A neighbour
 check we wrote down before the replication run narrowed the headline from "the lens says 17" to "the lens says less
 than 18."
 
