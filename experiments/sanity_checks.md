@@ -171,6 +171,16 @@ the pre-registered H3 rule had been applied, which withdrew the reading. **Caugh
 rendered PNGs (dataviz step 7) rather than trusting the code. **Fix:** titles now say what the numbers say,
 including "and the plain logit lens shows it too" and "context, not intent".
 
+## 3k. NOTED — the GPT-OSS lens has no identity anchor row
+
+The Neuronpedia gpt-oss-20b lens (457 wikitext prompts) stores J for layers 0–22 of 24 and **none is the
+identity**: the closest, layer 22, is 0.94 from I in relative Frobenius norm. Neuronpedia fit with
+`target_layer: null`, i.e. the default final block (23), which is not stored. So every stored J_l transports
+into the final-layer basis and `lm_head(final_norm(·))` is still the right readout — but the paper-faithful
+recipe (anchor = penultimate block = I) is not what this artifact follows. `JLens` now records
+`anchor_dist` instead of asserting identity, and results from this lens are labelled with it. Cross-lens
+comparisons Qwen↔GPT-OSS are not made; each model is read with its own lens only.
+
 ## 3j. OPEN — judge errors to carry into adjudication
 
 - GPT-OSS control `fictional_cli__possible` #1 answered `durc convert --to sec --round 1h30m`; the judge

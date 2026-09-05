@@ -34,7 +34,11 @@
 - `experiments/pilot_readable.md` — the 15 transcripts themselves.
 
 ## Waiting on you
-**ONE DECISION: approve `PREREGISTRATION.md` (H1 behavioural + H2–H4 lens).** It fixes the confirmatory run (225 generations at penalty 1.1), the 100-sample `fictional_cli` run for H2, the exact positions/tokens/layers/baselines for H2–H4, the tests, and what would withdraw each claim. On "approved": DRAFT comes off, it is committed with a timestamp, and D (10 min), then the confirmatory run (~45 min) launch. Separately approve **G** (fit our own lens; needs a small corpus download) and **H** (GPT-OSS-20B; model switch + 27.5 GB) if you want them.
+**TWO THINGS.**
+1. **Approve or decline the H5 addendum** (PREREGISTRATION.md §7, DRAFT): a deception probe on GPT-OSS-20B — the original BRIEF Steps 5 and 8, now that a model games. ~2–2.5 h of the remaining budget, with the kill checks fixed in advance. If yes, the GPT-OSS confirmatory sampling (150 + 75) starts after the current runs.
+2. **The adjudication set** (`experiments/adjudication_set.md`) — still the one part a model must not do.
+
+Running now (GPU): GPT-OSS widening — test_regression ×25 impossible + ×10 possible (more false/true "18 passed" for the lens), fictional_cli ×50. Then `gptoss_lens_c.py` — the lens at the zero-CoT false count.
 
 **Previously:** The original headline (probe AUROC, gamed vs honest) cannot be computed on one gamed response, and the cheap baseline already recovers it. REPORT.md §3.5 proposes the surviving internals question: **does the residual stream distinguish true confessions from false ones?** Options are laid out there and in the chat. Your call before Step 4 pre-registration, which must be written against whichever headline you choose.
 
