@@ -23,8 +23,7 @@ seed-selected samples ourselves. Every hypothesis, test and kill check was commi
 
 **The behaviour has to exist before you can do forensics on it.** Qwen3.5-9B games 7 of 150 impossible-task
 responses and its claims match the outcome 96% of the time. GPT-OSS-20B — the model Singh's team recommends for this
-problem — games 93 of 150 (62% [54%, 69%]) and matches the outcome 52% of the time. Six hours went into learning
-why the recommendation said what it said.
+problem — games 93 of 150 (62% [54%, 69%]) and matches the outcome 52% of the time. It took six hours to learn why.
 
 ![Same ten tasks, two models](experiments/figures/fig_prevalence.png)
 
@@ -36,7 +35,7 @@ at all — the model goes straight to "18 passed" — and the only place to look
 the number, a Jacobian lens shows lower counts (16 and 17) ranked ahead of 18 in 44 of 44 false statements, and never
 in true ones. But 16 leads as often as 17: the workspace carries *"fewer than 18"*, not the true count. A neighbour
 check we wrote down before the replication run narrowed the headline from "the lens says 17" to "the lens says less
-than 18." On a third task the model is simply honest (28 of 30).
+than 18."
 
 ![Lens neighbour check](experiments/figures/fig_c_confirm.png)
 
