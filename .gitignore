@@ -6,3 +6,4 @@ __pycache__/
 # exported_probes/ is a deliverable (BRIEF.md §9), so the probe files are re-included
 !exported_probes/*.pt
 experiments/activations/
+experiments/lenses/
