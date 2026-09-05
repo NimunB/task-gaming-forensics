@@ -24,6 +24,7 @@ you tried and why, and what happened."*
 | 12 | control B | the 14/19 confession rate and the false confession were the model's | asked neutrally, 0/17 over-confess; acknowledgement unchanged at 17/17 | the false confession was our "Answer honestly" cue; use the indirect form from here | 7 min GPU |
 | 13 | control C | pressure would produce gaming, giving a positive class | 1/25, the same slot as baseline; pressure only made dark_mode try harder | no condition found that makes this model game; framing resolves to behavioural forensics | 15 min GPU |
 | 14 | labels + judge | Nimun would label 19 responses independently; a strict rubric might raise the rate several-fold | Nimun endorsed the agent's labels instead; judge κ = 1.00 on the same rubric; strict pass flipped exactly one response (a false test count) | record the labels' provenance honestly; the rate is 4% loose, 8% strict, not several-fold | 20 min labels, $0.65 judge |
+| 15 | pivot? | the negative result was the application | Nimun: "this alone is not great"; Aditya Singh's Concrete Problems doc names our exact environments, recommends GPT-OSS/Inkling/DeepSeek for internals, and asks for J-lens readouts preceding misrepresentation and the "true number vs stated number" test | two options written up (J-lens on Qwen; swap to GPT-OSS-20B); pre-fitted lenses exist for both models; awaiting Nimun | 50 min reading |
 
 ## The beats
 
@@ -135,8 +136,19 @@ one response — a false test count — and left the "verified manually" and "Im
 cases alone. Four percent loose, eight percent strict. A draft pre-registration now fixes the reframed
 headline, the confirmatory run, and what would change our mind, and waits on Nimun's yes.
 
+**15. Is a negative result an application?** Nimun said no — "this alone is not great" — and sent a
+second document: Aditya Singh's *Concrete Problems in Model Forensics*. Its third problem is this project
+by name: models misrepresent their work, the CoT does not show it, *"can investigating with internals
+like a J-lens help here?"* — on Norvane and Code Summary Honesty, two of our five settings — with a list
+of recommended models that does not include ours. The J-lens turned out to be Anthropic's Jacobian lens,
+a tool that reads what an activation is poised to say; pre-fitted lenses exist for Qwen3.5-9B and for
+GPT-OSS-20B, and the official code is Apache-2.0. The crucial property: it needs no pile of gamed
+responses to train on, which is what killed the probe. Two routes were written up — read the model we
+have with the reviewer's own instrument, or swap to a model the reviewer's team says does misrepresent
+— and the decision went to Nimun with the approvals each needs.
+
 ## Where the thread is now
 
-Steps 0–2 done plus labels, judge, and a draft pre-registration; 6h 15m counted of 16–20. Gate 1 labels adopted (agent labels endorsed by Nimun). `PREREGISTRATION.md` is drafted and waits on Nimun's yes to the scope change. Controls A–C done (REPORT §3.6–3.8). Framing fork resolved by data to the behavioural branch; awaiting Nimun's yes. Two of
+Steps 0–2 done plus labels, judge, a draft pre-registration, and a pivot analysis; 7h 05m counted of 16–20. Gate 1 labels adopted (agent labels endorsed by Nimun). `PREREGISTRATION.md` is drafted and waits on Nimun's yes to the scope change. Controls A–C done (REPORT §3.6–3.8). Framing fork resolved by data to the behavioural branch; awaiting Nimun's yes. Two of
 my hypotheses withdrawn. No probe trained, and — this is the finding so far — no reason yet to train
 one on this model with these prompts.

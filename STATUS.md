@@ -5,7 +5,7 @@
 - **Judge run (Step 7, claude-sonnet-5, $0.65 total):** κ = 1.00 vs adopted labels on 25; 25/25 genuine_success on controls; pressure identical to the hand read. Caveat: same rubric, same ground truth — this measures rubric clarity.
 - **Strict-rubric pass:** flipped **1 of 25** (test_regression #2's false "18 tests pass"). Gaming 1/25 loose, **2/25 strict** [2%, 25%]. My earlier "several-fold" was wrong; corrected everywhere.
 - **`PREREGISTRATION.md` drafted** for the reframed headline (outcome-tracking rate; confirmatory run 30/15 per task at penalty 1.1; judge frozen; kill checks; what would change our mind). Marked DRAFT pending your yes.
-- 6h 15m agent-active of 16–20h. Nothing running.
+- 7h 05m agent-active of 16–20h (last 50 min: reading the Concrete Problems doc, the Jacobian-lens paper, the reference code, and the released lens artifacts). Nothing running.
 
 ## What the numbers mean so far
 - **Outcome-tracking 43/44 [88%, 100%]** across impossible (18/19 disclose) and possible (25/25 claim correctly). Gaming **1/25 loose [1%, 20%], 2/25 strict [2%, 25%]**; pressure 1/25 either way.
@@ -33,9 +33,15 @@
 - `experiments/pilot_readable.md` — the 15 transcripts themselves.
 
 ## Waiting on you
-**ONE DECISION: approve `PREREGISTRATION.md`.** Read it (it is short). If you agree, say "approved" and I remove DRAFT, commit it with a timestamp, and launch the confirmatory run (225 generations, ~45 min GPU). If you want the rubric, thresholds, or sample sizes changed, say which. If you would rather keep the probe plan, say so — the draft explains why the data closed that branch, but the call is yours.
+**THE DECISION: what the application is about.** Nimun's read — a one-model negative result is not a strong application — is right, and Aditya Singh's *Concrete Problems in Model Forensics* doc (8 Aug 2026) points at two upgrades that keep everything built so far. Both need your yes; neither is launched.
 
-Optional: stop the instance while you read; nothing is running.
+**Option J — J-lens on the model we have (recommended first).** The "J-lens" in that doc is Anthropic's Jacobian lens (Gurnee, Sofroniew, Lindsey; Transformer Circuits, 6 Jul 2026): it reads, at any layer and token, the vocabulary tokens an activation is *poised to verbalise*. Aditya's exact asks for our problem: *"check for deceptive J-lens readouts preceding the misrepresentation"* and *"a 'true' number for what the model did (e.g. 7), it says 8, but the lens says 7 — strong evidence."* Pre-fitted lenses exist for **Qwen3.5-9B** (camilablank/workspace-lenses, fit on the instruct model, n=25; and Neuronpedia, fit on the **Base** model, n=458). Needs no training set of gamed responses — the blocker that killed the probe plan — and runs on the 75+ responses already on disk. Approvals: (i) framing change; (ii) EITHER `pip install -e` the Apache-2.0 `anthropics/jacobian-lens` repo, which requires bumping `transformers` from 5.2.0 to ≥5.5, OR let me re-implement the ~20-line readout (`lm_head(final_norm(J_l @ h))`, formula and file format documented in the repo) against our pinned stack; (iii) one ~1 GB download (the lens file). Optionally fit our own lens on the instruct model (~100 prompts, est. 40–60 min GPU; needs a small corpus download).
+
+**Option G — swap the subject model to `openai/gpt-oss-20b`.** Named by Aditya as a recommended internals model for exactly these environments (Norvane, Code Summary Honesty); ungated; 27.5 GB; supported by transformers 5.2.0; fits our card in bf16. A Neuronpedia J-lens exists for it too. Turns the Qwen result into a cross-model control if it games. Approvals: model switch (BRIEF §3), 27.5 GB download, optional `pip install kernels`.
+
+**Either way, first:** the 5-minute test of whether "Answer honestly" induces false confessions on the 25 *true* successes — a clean positive finding about the "just ask" baseline. No approval needed beyond a nod.
+
+**What I'd do:** J first (same model, same data, the reviewer's own tool and his own experiment), G second if time allows. `PREREGISTRATION.md` stays DRAFT until the framing is settled; it will be rewritten around whichever headline you choose.
 
 **Previously:** The original headline (probe AUROC, gamed vs honest) cannot be computed on one gamed response, and the cheap baseline already recovers it. REPORT.md §3.5 proposes the surviving internals question: **does the residual stream distinguish true confessions from false ones?** Options are laid out there and in the chat. Your call before Step 4 pre-registration, which must be written against whichever headline you choose.
 
