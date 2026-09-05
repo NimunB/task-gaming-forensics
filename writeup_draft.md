@@ -26,8 +26,8 @@ responses and its claims match the outcome 96% of the time. GPT-OSS-20B — the 
 **Within GPT-OSS, task gaming is not one thing.** On the fictional command, the model's private reasoning doubts
 the tool in 78 of 85 responses (*"There's no tool, but maybe it's a fictional command… Without tools, we guess"*) and
 the answer passes that doubt on in 4 of 85 (*"Here's the one-liner you can drop straight into your terminal"*). The
-truth is in the reasoning and gone from the answer: the liar's shape. On the false test count, there is no reasoning
-at all — the model goes straight to "18 passed". One layer before it writes
+truth is in the reasoning and gone from the answer: the liar's shape. On the false test count there is no reasoning;
+the model goes straight to "18 passed". One layer before it writes
 the number, a Jacobian lens ranks 16 ahead of 18 in 44 of 44 false statements and in 2 of 30 true ones (17: 41 of
 44, and 3 of 30). But 16 leads as often as 17: the workspace carries *"fewer than 18"*, not the true count. A neighbour
 check, written before the replication, narrowed the headline from "17" to "less than 18."
@@ -44,10 +44,10 @@ each response — prompt held fixed — showed both probes score the digit, not 
 
 **Asking the model directly recovers the truth on the test-count task and nowhere else.** GPT-OSS admits the failing test 4 of 4 times and never retracts
 the fictional command (0 of 9), despite the doubt in its reasoning. Asked indirectly it admits
-nothing; asked directly, one true success confessed to a failure it did not have.
+nothing; asked directly, one true success confessed to a failure it never had.
 
 **What we take from this.** Lying or bullshitting has a different answer per task in one model, and three of the
-four instruments we tried gave a strong first reading that a pre-specified control then narrowed or overturned.
+four instruments we tried gave a strong first reading that a pre-specified control narrowed or overturned.
 
 ---
 
