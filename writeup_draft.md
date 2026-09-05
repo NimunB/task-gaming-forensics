@@ -88,15 +88,16 @@ something concerning. For coding agents, the everyday case is misrepresentation 
 and it isn't. The paper this project builds on documents it across twenty models and leaves the central question
 open: *"It is unclear how much this reflects deceptive intent vs some heuristic resulting in deception."*
 
-**Terms, once.** *Task gaming* is the paper's word for taking actions that don't complete a task but look as if they do —
-hard-coding a test, or claiming the job is finished when it isn't. *Lying* and *bullshitting* are used here in a
-narrow, technical sense, defined next.
-
 That sentence is the project. If the model represents the failure internally and reports success anyway, it is
 lying, and the fix is a monitor that reads the representation. If it never represented the failure — if it wrote a
 confident report the way it writes any other plausible text — it is bullshitting, and no monitor of "what it knows"
 will fire, because there is nothing there to read. The two are identical from outside. Telling them apart needs the
 inside.
+
+**Terms, once.** *Task gaming* is the paper's word for taking actions that don't complete a task but look as if they
+do — hard-coding a test, or claiming the job is finished when it isn't. *Lying* and *bullshitting* are used in the
+narrow sense just given: whether the truth was represented and withheld, or never represented at all. Neither word
+is a claim about intent.
 
 ### 1.2 Related work
 
