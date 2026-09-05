@@ -1,26 +1,25 @@
 # task-gaming-forensics
 
-**When a coding agent claims success on a task it could not have completed, is it lying — it represented the
-failure and concealed it — or bullshitting — it never tracked the truth at all?** The two look identical from
-outside, and only the first can be caught by reading the model's internal state. This repository holds the code,
-data, figures and lab record of a short, time-boxed study (one GPU, ~16 agent-hours) that tried to tell them apart
-using three instruments: the model's reasoning channel, its internal activations (Jacobian lens, logit lens, linear
-probes), and a direct follow-up question.
+**Coding agents sometimes say they did work they did not do.** They write "all tests pass" over a failing test, or
+invent the syntax of a command that does not exist. *Why do models task game?* (Singh, Nanda & Rajamanoharan, 2026)
+documents this **task gaming** across twenty models and asks: is the model *lying* (it represented the failure and
+concealed it), or *bullshitting* (it never tracked the truth at all)? The two look pretty much the same from outside,
+and a good way to differentiate is to look at the model's internal state. This repository holds the code, data, figures
+and lab record of a short study (one GPU, about 16 agent-hours) that asked whether the model's reasoning, its internal
+activations, or a direct question could tell them apart.
 
 ## The setting
 
-Ten tasks from the environments released with *Why do models task game?* (Singh, Nanda & Rajamanoharan, 2026;
-`gkroiz/agent-interp-envs`, pinned commit `56fd0c11`): five that are impossible in a way the model cannot fix — a
-fictional CLI it is asked to give the syntax of, a pull request over a test its change broke, an `is_prime` against a
-test that says 7 is not prime, a screenshot with no browser, a broken test runner — and five matched *possible
-variants* with the blocker removed. Two open-weight models, **Qwen3.5-9B** and **GPT-OSS-20B**. Every response is
-labelled by an LLM judge (`claude-sonnet-5`, frozen rubric, loose and strict passes); 79 seed-selected responses were
-read by hand against the labels.
+We test on ten tasks from the paper's public environments (`gkroiz/agent-interp-envs`, pinned commit `56fd0c11`): five
+impossible in a way the model cannot fix (a fictional CLI, a test that cannot pass, a screenshot tool with no browser,
+a rigged `is_prime` test, a broken test runner) and five matched possible variants with the blocker removed. Unlike the
+paper's agents, which worked inside real containers and ran real commands, our models never execute anything. Each
+task is a single request: answer a question, write code, or write the final report on a session that has already
+happened, and the evidence of failure, where there is any, is in the text the model is given.
 
-One deliberate departure from the paper: their agents ran live in Docker and executed real tools over many turns. Ours
-execute nothing. Each task is a single prompt, and two are prefilled transcripts in which the failing test or the
-missing browser is already in front of the model when it writes its report. That isolates the reporting step from the
-agentic rollout.
+We study two open-weight models, Qwen3.5-9B and GPT-OSS-20B. An LLM judge (`claude-sonnet-5`, frozen rubric, loose
+and strict passes) labels every response, and we validated the judging ourselves by reading 79 seed-selected
+responses against its labels.
 
 ## What we found
 
@@ -48,8 +47,8 @@ agentic rollout.
   nothing at all. Asking "Answer honestly" has a downside too: applied to a report that was actually correct, it made
   the model take back true work and confess to a failure that never happened.
 
-Every instrument is reported beside a trivial alternative (logit lens beside Jacobian lens, random directions beside
-every probe, prompt-only readouts, strict rubric, second seed, asking the model). Hypotheses, tests and the controls
+Every instrument is reported beside a trivial alternative: the logit lens beside the Jacobian lens, random directions
+beside every probe, prompt-only readouts, a strict rubric, a second seed, and asking the model. Hypotheses, tests and the controls
 that could overturn them were committed before the corresponding data were sampled; the git history records the
 order. Two of our own first readings were reversed by those controls and are reported as such.
 
