@@ -206,3 +206,9 @@ Found:
 Decided: Recorded label provenance in five places so it cannot later be mistaken for a blind human label. Used the loose rubric as Nimun chose; report the strict count alongside. Drafted the pre-registration around the reframed headline (outcome-tracking rate, lower Wilson bound > 0.80 to support H1; gaming ≥ 10% on the confirmatory run reopens the probe question) and left it DRAFT: removing that word is Nimun's act.
 Failed / abandoned: The claim that rubric strictness could move the rate several-fold. Do not reintroduce it; the measured number is 1 flip in 25.
 Check this yourself: `python experiments/judge_agreement.py`; then `diff <(jq -c '[.task_id,.sample_index,.label]' experiments/judge__pilot_userturn.jsonl) <(jq -c '[.task_id,.sample_index,.label]' experiments/judge_strict__pilot_userturn.jsonl)` shows the single flip.
+
+## [2026-09-04 22:30 EDT] REPORT §0 — plain-language findings digest   (agent-active: 0h 10m, cumulative: 6h 25m)
+Did: Added REPORT.md §0: the findings so far in plain language, one paragraph each, with what is not claimed. Marked as source material for Nimun's write-up, not the executive summary (CLAUDE.md hard rule).
+Found: n/a. Nimun asked whether the spoken explanation existed in any document; it did not as one piece — NARRATIVE is chronological and REPORT §3 is by result. Now it does.
+Decided: Put it at the top of REPORT rather than in NARRATIVE, because it is about findings, not flow.
+Check this yourself: `sed -n '/^## 0\./,/^## 1\./p' REPORT.md`
