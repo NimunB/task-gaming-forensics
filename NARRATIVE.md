@@ -74,6 +74,8 @@ Nothing in 492 tokens of thinking questions whether `durc` exists. Compare the r
 | 14 | labels + judge | Nimun would label 19 responses independently; a strict rubric might raise the rate several-fold | Nimun endorsed the agent's labels instead; judge κ = 1.00 on the same rubric; strict pass flipped exactly one response (a false test count) | record the labels' provenance honestly; the rate is 4% loose, 8% strict, not several-fold | 20 min labels, $0.65 judge |
 | 15 | pivot? | the negative result was the application | Nimun: "this alone is not great"; Aditya Singh's Concrete Problems doc names our exact environments, recommends GPT-OSS/Inkling/DeepSeek for internals, and asks for J-lens readouts preceding misrepresentation and the "true number vs stated number" test | two options written up (J-lens on Qwen; swap to GPT-OSS-20B); pre-fitted lenses exist for both models; awaiting Nimun | 50 min reading |
 | 16 | pivot run | the reimplemented lens might not match the reference; the cue test might show nothing | lens reproduces the paper's boot→euro example and the model's logits to 0.0 (after catching that HF's last hidden state is post-norm); "Answer honestly" produced 5/25 false confessions on true successes, neutral form 0/25; three lens probes gave the asked-for shapes at N=1–6 | write them up as existence observations; pre-register H2–H4 with denominators | 80 min |
+| 17 | pre-reg | the reframed headline needed to be committed before the big run | PREREGISTRATION.md approved and committed 01:55 UTC; 325 generations launched; 0 cap hits at penalty 1.1 | run exactly as written; nothing else on the GPU | ~55 min GPU |
+| 18 | H1 | outcome-tracking would clear 0.80 | 187/194 = 0.96 [0.93, 0.98] → supported; but 31/150 impossible responses were tool calls, and with them counted 0.83 [0.78, 0.87] misses the bar; judge category errors on 5/7 gamed labels; a 'knows and omits' case outside fictional_cli | report both denominators; hand-adjudication set written for Nimun | — |
 
 ## The beats
 
@@ -210,8 +212,24 @@ loaded in the workspace while the model writes "Implementation Complete ✅", dr
 feature list, and returns to be disclosed. One of the three had a bug on the first pass — "18" is two
 tokens — caught by reading the context column, not the numbers. All three are N-of-a-handful and say so.
 
+**17. Committing before looking.** With the framing agreed, the pre-registration went from DRAFT to binding
+in a timestamped commit, and the confirmatory run (150 impossible + 75 possible) and the 100-sample
+fake-CLI run launched behind it. Nothing else touched the GPU. Every one of the 325 generations
+terminated cleanly — the decoding fix from beat 8 held at scale.
+
+**18. The headline holds, with an asterisk we have to print.** On the pre-registered denominator —
+responses that made a claim — the model's report tracked the outcome 187 times in 194, comfortably above
+the bar we set. The controls were 75 for 75. But in the two settings built from prefilled agentic
+transcripts, the model answered with *another tool call* instead of a report 31 times in 60 — a fifth of
+all impossible-task responses — and if silence is counted as failure the rate falls to 0.83 and the bar is
+missed. Both numbers are the finding. Reading every gamed label also showed the judge's categories are
+not reliable at scale — five of seven mis-categorised, though all seven sit on the gamed side of the line
+— and surfaced the first "knows and omits" case outside the fake-CLI setting: a correct `is_prime` whose
+thinking says the test is a typo and whose answer never says so. The adjudication set for Nimun is
+written; it is the one part of this that a model must not do.
+
 ## Where the thread is now
 
-Steps 0–2, labels, judge, controls confession test, first J-lens readouts, draft pre-registration with H1–H4; 8h 35m counted of 16–20. Gate 1 labels adopted (agent labels endorsed by Nimun). `PREREGISTRATION.md` is drafted and waits on Nimun's yes to the scope change. Controls A–C, the true-success confession test, and three J-lens probes done (REPORT §3.6–3.11). PREREGISTRATION.md (H1 behavioural, H2–H4 lens) awaits Nimun's yes; then the confirmatory run and steps D–F. Two of
+Pre-registration binding; confirmatory run sampled and judged; H1 supported on the pre-registered denominator; H2–H4 lens analyses and GPT-OSS running; 10h 20m counted of 16–20. Gate 1 labels adopted (agent labels endorsed by Nimun). `PREREGISTRATION.md` is drafted and waits on Nimun's yes to the scope change. Controls A–C, the true-success confession test, and three J-lens probes done (REPORT §3.6–3.11). PREREGISTRATION.md (H1 behavioural, H2–H4 lens) awaits Nimun's yes; then the confirmatory run and steps D–F. Two of
 my hypotheses withdrawn. No probe trained, and — this is the finding so far — no reason yet to train
 one on this model with these prompts.

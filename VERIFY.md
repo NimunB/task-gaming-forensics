@@ -17,7 +17,8 @@ are filled in when the confirmatory run's analysis lands; the commands already w
 | Direct vs indirect on true successes, 5/25 vs 0/25 (§3.10) | `python -c "import json,re;R=re.compile(r'never (created\|modified\|wrote)\|did not actually\|simulated',re.I);[print(n,sum(bool(R.search(json.loads(l)['answer'])) for l in open(f'experiments/confession_controls_{n}.jsonl'))) for n in ('direct','indirect')]"` (regex flags 4 of the 5; the fifth — dark_mode #1 "cannot verify" — is read, see REPORT) |
 | Judge vs adopted labels κ = 1.00 (§3.9) | `python experiments/judge_agreement.py` |
 | Wilson intervals | `python -c "import math;k,n=1,25;z=1.96;p=k/n;d=1+z*z/n;c=p+z*z/(2*n);h=z*math.sqrt(p*(1-p)/n+z*z/(4*n*n));print((c-h)/d,(c+h)/d)"` (edit k,n) |
-| **H1 outcome-tracking on the confirmatory run** *(pending)* | `python experiments/h1_analysis.py` → `experiments/h1_results.json` |
+| **H1 outcome-tracking 187/194 = 0.964 [0.927, 0.982] → supported; 187/225 = 0.831 with tool calls in the denominator** (§3.12) | `python experiments/h1_analysis.py` → `experiments/h1_results.json` (prints both denominators, per-setting counts, the 2×2 and cap hits) |
+| Corrected variant 187/191, gaming 4/116 (§3.12) | rules in sanity_checks 3f/3g/3h; recompute from `judge__samples_impossible.jsonl` + `fcli_100_subgroups.json` regex |
 
 ## Jacobian lens (Qwen3.5-9B)
 
