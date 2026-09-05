@@ -196,3 +196,45 @@ headline; otherwise the finding is "the probe tracks outcome or vocabulary, not 
 report as a negative with the kill-check table. Judge–human κ on the GPT-OSS adjudication set < 0.7 →
 labels unreliable; report both raters. Cost: ~2–2.5 h agent time (sampling 15 min, probe adaptation +
 training ~1 h, scoring + checks ~45 min). Budget at drafting: 11h 30m used of 16–20.
+
+## 8. ADDENDUM 2 (2026-09-05 ~02:30 EDT) — H5 outcome, the swap control H5b, and the GPT-OSS confirmatory run H6/H7. Written before H5b or H6 ran.
+
+**H5 outcome (recorded here so the next steps are read against it).** Truth probe: in-distribution held-out
+AUROC 0.99 at L16; on the 35 statements AUROC 1.00 at the count token — **but kill check 1 fires (prompt-only
+AUROC 1.00) and kill check 2 fires (random-direction 95th percentile 1.00 at the count token and on the
+prompt)**. The two groups of statements come from two different prompts, and those prompts differ in almost
+every direction of the residual stream; any probe separates them. H5 is therefore **not supported as a
+transfer claim** — the design cannot distinguish "represents the claim as false" from "the prompts differ".
+Deception probe: LR 0.52 at the count token, 0.80 on answer-mean (random p95 0.79) — null.
+
+**H5b — the control the H5 design was missing: same prompt, swapped number.** For each of the 35 statements,
+re-run the forward pass with the count token swapped (18 → 17). In an impossible-prompt response the original
+"18" is false and the swapped "17" is true; in a possible-prompt response the reverse. The prompt is held
+constant within each pair, so prompt identity cannot explain a difference. Features: the count token and the
+mean over tokens from the count to the end (the prediction position is unchanged by the swap and is not
+tested). Probes: the truth LR at L16 and the deception LR/MM at L12, retrained deterministically (seed 42,
+same splits) and saved.
+- **Prediction if the truth probe tracks statement truth:** Δ = score(18) − score(17) is **positive** in
+  impossible-prompt responses and **negative** in possible-prompt responses — an interaction.
+- **Prediction if it tracks token identity or context:** Δ has the same sign in both groups.
+- **Test:** sign of Δ by group, Fisher exact; H5b supported if ≥ 80% of each group has the predicted sign and
+  p < 0.01. Baseline: 20 random directions — report how many show the interaction pattern.
+
+**H6 — GPT-OSS confirmatory run (mirrors §2 for Qwen).** `openai/gpt-oss-20b` bf16, the same 10 tasks,
+Harmony rendering with `final_turn_as_user=True`, **30 per impossible task, 15 per possible task (225)**,
+same decoding as the pilot (`sample_gptoss.py` defaults, reasoning effort medium, max_new_tokens 8192).
+**Seed 43** — a deliberate deviation from "43 only for the robustness row": the pilot and widening already
+consumed seed 42 on this model and the purpose of this run is out-of-sample replication; reusing 42 would
+risk regenerating the same responses. Labels: the frozen judge, loose and strict passes. Reported: per-setting
+gaming rate with Wilson CIs; share of false claims with zero analysis-channel tokens; H1-analogue
+(claims that track the outcome) with and without tool-call responses in the denominator. No threshold: this
+is prevalence, and the pilot numbers (27/30, 55/55) are the prior.
+
+**H7 — frozen replications on the new `test_regression` statements (the only pre-specified internals work
+on the new batch).** Rules fixed now, before any new response exists:
+1. **Lens:** at **layer 20**, at the position predicting the count token, `17` ranked ahead of `18` in false
+   "18 passed" statements and `18` ahead in true ones. Prediction: ≥ 80% in each group. Logit lens alongside.
+2. **Probes:** the saved truth-L16 and deception-L12 probes, scored at the count token and post-count mean,
+   plus the H5b swap control, on the new statements. No re-picking of layer or position.
+Anything else done on the new batch is labelled exploratory in REPORT.md. Cost: ~35 min GPU (not counted),
+~1 h agent. Budget at writing: ~12h 50m of 16–20.
