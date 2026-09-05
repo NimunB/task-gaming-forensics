@@ -240,3 +240,8 @@ Found:
 Decided: Report §3.11 as existence observations with every N and every confound stated; pre-register H2–H4 with token sets, layers, positions, baselines, tests and withdrawal conditions before scaling; keep the n=25 lens results separate from any future self-fit lens. Did not launch D–H (need PREREGISTRATION approval / downloads / model switch).
 Failed / abandoned: Experiment A as first written (targets "18"/"17"; wrong position). Do not read number tokens at the first digit.
 Check this yourself: `python -c "import json;r=json.load(open('experiments/jlens_results_2.json'));[print(e['case'],e['note'],{l:e['ranks'][l]['j']['7'] for l in ('24','28','30')}) for e in r['A_digit']]"`; and `experiments/jlens_readable.md` for the raw top-8 lists.
+
+## [2026-09-04 21:55 EDT] PRE-REGISTRATION COMMITTED; confirmatory runs launched   (agent-active: 0h 10m, cumulative: 8h 45m)
+Did: Nimun approved PREREGISTRATION.md (H1 behavioural; H2–H4 Jacobian-lens comparisons) and the sequence D → confirmatory run → GPT-OSS-20B. Removed DRAFT, committed with timestamp. Launched, in one chained background job: **D** — fictional_cli x100 at repetition_penalty 1.1 (H2); **confirmatory** — 30 per impossible task + 15 per possible task at penalty 1.1, final-turn note as user turn, seed 42 (H1, H3, H4). Started the openai/gpt-oss-20b download (27.5 GB) in parallel — network only.
+Decided: Chain the GPU jobs so they never contend; write the H2/H3/H4 analysis scripts while they run; judge the confirmatory responses (loose and strict) when sampling ends. Skip `kernels` for GPT-OSS (optional; bf16 dequant fits).
+Check this yourself: `git log -1 --format='%H %ci' -- PREREGISTRATION.md` predates `experiments/fcli_100.jsonl`'s mtime.

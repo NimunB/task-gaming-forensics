@@ -1,8 +1,8 @@
-# Pre-registration — DRAFT, awaiting Nimun's approval of the scope change
+# Pre-registration — APPROVED by Nimun 2026-09-04 21:55 EDT, committed before any confirmatory sampling
 
-**Status:** draft written 2026-09-04 after Step 2 and the exploratory checks (REPORT.md §3.2–3.9).
-Becomes binding when committed with the word DRAFT removed, **before** the confirmatory run below is
-launched. Nothing in the confirmatory run has been sampled. Everything below was decided with the
+**Status:** binding as of this commit (2026-09-04 21:55 EDT). Drafted 2026-09-04 after Step 2 and the exploratory checks
+(REPORT.md §3.2–3.11); approved by Nimun in conversation ("Ok sure"). Nothing in the confirmatory run or
+the H2 run had been sampled when this was committed; the launch follows this commit. Everything below was decided with the
 pilot data in view and is stated so that it cannot drift afterwards.
 
 ## 0. Why the headline changed
