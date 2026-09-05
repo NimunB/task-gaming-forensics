@@ -257,3 +257,9 @@ Did: Nimun asked whether the narrative says who inspired what and shows real exa
 Decided: Put attribution in NARRATIVE (the zero-context document) as well as REPORT §1b/§1c, because a reader of the story should meet the people before the results.
 Timestamp correction: entries from "2026-09-05 00:55 EDT" through "2026-09-05 02:45 EDT" were stamped in UTC while labelled EDT (the box clock read ~20:55–22:45 EDT at those times). Left as written — the log is append-only — and noted here; ordering is unaffected.
 Check this yourself: `sed -n '/^## Where this comes from/,/^## The decision points/p' NARRATIVE.md`
+
+## [2026-09-04 22:50 EDT] Confirmatory sampling complete; post-run pipeline launched   (agent-active: 0h 05m, cumulative: 9h 35m; sampling ~55 min not counted)
+Did: The pre-registered chain finished: fictional_cli x100 (H2), impossible x30/task = 150, possible x15/task = 75; `experiments/samples.jsonl` = 225. Launched `post_chain.sh`: judge (loose + strict) → H1 → H2, H3/H4 (GPU) → figures → seed-42 random examples → seed-43 robustness row → GPT-OSS-20B smoke test → GPT-OSS 5+5 pilot → judge.
+Found: **All 325 generations terminated on `<|im_end|>`; 0 cap hits in any setting** at repetition_penalty 1.1 (PREREGISTRATION §4 sampler check passes before analysis). Throughput 200–345 tok/s; longest batch 4,882 tokens. The judge on the 100 fictional_cli samples completed in the background.
+Decided: Run everything sequentially on the freed GPU; nothing else touches it until GPT-OSS is done. Checkpoint before the long job per CLAUDE.md 5(c).
+Check this yourself: `python -c "import json;from collections import Counter;print(Counter(json.loads(l)['stopped_on'] for l in open('experiments/samples.jsonl')))"`
