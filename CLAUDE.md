@@ -39,7 +39,7 @@ Nimun is not watching the terminal. Everything they know about this project come
 
 - **Install nothing without asking.** No pip, venv, apt, brew, or model download, on the Mac or the box. Write the exact command to STATUS.md under "Waiting on you" and stop. `scripts/BOX_SETUP.md` is the approved list format.
 - Never fabricate a number. If something did not run, write "did not run" and why.
-- Do not write prose for the executive summary, the application form, or the final Google Doc. Produce `REPORT.md`, `VERIFY.md`, `experiments/random_examples.md`, figures, and `results.json`. Nimun writes the doc.
+- **The write-up is collaborative (rule changed by Nimun, 2026-09-05).** Produce `REPORT.md`, `VERIFY.md`, `experiments/random_examples*.md`, figures, and `results.json` as before, and also draft and edit write-up prose with Nimun. Constraints that stay: Nimun has final say on every sentence and owns the framing; every number in the draft must trace to `results.json`/`VERIFY.md`; no claim may outrun REPORT.md; the reviewer explicitly rejects prose that "sounds LLM-written" and applications that read as "an agent did a project and a human forwarded it" — so draft in Nimun's voice from Nimun's notes, keep it plain, and flag any sentence Nimun should write themselves (motivation, what they learned, what they would do next).
 - Do not expand scope: no SAEs, no extra models, no extra behaviours, no fake-tool bucket, no steering.
 - Do not generate tasks with an LLM. Tasks come from Nimun or from real repos with a source URL.
 - Stop at time boxes. Over budget means write what you have to CHANGELOG and move on.
