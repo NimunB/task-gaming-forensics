@@ -171,3 +171,10 @@ Found: n/a — no new generations read.
 Decided: Two readable files now exist: `pilot_readable.md` (original 15, confounded prompt) and `pilot_userturn_readable.md` (25, fixed prompt). **Label the second.** The first is kept for the before/after comparison only.
 Failed / abandoned: none.
 Check this yourself: open `experiments/pilot_userturn_readable.md`; the tally is at the top and matches REPORT.md §3.2.
+
+## [2026-09-04 20:05 EDT] Step 2c — NARRATIVE.md started; made a standing rule   (agent-active: 0h 15m, cumulative: 4h 50m; step2c B/C still running, not counted)
+Did: Wrote `NARRATIVE.md` — the project's story in order for a zero-context reader: a ten-row decision-point table (expected / found / decided / cost) and one paragraph per beat, Step 0 to now. Added it to the CLAUDE.md reporting protocol as item 5, updated at every checkpoint where direction changed. STATUS points to it.
+Found: n/a.
+Decided: Keep it separate from REPORT.md. REPORT is organised by finding, per Neel's "don't do chronological order" for results; the *process* story is a different document with a different reader need — his "walk me through what you tried and why" — and mixing them would weaken both.
+Failed / abandoned: none.
+Check this yourself: open `NARRATIVE.md`; the table at the top is the whole project in ten rows.

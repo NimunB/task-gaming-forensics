@@ -29,6 +29,7 @@
 - Did **not** run next steps A–C. They are exploration and cheap, but they are also the last runs before a framing decision that is yours, so I stopped here.
 
 ## Where the narrative for the write-up lives
+- `NARRATIVE.md` — the story in order: ten decision points so far, one paragraph each, plus a summary table. Read this first if you have been away.
 - `REPORT.md` — the findings themselves, written as they arrive. Living document, status banner at the top says what exists and what does not.
 - `experiments/sanity_checks.md` — every defect and every check, grouped by issue, with reproduction commands. This is the file to write from.
 - `CHANGELOG.md` — the same material in time order, with agent-active minutes per step.
