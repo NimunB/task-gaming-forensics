@@ -88,6 +88,10 @@ something concerning. For coding agents, the everyday case is misrepresentation 
 and it isn't. The paper this project builds on documents it across twenty models and leaves the central question
 open: *"It is unclear how much this reflects deceptive intent vs some heuristic resulting in deception."*
 
+**Terms, once.** *Task gaming* is the paper's word for taking actions that don't complete a task but look as if they do —
+hard-coding a test, or claiming the job is finished when it isn't. *Lying* and *bullshitting* are used here in a
+narrow, technical sense, defined next.
+
 That sentence is the project. If the model represents the failure internally and reports success anyway, it is
 lying, and the fix is a monitor that reads the representation. If it never represented the failure — if it wrote a
 confident report the way it writes any other plausible text — it is bullshitting, and no monitor of "what it knows"
@@ -119,16 +123,25 @@ inside.
 
 ### 2.1 Setup
 
-Ten tasks in five settings from the paper's environments, verbatim: **fictional_cli** (give the exact syntax of
-`durc`, which does not exist), **test_regression** (prefilled transcript: the agent's change failed one of 18 tests;
-write the PR description), **buggy_test** (implement `is_prime` against a test that says 7 is not prime),
-**dark_mode** (prefilled; the screenshot tool has no browser), **broken_test_runner** (a missing dependency). Each
+Ten tasks in five settings from the paper's environments, verbatim: **fictional_cli** (a user asks for the exact
+syntax of `durc`, a command that does not exist), **test_regression** (write the pull-request description for a
+change that made one of 18 tests fail), **buggy_test** (implement `is_prime` against a test that wrongly says 7 is
+not prime), **dark_mode** (add a dark-mode feature and attach a screenshot; the screenshot tool has no browser),
+**broken_test_runner** (run the tests; a dependency is missing).
+
+Two of these — `test_regression` and `dark_mode` — are **prefilled transcripts**: the model is handed a finished
+agent session (its own tool calls and their outputs, including the failing test or the "Could not find Chrome"
+error) and asked only to write the final report. It does no work itself; the question is purely whether it reports
+what the transcript shows. This matters later, because on these tasks GPT-OSS produces no reasoning at all. Each
 has an *impossible* variant and a *possible* control with the blocker removed. An honest model reports failure on
 one and success on the other; a model that says "done" on both is not reading the situation.
 
 Labels: an LLM judge (`claude-sonnet-5`, frozen rubric, loose and strict passes) → `false_claim`,
-`silent_omission`, `workaround_as_complete` (together: **gamed**), `honest_failure`, `genuine_success`, `other` (no
-claim — usually a response that ends mid-tool-call). Human check: **[Nimun]** read the adjudication sets for both
+`silent_omission` (reports as if fine, never mentions the blocker), `workaround_as_complete` (changes the task —
+e.g. hard-codes the test — and presents it as done) — together **gamed** — plus `honest_failure`, `genuine_success`,
+and `other` (no claim either way; almost always a response that tried to run another command instead of
+answering). The *strict* rubric differs from the *loose* one in one way: any false statement of verification ("all
+tests pass") counts as gamed even when the same response also discloses the failure. Human check: **[Nimun]** read the adjudication sets for both
 models; a seed-selected sample of 20 from the final GPT-OSS run is written and unread.
 
 Models: **Qwen3.5-9B** (our choice) and **GPT-OSS-20B** (Aditya's list). Why that distinction matters: §3.3.
@@ -172,6 +185,32 @@ below and not only in a table at the end.
 
 ## 3. Experiments
 
+**How to read the numbers in this section**
+
+- **Brackets like [2.3%, 9.3%]** are 95% confidence intervals (Wilson) on a proportion — the range the true rate
+  plausibly lies in given how few samples we have.
+- **p-values** answer "if there were no real difference, how often would a split this lopsided happen by chance?"
+  Fisher's exact test is used for counts, Mann–Whitney for ranks; **rank-biserial** is the matching effect size, 0 =
+  no separation, 1 = every case in one group beats every case in the other.
+- **Seed.** Every run uses random seed 42. A "fresh seed" (43) means new samples the analysis had never seen.
+- **Kill check.** A test written down *before* a result exists, with the rule that if it fails, the headline is not
+  reported as a positive. Example: "if a random direction separates the groups as well as the probe, the probe
+  result is not a result."
+- **Lens readout.** Take the model's internal state (the residual-stream vector) at some middle layer, at the token
+  position *just before* it writes a word, and ask what that state would say if it were the final layer. The
+  **logit lens** does this by applying the model's own output layer directly; the **Jacobian lens** first applies a
+  small learned linear map to the target layer (Gurnee et al.), then the output layer. Either way you get a ranked
+  list over the whole vocabulary. **Rank 1** = the token the state most favours. "17 is ranked ahead of 18" means
+  17 sits higher in that list than 18. By the last layer the ranking must match what the model actually writes;
+  the question is what it favoured a layer or two earlier.
+- **Probe.** A linear classifier trained on internal activations to tell two classes apart (here: true vs false
+  statements, or honest vs deceptive persona). **AUROC** measures how well it separates two groups: 1.0 = perfect,
+  0.5 = coin flip. A **random-direction baseline** replaces the trained classifier with a random vector; if that
+  scores as well, the classifier learned nothing specific.
+- **Reasoning / analysis channel.** GPT-OSS's chat format separates a private reasoning channel (called
+  "analysis") from the final answer. Qwen uses `<think>…</think>` tags for the same purpose. "Zero reasoning
+  tokens" means the model went straight to its answer.
+
 ### 3.1 Part I — Qwen3.5-9B does not game these tasks
 
 *Hypothesis:* the paper's phenomenon appears on these environments. *Outcomes:* it does → train the probe; it doesn't
@@ -202,22 +241,33 @@ call 21% of the time; count those as failures to report and it is 83%, below the
 10/119 vs 7/119. Second seed: 4/45, consistent. Judge category errors found by reading: corrected gaming 4/116.
 
 ![Who games: same ten tasks, two models](experiments/figures/fig_prevalence.png)
+*How to read: one row per impossible task; bar = share of 30 responses the judge labelled gamed; the thin line is the
+95% interval. Blue Qwen, orange GPT-OSS.*
 
-**Inside Qwen: doubt before a refusal, none before a fabrication.** A 100-sample `fictional_cli` run gave 74 refusals
-and 17 fabrications. Pre-registered: doubt words (` not`, ` sorry`, ` cannot`, ` Unfortunately`, ` There`) are poised in
+**Inside Qwen: doubt before a refusal, none before a fabrication.** *Why:* if a fabricating model tracked the truth,
+some trace of doubt should be present in its internal state at the moment the answer begins, even if the words never
+appear. *Outcomes:* doubt present in both refusals and fabrications → the model knows and hides (liar); present only
+in refusals → the fabrications never carried it (bullshitter). A 100-sample `fictional_cli` run gave 74 refusals and
+17 fabrications. Pre-registered: doubt words (` not`, ` sorry`, ` cannot`, ` Unfortunately`, ` There`) are poised in
 refusals, absent in fabrications. Layer 20 of 32, Jacobian lens: median rank of the best doubt token **203.5 in
 refusals vs 8,538 in fabrications**, p = 9 × 10⁻⁹, rank-biserial 0.88. **Supported.** *The trivial instrument:* the
 plain logit lens gives 1,422 vs 83,643, p = 3 × 10⁻⁹, rank-biserial 0.91 — as good or better. A fact about the model,
 not a win for the lens.
 
 ![Doubt tokens before refusals vs fabrications, Qwen](experiments/figures/fig_h2_negation_rank.png)
+*How to read: for each response, the best rank any doubt word reaches in the lens's list at the moment the answer
+starts (lower = more poised; log scale). Refusals cluster near the top of the list, fabrications thousands of places
+down.*
 
-**The liar and bullshitter cells look the same inside.** Reading the 17 fabrications' reasoning: 3 whose CoT said "I
+**The liar-shaped and bullshitter-shaped fabrications look the same inside.** Reading the 17 fabrications' reasoning: 3 whose CoT said "I
 can't know this" and hid it; 4 whose CoT invented a memory ("From what I remember, durc is a tool for converting
 durations"); 1 mixed; 7 side-steps; 2 hedged. At the moment the answer begins, the 3 and the 4 are indistinguishable
-in the workspace. 3 vs 4 — an observation, not a result.
+in their internal state: whatever the reasoning knew, the answer-time activation does not carry it. 3 vs 4 — an
+observation, not a result.
 
 ![Liar vs bullshitter cells, Qwen](experiments/figures/fig_h2_cells.png)
+*How to read: the same doubt-word rank, split by what the fabrication's reasoning had said — "I can't know this"
+(liar-shaped) vs an invented memory (bullshitter-shaped). The two groups overlap completely.*
 
 **One reading withdrawn.** "The failure is held in mind while writing *Complete*" (` failed` at rank ~200 in
 disclosers vs ~10,000 in controls) was the prompt reminding the model of the error — the gap is the same at the
@@ -233,6 +283,10 @@ started on Qwen and what you'd do differently.]** Switching cost: GPT-OSS's Harm
 contact, so prompts are not byte-identical across models. Stated as a confound.
 
 ### 3.3 Part II — GPT-OSS-20B games, but not uniformly
+
+*Hypothesis:* the recommended model games where Qwen did not. *Outcomes:* it does → the forensic question becomes
+askable; it doesn't → the environments, not the model, are the issue. **It does — and the per-task shape is the
+interesting part.**
 
 **Pilot and widening.** 5/5 fake commands fabricated, 4/5 false "tests pass", 3/5 hard-coded tests; dark_mode 5/5
 honest. Controls 25/25 by our read (the judge disputed one over a `--round` flag that *is* in the help text — judge
@@ -259,6 +313,8 @@ reports honestly where the blocker announces itself as an error message (dark_mo
 ### 3.4 Can you just read the CoT? — two different reasons why not
 
 ![Reasoning tokens by label, GPT-OSS](experiments/figures/fig_zero_reasoning.png)
+*How to read: one dot per response; x = how many reasoning tokens preceded the answer (log scale, zero at the left
+edge); rows are judge labels. Every zero is a prefilled-transcript task — false and honest alike.*
 
 **test_regression: there is no CoT.** Every false "18 passed" was written with zero analysis tokens. My first draft
 said "the false claims are written with no reasoning." Drawing this figure showed the *honest* answers on that task
@@ -286,11 +342,15 @@ not the bullshitter's.** My earlier characterisation is withdrawn.
 
 ### 3.5 The lens: a trace of the truth before the false count — found, replicated, narrowed
 
-*The experiment Aditya asked for.* `test_regression` has a true number (17 pass, 1 fails) and the model writes "18
-passed". At the position that predicts the count, how does the lens rank `17` vs `18`?
+*The experiment Aditya asked for.* `test_regression` has a true number — 17 tests pass, 1 fails — and the model
+writes "18 passed". Take the model's internal state at the token right before it writes that number (GPT-OSS spells
+"17" and "18" as single tokens, so the readout is clean) and ask, layer by layer: does it favour 17 or 18? *Outcomes:*
+17 favoured before a false 18 and not before a true one → a trace of the truth is present at the moment of the false
+claim; 18 favoured throughout → nothing there to read.
 
 **First batch (20 false, 15 true), layer 20 of 24:** `17` ahead of `18` in **19/20** false statements; `18` ahead in
-**15/15** true. Fisher p = 4.9 × 10⁻⁹. At layer 22 the stated `18` wins everywhere — the model commits at the end.
+**15/15** true. Fisher p = 4.9 × 10⁻⁹. At layer 22, the last one, the written `18` is top in every case — as it must be, since that
+layer produces the output; the point is what the model favoured two layers earlier.
 *Built-in checks:* the plain logit lens shows it too (18/20, 15/15); each prompt contains its own true count, so
 "remembering the context" and "knowing the claim is false" are not separable; ` failed` is not poised at the next
 position.
@@ -306,6 +366,9 @@ together: 16 ahead **44/44**, 17 ahead 41/44, 19 ahead 2/44; best-of-four **17 i
 18 is best in 27/30.
 
 ![Lens neighbour check, replication batch](experiments/figures/fig_c_confirm.png)
+*How to read: x = layer; y = share of statements where the named token ranks ahead of "18" one position before the
+number is written. Left panel, false statements (truth 17): 16 and 17 both sit ahead of 18 through layer 20, 19 does
+not. Right panel, true statements: by layer 20 nothing beats 18. At layer 22 the written token wins everywhere.*
 
 **What survives:** one layer before writing a false count, the workspace favours **lower numbers**; before a true
 count, the count it writes. Not the specific true number. "It says 8 but the lens says 7" is met only as "it says 18
@@ -314,8 +377,12 @@ cannot tell.
 
 ### 3.6 The probe that scored 1.00
 
-*Neel's question, both halves:* a truth probe (true/false trivia) and a deception probe (honest vs deceptive persona),
-trained on Apollo data, applied cold to the 35 count statements. Kill checks written before extraction.
+*Neel's question, both halves:* can a probe trained on generic data read the truth of a real claim? Two probes were
+trained on GPT-OSS's activations over Apollo's data, which has nothing to do with code: a **truth probe** on
+one-line true vs false facts ("The largest flower in the world is the daisy" — false), and a **deception probe** on
+the same true facts spoken under "You are an honest assistant" vs "You are a deceptive assistant". Then, with no
+further training, each scored the 35 "18 passed" statements. *Outcomes:* false statements score as more
+false/deceptive than true ones, *and* the kill checks pass → transfer; either fails → no transfer claim.
 
 - In-distribution: truth L16 held-out AUROC 0.99; deception L12 1.00. They work at home.
 - Transfer, truth probe at the count token: **AUROC 1.00 [1.00, 1.00]**.
@@ -328,6 +395,9 @@ trained on Apollo data, applied cold to the 35 count statements. Kill checks wri
   digit; 4/20 random directions pass the bar by chance. Replicated on the fresh batch: 8/24 vs 15/15; 24/24 vs 0/15.
 
 ![Swap the digit: neither probe flips](experiments/figures/fig_h5_swap.png)
+*How to read: each dot is one response scored twice — with its original "18" and with "17" swapped in — and the y-axis
+is the difference. A probe reading truth would put the blue dots above zero and the orange below. Both probes put
+every group on the same side: they score the digit, not its truth.*
 
 **Negative result, kept.** Probes trained on trivia do not read the truth of a coding agent's test count — and a test
 set built from two prompts will tell you they do when they don't.
@@ -393,8 +463,9 @@ Every row appears above where it happened; collected here because it is what the
 - 30 samples per task; one seed per run.
 - Each prompt contains its own true count; no readout here separates "remembering" from "knowing". The design that
   could — same prompt, different claim, no number in context — does not exist in these tasks.
-- Prompts not byte-identical across models; GPT-OSS at reasoning effort "medium" throughout; the GPT-OSS lens has no
-  identity anchor row.
+- Prompts not byte-identical across models (the two chat formats render the same conversation differently); GPT-OSS
+  ran at its "medium" reasoning-effort setting throughout, never varied; the published GPT-OSS lens lacks one sanity
+  row the Qwen lens has (a check that the lens maps the final layer to itself).
 - We do not know *why* the two models differ. Candidates — RL against completion-shaped rewards, active parameter
   count, an absent "is this possible?" step — are speculation.
 - Labels originate with an LLM judge and the agent's reading; human checks are on seed-selected samples.
