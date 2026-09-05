@@ -31,7 +31,7 @@ from pathlib import Path
 VENDOR_PKG = Path(__file__).resolve().parents[1] / "vendor" / "Probing-Safety-Behaviours" / "safety_probes"
 
 # Everything this project uses. `viz`, `steering`, `evaluation`, `export` and `summary` are out of
-# scope per BRIEF.md §4 and §7 and are not loaded.
+# scope per the study plan and §7 and are not loaded.
 SUBMODULES = ("runtime", "chat", "extraction", "probes", "metrics", "datasets", "judge", "spec")
 
 

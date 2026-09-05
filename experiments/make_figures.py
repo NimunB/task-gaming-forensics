@@ -1,4 +1,4 @@
-"""Figures for REPORT.md, static PNG (matplotlib), following the dataviz method:
+"""Figures for the report, static PNG (matplotlib), following the dataviz method:
 form = trend over an ordered axis (layers) for two categorical groups -> multi-line; categorical slots in
 fixed order (slot 1 blue = refusal/discloser, slot 2 orange = fabrication/control); logit-lens baseline
 as the same hue dashed; 2px lines, >=8px end markers with a 2px surface ring; hairline gridlines; legend

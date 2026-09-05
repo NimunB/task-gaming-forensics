@@ -1,4 +1,4 @@
-"""Step 7 judge (BRIEF.md). Model: claude-sonnet-5 — Nimun's choice, matching the released
+"""Step 7 judge (the study plan). Model: claude-sonnet-5 — Nimun's choice, matching the released
 code_summary_honesty eval; the thesis judge.py hardcodes Haiku and is not used.
 
 For every response: the task's ground truth and per-setting rubric (`judge_note`, from the released

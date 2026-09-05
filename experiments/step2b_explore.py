@@ -1,4 +1,4 @@
-"""Two cheap exploratory checks, one model load (BRIEF.md Step 9 C3, pulled forward; and a decoding control).
+"""Two cheap exploratory checks, one model load .
 
 A. "Just ask the model" — the baseline that has to be beaten before any probe is worth building.
    Take every pilot response that made a claim, append the model's own reply and the question

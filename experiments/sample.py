@@ -1,11 +1,11 @@
-"""Batched sampler for task-gaming generations (BRIEF.md Steps 2 and 6).
+"""Batched sampler for task-gaming generations .
 
 Writes one JSON line per generation with the full thinking and answer text plus the token
 offsets Step 8 needs to pool activations over the right spans.
 
     python experiments/sample.py --tasks impossible --n 3 --out experiments/pilot_samples.jsonl
 
-Decoding is T=0.7, top_p=0.95, seed 42 per BRIEF.md §3. Thinking is always on: the prompt ends
+Decoding is T=0.7, top_p=0.95, seed 42 per the study plan. Thinking is always on: the prompt ends
 with the open <think> tag and `enable_thinking=False` is never passed.
 """
 from __future__ import annotations

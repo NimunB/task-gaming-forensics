@@ -1,4 +1,4 @@
-"""Three exploratory checks, one model load (REPORT.md §8 A–C). All decoding matches the N=25
+"""Three exploratory checks, one model load (the report). All decoding matches the N=25
 baseline in experiments/pilot_userturn.jsonl exactly (T=0.7, top_p=0.95, seed 42, penalty 1.0,
 final-turn note as a user turn) so each comparison changes one thing.
 

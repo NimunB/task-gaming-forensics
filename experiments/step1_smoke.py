@@ -1,4 +1,4 @@
-"""Step 1 smoke test (BRIEF.md §5 Step 1).
+"""Step 1 smoke test .
 
 Answers five questions and writes experiments/step1_smoke.json:
   1. Does the model load in bf16 on one card, and with which Auto class?

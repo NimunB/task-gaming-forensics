@@ -1,4 +1,4 @@
-"""experiments/results.json — every headline number in REPORT.md, pulled from the analysis outputs (never typed in).
+"""experiments/results.json — every headline number in the report, pulled from the analysis outputs (never typed in).
 Re-run after any analysis changes.    python experiments/make_results_json.py
 """
 from __future__ import annotations

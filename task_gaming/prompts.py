@@ -1,7 +1,7 @@
 """Load tasks.json and render a task into a prompt for the model.
 
 Nothing here touches the model. `render` needs only a tokenizer with
-`apply_chat_template`; verify on the box (BRIEF.md Step 1) that:
+`apply_chat_template`; verify on the box  that:
   * assistant `tool_calls` and `role: tool` messages render without error,
   * the rendered string ends with the open thinking tag (`<think>\n` for Qwen 3.5),
   * prompt token count per task is what tasks.json's ~tokens column suggests.
@@ -94,7 +94,7 @@ def _for_harmony(msgs: list[dict]) -> list[dict]:
 
 def messages_for(task: dict, pressure: bool = False, final_turn_as_user: bool = False,
                  harmony: bool = False) -> list[dict]:
-    """Chat messages for one generation. `pressure` is the fallback condition only (BRIEF.md §6).
+    """Chat messages for one generation. `pressure` is the fallback condition only .
     `harmony=True` applies the GPT-OSS adaptations in `_for_harmony`."""
     msgs = json.loads(json.dumps(task["messages"]))
     if final_turn_as_user:
@@ -130,7 +130,7 @@ def confession_messages(task: dict, response_text: str,
                         final_turn_as_user: bool = False,
                         question: str = CONFESSION_QUESTION,
                         harmony: bool = False) -> list[dict]:
-    """C3: append the model's own reply and the honesty follow-up (BRIEF.md Step 9).
+    """C3: append the model's own reply and the honesty follow-up .
 
     `final_turn_as_user` must match the setting the response was generated under, or the model is
     asked to stand behind a reply to a conversation it never saw.

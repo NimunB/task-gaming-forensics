@@ -1,4 +1,4 @@
-"""Structural summaries for REPORT.md §8 A–C. No honesty labels — those are Gate 1 / Step 7.
+"""Structural summaries for the reporto honesty labels — those are Gate 1 / Step 7.
 
 A. possible_controls.jsonl   : report / tool call / no answer; does the answer contain hedging
                                 language about being unable to verify or complete?
