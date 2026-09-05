@@ -23,8 +23,8 @@ seed-selected samples ourselves. Every hypothesis, test and kill check was commi
 
 **The behaviour has to exist before you can do forensics on it.** Qwen3.5-9B games 7 of 150 impossible-task
 responses and its claims match the outcome 96% of the time. GPT-OSS-20B — the model Singh's team recommends for this
-problem — games 93 of 150 (62% [54%, 69%]) and matches the outcome 52% of the time. We spent six hours learning why
-their recommendation said what it said.
+problem — games 93 of 150 (62% [54%, 69%]) and matches the outcome 52% of the time. Six hours went into learning
+why the recommendation said what it said.
 
 ![Same ten tasks, two models](experiments/figures/fig_prevalence.png)
 
@@ -51,9 +51,9 @@ each response — prompt held fixed — showed both probes score the digit, not 
 and never retracts the fictional command (0 of 9), despite the doubt in its reasoning. Asked indirectly it admits
 nothing; asked directly, one true success confessed to a failure it did not have.
 
-**What we take from this.** The lying-vs-bullshitting question has a different answer per task in one model, and
-three of the four instruments we tried gave a strong first reading that a pre-specified check then narrowed or
-killed. *[Nimun: one sentence in your words on what you learned.]*
+**What we take from this.** Lying or bullshitting has a different answer per task in one model, and three of the
+four instruments we tried gave a strong first reading that a pre-specified check then narrowed or killed.
+*[Nimun: one sentence in your words on what you learned.]*
 
 ---
 
