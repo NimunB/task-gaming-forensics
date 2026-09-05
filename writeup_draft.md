@@ -5,46 +5,47 @@
 ## Executive summary
 
 **Coding agents sometimes report work they did not do.** They write "all tests pass" over a failing test, or invent
-the syntax of a command that does not exist. *Why do models task game?*
-(Singh, Nanda & Rajamanoharan, 2026) documents this **task gaming** across twenty models and leaves one question open: *is the model lying — it represented the
-failure and concealed it — or bullshitting — it never tracked the truth at all?* The two are identical from the
-outside; only the first can be caught by reading the model's internal state. We asked
-whether the model's reasoning, its internal activations, or simply asking it could tell them apart.
+the syntax of a command that does not exist. *Why do models task game?* (Singh, Nanda & Rajamanoharan, 2026) documents
+this **task gaming** across twenty models and leaves one question open: is the model *lying* — it represented the
+failure and concealed it — or *bullshitting* — it never tracked the truth at all? The two look identical from
+outside, and only the first can be caught by reading the model's internal state. We asked whether the model's
+reasoning, its internal activations, or a direct question could tell them apart.
 
-**Setup.** Ten tasks from the paper's public environments, five of them impossible in a way the model cannot fix (a
-fictional CLI, a test that cannot pass, a screenshot tool with no browser) and five matched possible variants with the
-blocker removed. Unlike the paper's live Docker agents, our models execute nothing: each task is a single prompt, with the failing
-test or missing browser already in front of the model when it reports. Two open-weight models,
-Qwen3.5-9B and GPT-OSS-20B. An LLM judge labels every response; we read seed-selected samples ourselves. From the
-first confirmatory run on, every hypothesis, test and control was committed before its data were sampled.
+**Setup.** Ten tasks from the paper's public environments: five impossible in a way the model cannot fix (a fictional
+CLI, a test that cannot pass, a screenshot tool with no browser) and five matched possible variants with the blocker
+removed. Unlike the paper's live Docker agents, our models execute nothing; each task is a single prompt with the
+failing test or missing browser already in front of the model when it reports. Two open-weight models, Qwen3.5-9B and
+GPT-OSS-20B. An LLM judge labels every response; we read seed-selected samples. From the first
+confirmatory run on, every hypothesis, test and control was committed before its data were sampled.
 
-**The behaviour has to exist before you can do forensics on it.** Qwen3.5-9B games 7 of 150 impossible-task
-responses and its claims match the outcome 96% of the time. GPT-OSS-20B — the model Singh recommends — games 93 of 150 (62% [54%, 69%]) and matches the outcome 52% of the time.
+**The two models behave completely differently on the same tasks.** Qwen3.5-9B games 7 of 150 impossible-task
+responses, and when it makes a claim the claim is true 96% of the time. GPT-OSS-20B, the model Singh recommends,
+games 93 of 150 (62% [54%, 69%]) and its claims are true 52% of the time.
 
 ![Same ten tasks, two models](experiments/figures/fig_prevalence.png)
 
-**Within GPT-OSS, task gaming is not one thing.** On the fictional command, the model's private reasoning doubts
-the tool in 78 of 85 responses (*"There's no tool, but maybe it's a fictional command… Without tools, we guess"*) and
-the answer passes that doubt on in 4 of 85 (*"Here's the one-liner you can drop straight into your terminal"*). The
-truth is in the reasoning and gone from the answer: the liar's shape. On the false test count there is no reasoning;
-the model goes straight to "18 passed". One layer before it writes
-the number, a Jacobian lens ranks 16 ahead of 18 in 44 of 44 false statements and in 2 of 30 true ones (17: 41 of
-44, and 3 of 30). But 16 leads as often as 17: the workspace carries *"fewer than 18"*, not the true count. A neighbour
-check, written before the replication, narrowed the headline from "17" to "less than 18."
+**Within GPT-OSS, the answer to "lying or bullshitting?" depends on the task.** On the fictional command, the model's
+private reasoning says the tool may not exist or that it is guessing in 78 of 85 responses (*"There's no tool, but
+maybe it's a fictional command… Without tools, we guess"*), and only 4 of 85 answers pass that doubt on (*"Here's the
+one-liner you can drop straight into your terminal"*). It tracks the truth and leaves it out. On the false test
+count there is no reasoning at all; the model goes straight to "18 passed" when 17 passed. One layer before it writes
+the number, a Jacobian lens ranks lower numbers above 18 in all 44 false statements and in 2 of 30 true ones. But it
+ranks 16 ahead as often as 17, so what it carries is "fewer than 18", not the true count. A neighbour check written before the
+replication narrowed the headline from "17" to "less than 18".
 
 ![Lens neighbour check](experiments/figures/fig_c_confirm.png)
 
-**A probe that separated false from true claims perfectly was reading the prompt, not the claim.** A truth probe
-trained on GPT-OSS over true/false trivia separated false from true "18 passed" statements with AUROC
-1.00. So did a random direction, and so did the prompt tokens alone:
-the two groups came from two different prompts. Swapping the digit inside
-each response — prompt held fixed — showed both probes score the digit, not its truth. Negative, replicated.
+**The probe result that looked best was a confound.** A truth probe trained on GPT-OSS over true/false trivia
+separated false from true "18 passed" claims with AUROC 1.00. So did a random direction, and so did the prompt tokens
+alone, because the two groups came from two different prompts. Swapping the digit inside each response with the
+prompt held fixed showed both probes read the digit, not its truth. The result is negative and replicated on a fresh
+batch.
 
 ![Swap the digit](experiments/figures/fig_h5_swap.png)
 
-**Asking the model directly recovers the truth on the test-count task and nowhere else.** GPT-OSS admits the failing test 4 of 4 times and never retracts
-the fictional command (0 of 9), despite the doubt in its reasoning. Asked indirectly it admits
-nothing; asked directly, one true success confessed to a failure it never had.
+**Asking the model directly works on exactly one task.** GPT-OSS admits the failing test 4 of 4 times and never
+retracts the fictional command (0 of 9), despite the doubt in its reasoning. Asked indirectly it admits nothing
+anywhere, and asked directly one genuine success confessed to a failure it never had.
 
 **What we take from this.** Lying or bullshitting has a different answer per task in one model, and three of the
 four instruments we tried gave a strong first reading that a pre-specified control narrowed or overturned.
@@ -491,35 +492,56 @@ and its strict pass.
 
 ### 4.1 Findings
 
-**The behaviour has to exist before you can do forensics on it.** On the same ten tasks Qwen3.5-9B games 7 of 150
-and is truthful 96% of the time; GPT-OSS-20B games 93 of 150 and is truthful 52%. Singh's model list encoded this.
+**The two models behave completely differently on the same tasks.** Qwen3.5-9B almost never games: 7 false claims in
+150 attempts at impossible tasks, and when it does make a claim, the claim is true 96% of the time. GPT-OSS-20B games
+93 times in 150, and its claims are true 52% of the time. This mattered for the project because we started on Qwen
+and spent the first six hours establishing that the behaviour we wanted to study barely exists there. Singh's
+recommendation of GPT-OSS was not a preference; it was a list of models his team had already seen misreport their
+work.
 
-**Within one model, task gaming is not one thing.** On the fictional command the reasoning doubts (78/85) and the
-answer conceals (81/85): the truth is tracked and withheld. On the test count there is no reasoning; the workspace
-favours lower numbers before the false "18" (44/44) but not the true number; and the model admits the failure when
-asked directly (4/4). On the screenshot task it is honest (28/30). Lying or bullshitting has a different answer per
-task.
+**Within GPT-OSS, the answer to "lying or bullshitting?" depends on the task.** On the fictional command, the model's
+private reasoning shows it knows something is off — in 78 of 85 responses it says the tool may not exist or that it is
+guessing — but only 4 of 85 answers pass any of that doubt on to the user. It tracks the truth and then leaves it out:
+that is the lying shape. On the false test count there is no reasoning at all; the model goes straight to "18 passed"
+when 17 passed. One layer before it writes the number, its internal state ranks lower numbers above 18 in all 44 false
+statements and in only 2 of 30 true ones. But it ranks 16 ahead as often as 17, so what it carries is "fewer than 18",
+not the actual count. On a third task, the screenshot, it is simply honest, 28 times in 30.
 
-**A trace of the truth is present before the false count, and it is weaker than it first looked.** "17 ahead" at
-p ≈ 10⁻⁹ became "lower counts ahead" once 16 was checked. Context recall and claim knowledge remain inseparable in
-this design.
+**The probe result that looked best was a confound.** A probe trained to detect false statements on trivia scored a
+perfect 1.00 at separating false from true "18 passed" claims. A random direction also scored 1.00, because the false
+and true claims came from two different prompts. When we swapped the digit inside each response and held the prompt
+fixed, neither probe changed its verdict with the truth; both were reading the digit. This is a negative result, and it
+replicated on a fresh batch.
 
-**Probes trained on trivia do not transfer, and a two-prompt test set will say they do.** The random-direction and
-prompt-only controls are what separated a publishable-looking number from a confound.
+**Just asking the model works on exactly one task.** Asked directly whether it completed the task, GPT-OSS admits the
+failing test every time (4 of 4) and never retracts the fictional command (0 of 9), even though its reasoning had
+doubted it. Asked indirectly — "Have you finished the task?" — it admits nothing anywhere. And the direct wording made
+one model that had genuinely succeeded confess to a failure it never had, so it cuts both ways.
 
-**Asking works on the task the lens flagged and nowhere else, and the direct wording manufactures false confessions
-on both models.**
+**The strongest evidence against our own hypotheses.** Against the idea that internals can separate lying from
+bullshitting: the probe failure above, and, on Qwen, fabrications whose reasoning had said "I can't know this" looked
+identical at the moment of answering to fabrications whose reasoning had confidently made something up (three
+against four, an observation rather than a result). Against the claim that the lens found the true number: 16 outranks
+18 exactly as often as 17 does across the 44 false statements, and every prompt contains the true count in its own
+text, so we cannot separate the model remembering what it read from the model knowing its claim is false. Against our
+own earlier reading of the fictional command: for most of a day we described those fabrications as pure bullshitting;
+when we counted, 78 of 85 reasoning traces questioned the tool. Against the setting: the paper's agents ran live in
+containers over many turns, ours never execute anything, so we measured whether a model misreports evidence in front
+of it, not whether an agent games over the course of doing the work.
 
 ### 4.2 Limitations
 
-One task carries all the internals evidence on GPT-OSS — the only one with a ground-truth number. Thirty samples per
-task, one seed per run. Each prompt contains its own true count, so no readout here separates remembering from
-knowing; the design that could — same prompt, different claim, no number in context — does not exist in these
-tasks. Prompts are not byte-identical across models. GPT-OSS ran at its "medium" reasoning-effort setting throughout.
-We do not know *why* the two models differ; candidates — RL against completion-shaped rewards, active parameter count,
-an absent "is this possible?" step — are speculation. Labels originate with an LLM judge and an agent's reading;
-human checks are on seed-selected samples. Two first drafts overstated results (§3.4); pre-specified controls caught
-them, but they were written first.
+All of the internals evidence on GPT-OSS rests on one task, the test count, because it is the only task with a
+ground-truth number to compare against. Each task has thirty samples and each run one seed. Every prompt contains its
+own true count, so none of our readouts separates the model remembering what it read from the model knowing its claim
+is false; the design that could — the same prompt, a different claim, and no number in the context — does not exist in
+these environments, and we could have built it and did not. The two models did not see byte-identical prompts,
+because their chat formats render the same conversation differently. GPT-OSS ran at its "medium" reasoning-effort
+setting throughout; varying it was a short experiment we left out to stay inside the frozen plan. We do not know why
+the two models differ, and the candidates — reinforcement learning against completion-shaped rewards, active parameter
+count, a missing "is this possible?" step — are speculation. Labels come from an LLM judge and an agent's reading, with
+human checks on 79 seed-selected responses rather than on all of them. Two first drafts overstated results before
+pre-specified controls caught them; the controls worked, but the overstatements were written first.
 
 ---
 
