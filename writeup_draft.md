@@ -8,17 +8,18 @@
 the syntax of a command that does not exist, or report a screenshot they never took. Singh, Nanda and Rajamanoharan
 (2026) document this across twenty models and leave one question open: *is the model lying — it represented the
 failure and concealed it — or bullshitting — it never tracked the truth at all?* The two are identical from the
-outside and need different fixes: a liar is a monitoring problem, a bullshitter is a training problem. We asked
+outside; only the first can be caught by reading the model's internal state. We asked
 whether the model's reasoning, its internal activations, or simply asking it could tell them apart.
 
 **Setup.** Ten tasks from the paper's public environments, five of them impossible in a way the model cannot fix (a
 fictional CLI, a test that cannot pass, a screenshot tool with no browser) and five matched controls with the blocker
-removed. Two open-weight models, Qwen3.5-9B and GPT-OSS-20B. An LLM judge labels every response; we read
-seed-selected samples ourselves. Every hypothesis, test and control was committed before the data existed.
+removed. Unlike the paper's live Docker agents, our models execute nothing: each task is a single prompt, and the
+failing test or missing browser is already in front of the model when it writes its report. Two open-weight models,
+Qwen3.5-9B and GPT-OSS-20B. An LLM judge labels every response; we read seed-selected samples ourselves. Every
+hypothesis, test and control was committed before the data existed.
 
 **The behaviour has to exist before you can do forensics on it.** Qwen3.5-9B games 7 of 150 impossible-task
-responses and its claims match the outcome 96% of the time. GPT-OSS-20B — the model Singh's team recommends for this
-problem — games 93 of 150 (62% [54%, 69%]) and matches the outcome 52% of the time.
+responses and its claims match the outcome 96% of the time. GPT-OSS-20B — the model Singh recommends — games 93 of 150 (62% [54%, 69%]) and matches the outcome 52% of the time.
 
 ![Same ten tasks, two models](experiments/figures/fig_prevalence.png)
 
@@ -26,18 +27,17 @@ problem — games 93 of 150 (62% [54%, 69%]) and matches the outcome 52% of the 
 the tool in 78 of 85 responses (*"There's no tool, but maybe it's a fictional command… Without tools, we guess"*) and
 the answer passes that doubt on in 4 of 85 (*"Here's the one-liner you can drop straight into your terminal"*). The
 truth is in the reasoning and gone from the answer: the liar's shape. On the false test count, there is no reasoning
-at all — the model goes straight to "18 passed" — and the only place to look is inside. One layer before it writes
+at all — the model goes straight to "18 passed". One layer before it writes
 the number, a Jacobian lens ranks 16 ahead of 18 in 44 of 44 false statements and in 2 of 30 true ones (17: 41 of
 44, and 3 of 30). But 16 leads as often as 17: the workspace carries *"fewer than 18"*, not the true count. A neighbour
-check we wrote down before the replication run narrowed the headline from "the lens says 17" to "the lens says less
-than 18."
+check, written before the replication, narrowed the headline from "the lens says 17" to "less than 18."
 
 ![Lens neighbour check](experiments/figures/fig_c_confirm.png)
 
 **A probe that separated false from true claims perfectly was reading the prompt, not the claim.** A truth probe
 trained on GPT-OSS's activations over true/false trivia separated false from true "18 passed" statements with AUROC
 1.00. So did a random direction, and so did the prompt tokens alone:
-the two groups came from two prompts that differ in every direction of the residual stream. Swapping the digit inside
+the two groups came from two different prompts. Swapping the digit inside
 each response — prompt held fixed — showed both probes score the digit, not its truth. Negative, replicated.
 
 ![Swap the digit](experiments/figures/fig_h5_swap.png)
