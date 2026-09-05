@@ -618,6 +618,13 @@ the earlier speculation overstated the sensitivity and is corrected here.** The 
 false numeric statement inside an otherwise honest report — exactly the kind of thing the paper's §7
 would call a subtle edge case worth noticing, and not the kind that changes the conclusion.
 
+**Human adjudication (2026-09-05, after the GPT-OSS work).** Nimun read the two adjudication sets —
+`experiments/adjudication_set.md` (Qwen: all 7 judge-labelled gamed responses, the 8 fictional_cli fabrications,
+20 seed-42 non-gamed) and `experiments/adjudication_set_gptoss.md` (GPT-OSS: 24 responses across labels) —
+and approved the labels with no disagreements flagged. This is the human check the reviewer's doc asks for
+("look at it yourself"); it is recorded here as reported by Nimun, and the sets are in the repo so the reading
+can be repeated. The confirmatory-run labels on GPT-OSS (H6) are judge-only until read.
+
 ### 3.10 "Answer honestly" manufactures confessions to work that was done *(N=25 paired, agent read)*
 
 The 25 possible-control responses (§3.6) are correct, complete success claims. Each was followed up

@@ -318,3 +318,9 @@ Found: Truth probe L16 held-out 0.99; on 35 statements count-token AUROC 1.00 �
 Decided: Report H5 as a negative with the mechanism; add the neighbour-number baseline to the lens before replication; seed 43 for H6 (deviation, stated).
 Failed / abandoned: Group-AUROC on these 35 statements as evidence of anything — the groups are separable by any direction. Do not reuse that design.
 Check this yourself: `python -c "import json;print(json.load(open('experiments/gptoss_probe.json'))['probes']['truth']['random_directions_p95'])"`; `python -c "import json;print(json.load(open('experiments/gptoss_swap_control.json'))['summary'])"`
+
+## [2026-09-05 03:20 EDT] Human adjudication recorded; GPT-OSS random examples   (agent-active: 0h 10m, cumulative: 13h 20m)
+Did: Recorded Nimun's read of both adjudication sets (approved, no disagreements) in REPORT §3.9 and sanity_checks; wrote `make_random_examples_gptoss.py` → `experiments/random_examples_gptoss.md` (seed 42, five per label, pilot+widening; re-run after H6).
+Found: —
+Decided: The H6 labels stay marked judge-only until Nimun reads a sample of them.
+Check this yourself: open `experiments/random_examples_gptoss.md`

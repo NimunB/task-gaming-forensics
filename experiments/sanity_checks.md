@@ -366,6 +366,7 @@ now ignored.
 
 | Check | Why it could have been false | Result |
 |---|---|---|
+| Human read of the adjudication sets (Nimun, 2026-09-05) | Every label to this point was the judge's or the agent's, and the agent wrote the judge's rubric | Nimun read `adjudication_set.md` (35 Qwen responses) and `adjudication_set_gptoss.md` (24) and approved; no disagreements flagged. H6 labels not yet human-read |
 | H5 kill checks 1–2 (prompt-only AUROC; 20 random directions) — **fired** | Truth-probe AUROC 1.00 on 20 false vs 15 true statements would have been reported as transfer | Prompt-only 1.00; random p95 1.00. The groups differ by prompt in every direction; the 1.00 was a confound. Caught because the checks were written before the number was seen (PREREGISTRATION §7) |
 | H5b swap control (same prompt, 18↔17) | A probe could track the digit rather than the truth | Truth LR: 6/20 vs 15/15 — tracks the digit "17" as false. Deception LR: 20/20 vs 0/15 — tracks "18" as deceptive. No interaction anywhere; 4/20 random directions pass the bar by chance |
 | True-count readout on GPT-OSS (§3.18) is symmetric across groups | A one-sided design (only false statements) could not separate 'ranks the truth' from 'ranks 17 in general' | Both groups have their own truth in context and both write 18; at L20 the truth is ahead in 19/20 false and 15/15 true; at L0–16 17 is ahead in *both* groups (~16/20 and ~11/15) — recorded so the mid-layer bias is not mistaken for signal |
