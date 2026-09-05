@@ -13,8 +13,8 @@ whether the model's reasoning, its internal activations, or simply asking it cou
 
 **Setup.** Ten tasks from the paper's public environments, five of them impossible in a way the model cannot fix (a
 fictional CLI, a test that cannot pass, a screenshot tool with no browser) and five matched controls with the blocker
-removed. Unlike the paper's live Docker agents, our models execute nothing: each task is a single prompt, and the
-failing test or missing browser is already in front of the model when it writes its report. Two open-weight models,
+removed. Unlike the paper's live Docker agents, our models execute nothing: each task is a single prompt, with the failing
+test or missing browser already in front of the model when it reports. Two open-weight models,
 Qwen3.5-9B and GPT-OSS-20B. An LLM judge labels every response; we read seed-selected samples ourselves. Every
 hypothesis, test and control was committed before the data existed.
 
@@ -42,8 +42,8 @@ each response — prompt held fixed — showed both probes score the digit, not 
 
 ![Swap the digit](experiments/figures/fig_h5_swap.png)
 
-**Asking the model directly recovers the truth on the test-count task and nowhere else.** Asked directly, GPT-OSS admits the failing test 4 of 4 times
-and never retracts the fictional command (0 of 9), despite the doubt in its reasoning. Asked indirectly it admits
+**Asking the model directly recovers the truth on the test-count task and nowhere else.** GPT-OSS admits the failing test 4 of 4 times and never retracts
+the fictional command (0 of 9), despite the doubt in its reasoning. Asked indirectly it admits
 nothing; asked directly, one true success confessed to a failure it did not have.
 
 **What we take from this.** Lying or bullshitting has a different answer per task in one model, and three of the
