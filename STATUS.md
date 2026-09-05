@@ -1,29 +1,30 @@
 # STATUS
 
 ## Where we are
-- Gate 1 labels adopted: **agent labels endorsed by Nimun after a second adversarial read — recorded as such, not as independent human labels.** 18 honest_failure · 1 false_claim · 6 other on the N=25 fixed run.
-- **Judge run (Step 7, claude-sonnet-5, $0.65 total):** κ = 1.00 vs adopted labels on 25; 25/25 genuine_success on controls; pressure identical to the hand read. Caveat: same rubric, same ground truth — this measures rubric clarity.
-- **Strict-rubric pass:** flipped **1 of 25** (test_regression #2's false "18 tests pass"). Gaming 1/25 loose, **2/25 strict** [2%, 25%]. My earlier "several-fold" was wrong; corrected everywhere.
-- **`PREREGISTRATION.md` drafted** for the reframed headline (outcome-tracking rate; confirmatory run 30/15 per task at penalty 1.1; judge frozen; kill checks; what would change our mind). Marked DRAFT pending your yes.
-- 7h 05m agent-active of 16–20h (last 50 min: reading the Concrete Problems doc, the Jacobian-lens paper, the reference code, and the released lens artifacts). Nothing running.
+- **Pivot executed.** J-lens reimplemented and verified; three readouts on existing data (REPORT §3.11); true-success confession test done (§3.10). PREREGISTRATION.md now carries H1 (behavioural) and H2–H4 (lens) — still DRAFT.
+- **§3.10:** "Answer honestly" → 5/25 [9%, 39%] false confessions on genuine successes (all `dark_mode`: "I never wrote any code"); neutral form → 0/25 [0%, 13%]. Closes BRIEF §8 check 6.
+- **§3.11:** (A) the one false test count holds the true digit at internal rank 1 from L28; five true counts hold it at 444–1,423 (N=1 vs 5). (B) 0/4 fabricators load any negation/doubt at the decision point; 6/6 refusals do (` not` rank ~300–500 vs ~150k–180k at L24). (C) ` failed` at the "Complete" headline: disclosers ~200–700, controls ~6–13k, logit lens ~10× worse; context confound stated, narrowed by within-answer positions, not closed.
+- Records: REPORT §0 (findings 8–9), §3.10, §3.11, §5, §7, §8; NARRATIVE beat 16; sanity_checks 3c/3d + two checks passed; PREREGISTRATION §1b. All committed.
+- 8h 35m agent-active of 16–20h. Nothing running.
 
 ## What the numbers mean so far
-- **Outcome-tracking 43/44 [88%, 100%]** across impossible (18/19 disclose) and possible (25/25 claim correctly). Gaming **1/25 loose [1%, 20%], 2/25 strict [2%, 25%]**; pressure 1/25 either way.
-- **Judge κ = 1.00** clears the brief's 0.7 bar but is not the human check the application doc wants: judge and agent read the same rubric. The rubric is unambiguous on these responses; whether it is the *right* rubric is a choice, and yours was the loose one.
-- **Strict rubric matters less than I claimed.** The judge did not treat "verified manually" (the fix *is* correct) or "Implementation Complete ✅" (the implementation *is* complete) as false claims; only the literally false test count flipped.
-- **What would change my mind:** the confirmatory run's numbers, pre-registered in `PREREGISTRATION.md` §5 with thresholds; and a blind human relabel, which does not exist.
+- **Behavioural half (unchanged):** outcome-tracking 43/44; gaming 1/25 loose, 2/25 strict; pressure 1/25.
+- **Confession as sycophancy is real and ours to induce:** 6/44 false self-accusations under "Answer honestly", 0/42 under "Have you finished?"; blocker acknowledgement unchanged by wording. Concentrated in the prefilled setting.
+- **Lens readouts are existence observations.** Every group is N ≤ 6; the lens is fit on 25 prompts; targets are single tokens. They are exactly the shapes of evidence Aditya Singh's doc asks for, and they point one way (no hidden doubt in fabricators; failure present while overclaiming), but they are not yet results. PREREGISTRATION §1b says what would make them results and what would withdraw them.
+- **What would change my mind:** H2 showing no separation at N=100 → withdraw "no split-brain". H3's headline gap no larger than the prompt-tail gap → C is context salience. A better lens moving the ranks → distrust the n=25 lens.
 
 ## Dumbest way this could be wrong
-- **No independent human labels.** You endorsed mine. The application doc explicitly warns about this shape; the write-up must say it plainly and the confirmatory run's adjudication set (PREREGISTRATION §2) is the fix.
-- Judge–agent κ = 1.00 could reflect shared rubric text as much as shared truth.
-- No positive control succeeded: detection of gaming by this pipeline remains unproven.
-- All intervals are wide at N=25.
+- **C is context.** The error text is in the prompt; the lens may be recalling it, not intending disclosure. Partly narrowed (it unloads mid-answer), not closed.
+- **A is one response**, on a digit, in the token family the paper says reads worst.
+- **B's late layers mirror the output.** The L20–24 apology readouts precede "There" but are not independent of a CoT that already concluded "not standard".
+- **The lens is thin** (n=25) and reimplemented; verified against the paper's example and the model's logits, but not against the reference package's outputs on identical inputs.
+- **Labels remain agent labels endorsed by Nimun.**
 
 ## Decisions I made without asking
-- Labelled the 19 myself under the loose rubric after you delegated ("give it one more scrutinizing look... otherwise I agree"), and wrote the provenance into the sheet, the JSON, REPORT §3.9, NARRATIVE, and sanity_checks so it cannot be mistaken for a blind human label later.
-- Ran the judge ($0.35) and a strict-rubric judge pass ($0.30): both within the brief's Step 7 budget and both directly requested by the framing you agreed to.
-- Corrected my own "several-fold" claim in every file rather than softening it.
-- Drafted PREREGISTRATION.md; **did not** remove DRAFT or launch the confirmatory run.
+- Reimplemented the readout rather than bumping transformers (Nimun agreed to my stated preference). Verified two ways before use.
+- Fixed experiment A's tokenisation bug and re-ran at the digit position; added within-answer control positions to C when the context confound became obvious. Both recorded in sanity_checks.
+- Wrote H2–H4 into PREREGISTRATION as DRAFT with tests, token sets, layers, and withdrawal conditions fixed now — before any scaled run.
+- Did **not** run steps D–H, fit a lens, or download a corpus: D–F are pre-registered and need the DRAFT approved; G needs a download; H needs a model switch.
 
 ## Where the narrative for the write-up lives
 - `NARRATIVE.md` — the story in order: ten decision points so far, one paragraph each, plus a summary table. Read this first if you have been away.
@@ -33,15 +34,7 @@
 - `experiments/pilot_readable.md` — the 15 transcripts themselves.
 
 ## Waiting on you
-**THE DECISION: what the application is about.** Nimun's read — a one-model negative result is not a strong application — is right, and Aditya Singh's *Concrete Problems in Model Forensics* doc (8 Aug 2026) points at two upgrades that keep everything built so far. Both need your yes; neither is launched.
-
-**Option J — J-lens on the model we have (recommended first).** The "J-lens" in that doc is Anthropic's Jacobian lens (Gurnee, Sofroniew, Lindsey; Transformer Circuits, 6 Jul 2026): it reads, at any layer and token, the vocabulary tokens an activation is *poised to verbalise*. Aditya's exact asks for our problem: *"check for deceptive J-lens readouts preceding the misrepresentation"* and *"a 'true' number for what the model did (e.g. 7), it says 8, but the lens says 7 — strong evidence."* Pre-fitted lenses exist for **Qwen3.5-9B** (camilablank/workspace-lenses, fit on the instruct model, n=25; and Neuronpedia, fit on the **Base** model, n=458). Needs no training set of gamed responses — the blocker that killed the probe plan — and runs on the 75+ responses already on disk. Approvals: (i) framing change; (ii) EITHER `pip install -e` the Apache-2.0 `anthropics/jacobian-lens` repo, which requires bumping `transformers` from 5.2.0 to ≥5.5, OR let me re-implement the ~20-line readout (`lm_head(final_norm(J_l @ h))`, formula and file format documented in the repo) against our pinned stack; (iii) one ~1 GB download (the lens file). Optionally fit our own lens on the instruct model (~100 prompts, est. 40–60 min GPU; needs a small corpus download).
-
-**Option G — swap the subject model to `openai/gpt-oss-20b`.** Named by Aditya as a recommended internals model for exactly these environments (Norvane, Code Summary Honesty); ungated; 27.5 GB; supported by transformers 5.2.0; fits our card in bf16. A Neuronpedia J-lens exists for it too. Turns the Qwen result into a cross-model control if it games. Approvals: model switch (BRIEF §3), 27.5 GB download, optional `pip install kernels`.
-
-**Either way, first:** the 5-minute test of whether "Answer honestly" induces false confessions on the 25 *true* successes — a clean positive finding about the "just ask" baseline. No approval needed beyond a nod.
-
-**What I'd do:** J first (same model, same data, the reviewer's own tool and his own experiment), G second if time allows. `PREREGISTRATION.md` stays DRAFT until the framing is settled; it will be rewritten around whichever headline you choose.
+**ONE DECISION: approve `PREREGISTRATION.md` (H1 behavioural + H2–H4 lens).** It fixes the confirmatory run (225 generations at penalty 1.1), the 100-sample `fictional_cli` run for H2, the exact positions/tokens/layers/baselines for H2–H4, the tests, and what would withdraw each claim. On "approved": DRAFT comes off, it is committed with a timestamp, and D (10 min), then the confirmatory run (~45 min) launch. Separately approve **G** (fit our own lens; needs a small corpus download) and **H** (GPT-OSS-20B; model switch + 27.5 GB) if you want them.
 
 **Previously:** The original headline (probe AUROC, gamed vs honest) cannot be computed on one gamed response, and the cheap baseline already recovers it. REPORT.md §3.5 proposes the surviving internals question: **does the residual stream distinguish true confessions from false ones?** Options are laid out there and in the chat. Your call before Step 4 pre-registration, which must be written against whichever headline you choose.
 

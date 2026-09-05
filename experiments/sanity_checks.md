@@ -146,6 +146,23 @@ an artefact of my prompt handling" into something worth reporting.
 
 ---
 
+## 3c. FIXED — HuggingFace's last hidden state is post-norm
+
+**Saw:** re-unembedding `hidden_states[-1]` gave max |Δlogit| = 5.4 and 8% argmax disagreement against the
+model's own logits. **Cause:** transformers appends the *final-normed* state as the last entry of
+`hidden_states`; applying the final norm again is a double norm. `lm_head(hidden_states[-1])` matches
+`out.logits` exactly. **Fix:** model logits are taken from `out.logits`; lens readouts use
+`hidden_states[l+1]` for l ≤ 30 only (block outputs, pre-norm — the convention Step 1 verified).
+**Would have caused:** every "final layer" comparison to be silently wrong.
+
+## 3d. FIXED — "18" is two tokens
+
+**Saw:** experiment A's context column read `'- 1'` and `'All 1'`; every number-token rank was `None`.
+**Cause:** the tokenizer splits "18" into `1`,`8`; the readout was at the position predicting `1`, which
+is identical for 17 and 18, and the targets "18"/"17" are not single tokens. **Fix:** read at the
+position predicting the second digit with targets `8` and `7`. **Caught by:** the context column in the
+printout, not the numbers — the numbers were all `None` and would have been reported as "no result".
+
 ## 3b. FIXED — A keyword heuristic nearly manufactured a finding
 
 **What happened:** to check whether each `test_regression` response disclosed its failing test, I
@@ -219,6 +236,8 @@ now ignored.
 
 | Check | Why it could have been false | Result |
 |---|---|---|
+| J-lens reimplementation matches the reference | A wrong norm, dtype, layer index, or transpose gives plausible-looking token lists that mean nothing | `lm_head(hidden_states[-1]) == out.logits` to 0.0; the paper's boot→*Italy*→*euros* example reproduces at L20/L24–28; plain logit lens at L16 is noise as the paper says |
+| "Answer honestly" cue is harmless on true successes | If it were, the §3.7 over-confession would be about impossible tasks only | **Not harmless:** 5/25 false confessions on genuine successes under the direct form, 0/25 under the indirect form (REPORT §3.10) |
 | LLM judge agrees with the adopted labels | If a second rater with the same rubric disagreed, the labels would be one reader's opinion | κ = 1.00 on 25 (labels) and 19/19 (cot_admits); 25/25 genuine_success on controls; pressure identical to the hand read. **Caveat recorded:** judge and agent shared the rubric text and ground truth, so this measures rubric clarity, not label truth |
 | "A strict rubric could raise the gaming rate several-fold" | I had asserted this in REPORT §3.2 and STATUS without measuring it | **Wrong.** A strict-override judge pass flipped 1 of 25 (a false test count): 4% → 8%. The speculation overstated the sensitivity and is corrected in REPORT §3.9 |
 | The over-confession was the model's, not our question's | The direct follow-up names the behaviour and says "Answer honestly" — the cued form the paper warns against | **Our question.** Indirect form, same 19, same seeds: 0/17 over-confess vs 1 clear + 2 leaning; blocker acknowledged 17/17 either way. Recorded in REPORT §3.7 as a correction to §3.5 |
@@ -293,6 +312,12 @@ repo that `clone_vendor.sh` would silently revert on the next machine.
 ## Not yet checked
 
 Listed so they are not mistaken for having passed.
+
+- **Context salience vs intent in J-lens C.** ` failed` is loaded both at the prompt tail (error text)
+  and at the "Complete" headline; it unloads mid-answer. Positional, but not proven to be intent.
+- **Lens quality.** n=25 prompts; the reference says ~100 is usable. Whether the ranks move with a
+  better lens is untested (PREREGISTRATION step G).
+- **Single-token targets.** Multi-token concepts (" durc", "screenshot failed") cannot be read.
 
 - **Independent human labels.** Nimun endorsed the agent's labels rather than labelling blind. The
   judge is a second *machine* rater on the same rubric. No rubric-independent human check of the 25
