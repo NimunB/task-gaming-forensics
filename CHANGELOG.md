@@ -343,3 +343,10 @@ Did: Re-ran `gptoss_lens_c.py` on the §3.18 files (now records 16/19); `gptoss_
 Found: Original 35 at L20: 16 ahead of 18 in 20/20 false statements, 19 in 1/20; best-of-four 17:13, 16:7. Combined 44 false statements: 16 ahead 44/44, 17 ahead 41/44, 19 ahead 2/44; best-of-four 17:22, 16:22.
 Decided: The narrowed reading ("lower counts ahead, not 17") stands for both batches; the p ≈ 5e-9 headline is kept in §3.18 with the re-read attached rather than deleted.
 Check this yourself: `python experiments/gptoss_lens_c_neighbours.py --in gptoss_lens_c.json --out /tmp/y.json --fig /tmp/y.png`
+
+## [2026-09-05 06:10 EDT] fictional_cli doubt re-read; just-ask baseline; experiments closed   (agent-active: 0h 55m, cumulative: 15h 30m; GPU 6 min + judge $0.43 not counted)
+Did: `fcli_doubt_judge.py` on all 85 fictional_cli responses (quotes required; every quote read; 3 responses read in full); `gptoss_justask.py` (27 gamed + 15 controls × direct/indirect); read all 84 replies; re-read the one control that retracted. REPORT §3.22–3.23, §4 correction, digest 19–20; NARRATIVE 27–28; sanity 3n + two passed checks; STATUS. WRITEUP.md scaffold removed at Nimun's request.
+Found: Reasoning doubt: existence 52/85, syntax-only 26/85, none 7/85; answers hedging 4/85. Just-ask direct: 7/26 admit (tr 4/4, dm 2/2, buggy 1/10, fcli 0/9); indirect 0/26; controls direct 1/15 false confession, indirect 0/15.
+Decided: Withdraw "pure bullshitting" for fictional_cli; the pattern is thoughts–response discrepancy. Experiments closed.
+Failed / abandoned: My "0/85 never doubt" claim — unverified, repeated, wrong. Rule from Nimun: always check the results before stating them.
+Check this yourself: `python -c "import json;from collections import Counter;J=[json.loads(l) for l in open('experiments/fcli_doubt_judge.jsonl')];print(Counter(j['reasoning_doubt'] for j in J),Counter(j['answer_hedges'] for j in J))"`

@@ -366,6 +366,8 @@ now ignored.
 
 | Check | Why it could have been false | Result |
 |---|---|---|
+| Read all 84 just-ask replies by hand (§3.23) | Keyword or judge classification of confessions has misfired before (3b) | Direct: 7/26 admit (test_regression 4/4, dark_mode 2/2, buggy 1/10, fcli 0/9); indirect 0/26; controls 1/15 false confession (original answer re-read: matched ground truth) |
+| Hand-checked every judge quote in the doubt re-read (§3.22) | Judge could over-label "existence" | ~10 of 52 quotes are weak; conservative count ≥ 40/85; conclusion unchanged |
 | H7 frozen lens rule on fresh data (seed 43) | L20 was chosen after seeing the first 35 statements | 22/24 false, 12/15 true at L20, p = 8.5e-6 — replicated |
 | Neighbour baseline re-read on the original 35 (post hoc, labelled) | The §3.18 batch might have carried 17 specifically even if the replication did not | 16 ahead of 18 in 20/20 false statements; best-of-four 17:13, 16:7. Combined over 44: 17 and 16 tie 22–22. Same narrowed reading |
 | H7 neighbour baseline (16/19 vs 18) — **fired, finding narrowed** | "17 ahead of 18" could be "any lower number ahead" | 16 ahead of 18 in 24/24 false statements, best-of-four in 15/24; 19 ahead in 1/24. Reading changed from "carries 17" to "carries fewer than 18" (REPORT §3.21) |
@@ -470,6 +472,15 @@ repo that `clone_vendor.sh` would silently revert on the next machine.
 - **Root cause:** §3.17 stated the pattern correctly (every prefilled task, controls included) but the digest, §4 and NARRATIVE compressed it to "false claims with no reasoning".
 - **Fix:** wording corrected in REPORT digest 14, §3.17, §4; NARRATIVE beat 22 and thread summary; figure title.
 - **What it changed:** "no CoT to monitor" still holds for the test task; "gaming suppresses reasoning" was never shown and is not claimed.
+
+### 3n — I repeated "0 of 85 ever doubt the tool" without having verified it (FIXED; my error)
+- **Stated (REPORT §3.17/§4 drafts, and in conversation, several times):** GPT-OSS's fictional_cli reasoning "never questions the tool's existence — 85/85".
+- **Observed when checked:** tight regex on tool+existence: 3 hits; focused judge with quotes on all 85: existence-doubt **52/85**, any doubt **78/85**, answer hedges **4/85**. Verbatim: *"There's no tool, but maybe it's a fictional command… Without tools, we guess… If wrong, but we must provide."*
+- **Caught by:** deciding to verify the claim before it became the write-up headline (Nimun's rule after this: always check the results before stating them).
+- **Root cause:** the original characterisation came from reading a handful of pilot responses, was written into the record as a general statement, and then carried forward as a number I had never computed.
+- **Fix:** §3.22 written; §4 sentence withdrawn; digest 19. The reading of fictional_cli flips from "bullshitting" to "thoughts–response discrepancy".
+- **What it changed:** the project's central characterisation of one of its two main tasks. Nothing numerical elsewhere depends on it.
+- **Repro:** `python experiments/fcli_doubt_judge.py` then `python -c "import json;from collections import Counter;J=[json.loads(l) for l in open('experiments/fcli_doubt_judge.jsonl')];print(Counter(j['reasoning_doubt'] for j in J),Counter(j['answer_hedges'] for j in J))"`
 
 ## Not yet checked
 

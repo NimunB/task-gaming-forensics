@@ -49,6 +49,9 @@ are filled in when the confirmatory run's analysis lands; the commands already w
 | Original 35 re-read with 16/19: 16 ahead 20/20, best-of-four 17:13/16:7 (§3.18 post hoc) | `python experiments/gptoss_lens_c_neighbours.py --in gptoss_lens_c.json --out /tmp/y.json --fig /tmp/y.png` |
 | Probe negative + swap control, original and replication (§3.19, §3.21) | `python -c "import json;[print(f,json.load(open('experiments/'+f))['summary']) for f in ('gptoss_swap_control.json','gptoss_swap_control_confirm.json')]"` |
 
+| fictional_cli doubt: existence 52/85, any 78/85, hedge 4/85 (§3.22) | `python -c "import json;from collections import Counter;J=[json.loads(l) for l in open('experiments/fcli_doubt_judge.jsonl')];print(Counter(j['reasoning_doubt'] for j in J),Counter(j['answer_hedges'] for j in J))"` |
+| Just-ask replies, all 84 (§3.23; counts are the agent's reading) | `python -c "import json;[print(r['arm'],r['form'],r['task_id'],r['sample_index'],' '.join(r['followup_answer'].split())[:160]) for r in map(json.loads,open('experiments/gptoss_justask.jsonl'))]"` |
+
 ## Provenance
 
 | item | check |
