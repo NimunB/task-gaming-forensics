@@ -32,15 +32,15 @@ print("' failed' rank at the position after the count (median, J-lens L20): fals
 # ---- figure: per-layer fraction of statements where the TRUE count is ranked ahead, false vs true statements ----
 S1,S2="#2a78d6","#eb6834"; SURF,INK,INK2,MUTED,GRID,AXIS="#fcfcfb","#0b0b0b","#52514e","#898781","#e1e0d9","#c3c2b7"
 plt.rcParams.update({"font.family":"sans-serif","font.size":10,"axes.edgecolor":AXIS,"axes.labelcolor":INK2,"xtick.color":MUTED,"ytick.color":MUTED,"text.color":INK})
-fig,ax=plt.subplots(figsize=(8,4.6),dpi=160); ax.set_facecolor(SURF); fig.set_facecolor(SURF)
+fig,ax=plt.subplots(figsize=(9,5.6),dpi=160); ax.set_facecolor(SURF); fig.set_facecolor(SURF)
 for grp,col,label,key,n in (("false",S1,"false statements: wrote 18, truth 17 — share with 17 ranked ahead","false_stmts_with_17_ahead",len(F)),("true",S2,"true statements: wrote 18, truth 18 — share with 18 ranked ahead","true_stmts_with_18_ahead",len(T))):
     for kind,dashed in (("j",False),("ll",True)):
         ys=[int(out["per_layer"][str(l)][kind][key].split("/")[0])/n for l in layers]
-        ax.plot(layers,ys,color=col,linewidth=2,linestyle="--" if dashed else "-",label=f"{label} (n={n}) — {'Jacobian lens' if kind=='j' else 'logit lens'}")
+        ax.plot(layers,ys,color=col,linewidth=2,linestyle="--" if dashed else "-",label=f"{'False' if grp=='false' else 'True'} statements (n={n}) — {'Jacobian lens' if kind=='j' else 'logit lens'}")
         if not dashed: ax.plot([layers[-1]],[ys[-1]],marker="o",markersize=8,markerfacecolor=col,markeredgecolor=SURF,markeredgewidth=2,linestyle="none")
-ax.set_ylim(0,1.05); ax.set_xticks(layers); ax.set_xlabel("decoder layer (readout at the position predicting the count token)"); ax.set_ylabel("share of statements where the TRUE count outranks the other")
+ax.set_ylim(0,1.05); ax.set_xticks(layers); ax.set_xlabel("decoder layer"); ax.set_ylabel("share where the TRUE count outranks the other")
 for s in ("top","right"): ax.spines[s].set_visible(False)
-ax.grid(True,axis="y",color=GRID,linewidth=1); ax.set_axisbelow(True); ax.legend(frameon=False,fontsize=8,loc="lower left")
-ax.set_title("GPT-OSS writes '18 passed' with no reasoning — its workspace ranks the true count, 17, ahead", loc="left", fontsize=11.5, pad=14)
-ax.text(0,1.02,"gpt-oss-20b, test_regression. Position predicting the count token. Blue = false statements (truth 17); orange = true statements (truth 18). Lens fit by Neuronpedia (457 prompts).",transform=ax.transAxes,fontsize=8.5,color=INK2)
+ax.grid(True,axis="y",color=GRID,linewidth=1); ax.set_axisbelow(True); ax.legend(frameon=False,fontsize=8.5,loc="upper center",bbox_to_anchor=(0.5,-0.16),ncol=2)
+ax.set_title("Before GPT-OSS writes a false '18 passed', its workspace ranks the true count ahead", loc="left", fontsize=11.5, pad=38)
+ax.text(0,1.025,"gpt-oss-20b, test_regression, readout at the position predicting the count token. False statements: wrote 18, truth 17 (share with 17 ahead).\nTrue statements: wrote 18, truth 18 (share with 18 ahead). At layer 20: 19/20 vs 15/15, Fisher p = 4.9e-9. Lens: Neuronpedia (457 prompts).",transform=ax.transAxes,fontsize=8.2,color=INK2,va="bottom")
 fig.tight_layout(); (ROOT/"experiments"/"figures").mkdir(exist_ok=True); fig.savefig(ROOT/"experiments"/"figures"/"fig_c_true_count.png"); print("wrote figures/fig_c_true_count.png")
