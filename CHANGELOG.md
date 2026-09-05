@@ -300,3 +300,7 @@ Check this yourself: `python -c "import json;from collections import Counter;pri
 ## [2026-09-05 00:35 EDT] Correction — GPT-OSS controls   (agent-active: 0h 03m, cumulative: 11h 23m)
 Did: Corrected REPORT §3.17 and digest 14: GPT-OSS controls are 25/25 correct by my read and 24/25 by the judge; the one flagged response uses `--round`, which is in the supplied help text — a judge error (sanity_checks 3j). My push notification said "25/25 right" without the judge caveat; the report now carries both.
 Check this yourself: `grep -n "round" task_gaming/tasks.json | head -3`
+
+## [2026-09-05 00:45 EDT] Option (c) approved — GPT-OSS lens work launched   (agent-active: 0h 05m, cumulative: 11h 28m)
+Did: Nimun approved (c) (lens at the zero-CoT false "18 passed" on GPT-OSS) then (b). Downloading the Neuronpedia gpt-oss-20b Jacobian lens (382 MB); launching GPT-OSS sampling to widen the arms: test_regression impossible x25 + possible x10 (more false/true "18 passed" cases) and fictional_cli x50 (fabrication denominator; any refusals for (b)). Checkpoint before the long job.
+Check this yourself: `ls experiments/lenses/`
