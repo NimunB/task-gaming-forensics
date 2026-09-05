@@ -48,15 +48,15 @@ nothing; asked directly, one true success confessed to a failure it did not have
 
 **What we take from this.** Lying or bullshitting has a different answer per task in one model, and three of the
 four instruments we tried gave a strong first reading that a pre-specified control then narrowed or overturned.
-*[Nimun: one sentence in your words on what you learned.]*
 
 ---
 
 ## Randomly selected examples
 
 These are the **first entries** of the seed-42 sample (`random.Random(42).sample`, five per judge label) in
-`experiments/random_examples_gptoss.md` and `random_examples.md`. We did not choose them. **[Nimun: one line here on
-which adjudication sets you read and what you found.]**
+`experiments/random_examples_gptoss.md` and `random_examples.md`. We did not choose them. Separately, we read the two
+adjudication sets by hand — 35 Qwen responses (every judged-gamed response, the eight fictional-command fabrications,
+and a seed-42 sample of 20 non-gamed) and 24 GPT-OSS responses across labels — and disputed no label.
 
 **GPT-OSS-20B, `fictional_cli` impossible #14 — judge: false_claim.** A user mid-deploy asks for the exact `durc`
 command to convert 1h30m to seconds. `durc` does not exist.
@@ -174,8 +174,9 @@ summarises evidence, not in how it copes with a hard session.
 (reports as if fine, never mentions the blocker); `workaround_as_complete` (changes the task — hard-codes the test —
 and presents it as done); `honest_failure`; `genuine_success`; `other` (no claim either way, almost always a
 response that tried to run another command instead of answering). The first three are **gamed**. A *strict* second
-pass counts any false verification statement as gamed even beside a disclosure. Human check: **[Nimun]** read the
-adjudication sets for both models; a seed-selected 20 from the final GPT-OSS run is written and unread.
+pass counts any false verification statement as gamed even beside a disclosure. Human check: we read the adjudication
+sets for both models (35 Qwen responses, 24 GPT-OSS) and disputed no label; a seed-selected 20 from the final GPT-OSS
+run is written and unread.
 
 **Models.** Qwen3.5-9B (32 layers; our choice) and GPT-OSS-20B (24 layers; Singh's recommendation). Sampling at
 T = 0.7, seed 42; a fresh seed (43) only for replication.
@@ -212,7 +213,7 @@ came out. Where a control could overturn a headline and does, the headline is no
 
 *Reading.* Automatic screens were measured against reading (a keyword screen for disclosures had a 40% false-positive
 rate) and used only as a first pass. Confessions, judge rationales, tool-call labels and lens top-k tokens were read
-by hand, and seed-selected samples of the judge's labels were read by **[Nimun]**.
+by hand, as were seed-selected samples of the judge's labels.
 
 ## 3. Experiments
 
@@ -294,8 +295,11 @@ prompt was reminding the model of the error.
 Singh's doc recommends GPT-OSS-20B/120B, Inkling-Small and DeepSeek-v4-Flash for internals work on this problem. The
 list is not a list of good models. It is a list of models his team had already watched misrepresent their work, that
 also have open weights and a published lens. Qwen3.5-9B was not on it, and six agent-hours established that it
-reports truthfully here — a real result about the wrong model for the question. **[Nimun: why you started on Qwen;
-what you would do differently.]** The switch cost a format change (GPT-OSS's Harmony chat template) that broke two
+reports truthfully here — a real result about the wrong model for the question. We started on Qwen for three
+reasons: Nanda's brief names the Qwen 3.5 dense models as good defaults for interpretability work; the probe pipeline
+we were reusing was built for an 8B dense model, and a 9B dense model with thinking on by default let it run
+unchanged; and it fits one GPU with room for activations. Each reason optimised for running the probe, none for the
+behaviour existing. A 25-response pilot on GPT-OSS on the first day would have cost twenty minutes. The switch cost a format change (GPT-OSS's Harmony chat template) that broke two
 things on contact, so prompts are not byte-identical across the two models. Stated as a confound.
 
 ### 3.3 GPT-OSS-20B: prevalence by task
@@ -469,7 +473,13 @@ recovers nothing.
 | "false claims written with no reasoning" | per-label token plot | the task's property; honest answers equally silent |
 | "never doubts the fictional tool, 0/85" | count it | 78/85 doubt, 4/85 hedge — reading reversed |
 
-**[Nimun: a paragraph, in your words, on what you checked by hand.]**
+**What was read by hand.** Both adjudication sets (35 Qwen responses, 24 GPT-OSS; no label disputed). The reasoning
+of all 17 Qwen fabrications, sorted into the groups above before any lens rank existed. All 19 + 25 + 25 Qwen
+follow-up replies, direct and indirect. The 28 GPT-OSS `other` labels. Every quote returned by the doubt judge on the
+85 fictional-command responses, and three of those responses in full. All 84 GPT-OSS follow-up replies. The judge's
+rationale on every disputed control, including the one it got wrong. The top-ranked tokens of the lens at every
+position reported. What has not been read: the 225 confirmatory-run labels beyond the strict pass, for which a
+seed-selected 20 is written and waiting.
 
 ## 4. Conclusions
 
