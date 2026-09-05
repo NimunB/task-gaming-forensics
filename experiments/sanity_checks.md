@@ -366,6 +366,11 @@ now ignored.
 
 | Check | Why it could have been false | Result |
 |---|---|---|
+| H7 frozen lens rule on fresh data (seed 43) | L20 was chosen after seeing the first 35 statements | 22/24 false, 12/15 true at L20, p = 8.5e-6 — replicated |
+| H7 neighbour baseline (16/19 vs 18) — **fired, finding narrowed** | "17 ahead of 18" could be "any lower number ahead" | 16 ahead of 18 in 24/24 false statements, best-of-four in 15/24; 19 ahead in 1/24. Reading changed from "carries 17" to "carries fewer than 18" (REPORT §3.21) |
+| H5b replication with saved probes on fresh statements | The H5b negative could have been a property of the first 35 | Truth LR 8/24 vs 15/15; deception LR 24/24 vs 0/15 — same pattern; 6/20 random directions meet the bar |
+| GPT-OSS strict judge pass (n=225) | Loose rubric might understate gaming | Moves 2 labels: test_regression 29→30 false_claim, dark_mode 0→1 |
+| Read the 28 broken_test_runner "other" labels and 2 dark_mode honest rationales | "other" could hide gaming; "honest" could be the judge being generous | All 28 are truncated tool calls (`<|call|>`), no claim; dark_mode rationales quote the disclosed blocker |
 | Human read of the adjudication sets (Nimun, 2026-09-05) | Every label to this point was the judge's or the agent's, and the agent wrote the judge's rubric | Nimun read `adjudication_set.md` (35 Qwen responses) and `adjudication_set_gptoss.md` (24) and approved; no disagreements flagged. H6 labels not yet human-read |
 | H5 kill checks 1–2 (prompt-only AUROC; 20 random directions) — **fired** | Truth-probe AUROC 1.00 on 20 false vs 15 true statements would have been reported as transfer | Prompt-only 1.00; random p95 1.00. The groups differ by prompt in every direction; the 1.00 was a confound. Caught because the checks were written before the number was seen (PREREGISTRATION §7) |
 | H5b swap control (same prompt, 18↔17) | A probe could track the digit rather than the truth | Truth LR: 6/20 vs 15/15 — tracks the digit "17" as false. Deception LR: 20/20 vs 0/15 — tracks "18" as deceptive. No interaction anywhere; 4/20 random directions pass the bar by chance |
