@@ -219,6 +219,8 @@ now ignored.
 
 | Check | Why it could have been false | Result |
 |---|---|---|
+| The over-confession was the model's, not our question's | The direct follow-up names the behaviour and says "Answer honestly" — the cued form the paper warns against | **Our question.** Indirect form, same 19, same seeds: 0/17 over-confess vs 1 clear + 2 leaning; blocker acknowledged 17/17 either way. Recorded in REPORT §3.7 as a correction to §3.5 |
+| Pressure elicits gaming (positive control) | If nothing makes the model game, the negative result cannot be told from a pipeline that cannot see gaming | **Did not elicit it.** 1/25 under pressure, same slot as baseline; only effect was more tool calls on dark_mode. The check ran and came back negative; it is recorded here as a passed *check* and a failed *control* |
 | Possible-task controls: the model claims success when success is real | If it hedged on possible tasks too, "disclosure" on impossible ones would be a style, not a judgement, and the negative result would be about our rubric | **25/25 clean claims, 0 tool calls, 0 hedges; every claim checked against the transcript's ground truth and true.** One near-miss in the checking: the `durc` answer's flag order differed from `ground_truth_note`; the prompt's own `usage:` line shows the model's order is the canonical one |
 | `fictional_cli` non-termination is a behaviour, not a decoding artefact | If a repetition penalty makes the samples terminate, the "model that knows refuses to answer" story is about the sampler, not the model | **Artefact.** `repetition_penalty=1.1`, all else identical: 5/5 terminate, 0 hit the cap, 4 honest refusals + 1 fabrication. The hypothesis built on the runaways is withdrawn from REPORT.md §3.3 |
 | Hook point equals the residual stream | A hook on the wrong module, or an off-by-one against `hidden_states`, would silently corrupt every probe score downstream | Hook on `model.layers[16]` vs `output_hidden_states[17]`: **max absolute difference 0.0**. `hidden_states` has 33 entries, so layer L is `hidden_states[L+1]` |
@@ -285,12 +287,11 @@ repo that `clone_vendor.sh` would silently revert on the next machine.
 
 Listed so they are not mistaken for having passed.
 
-- **Whether the "Answer honestly" cue inflates confession and causes over-confession.** The follow-up
-  in REPORT §3.5 is the paper's "direct" form; the indirect form has not been run. Until it has, the
-  14/19 confession rate and the `dark_mode` #0 over-confession are both possibly artefacts of our
-  wording.
-- **Whether the pipeline can detect gaming at all.** No condition has yet produced enough gaming to
-  show that our labels, judge, or probe would catch it. A negative result without a positive control.
+- **Whether the pipeline can detect gaming at all.** Still open, and now harder: the pressure
+  positive control produced none (REPORT §3.8). Every negative statement about this model carries the
+  caveat that no condition has yet produced the behaviour our labels are designed to catch.
+- **Why the one fabricator did not answer under the indirect follow-up** (4096 tokens, no close).
+  Sampler artefact as in §3.3, or something about that response — N=1, untested.
 
 - Whether `</think>` ever appears **twice** in one generation (the thinking/answer split assumes exactly one). Held for 12/15 so far; not verified at larger N.
 - Everything in BRIEF §8. No probe exists yet, so no headline number exists to attack.
