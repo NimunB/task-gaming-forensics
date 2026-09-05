@@ -223,3 +223,8 @@ Found:
 Decided: Recommended Option J first (J-lens on Qwen3.5-9B with the existing 75+ responses), Option G second; neither launched — framing change, installs, and downloads all need Nimun's yes. Left PREREGISTRATION.md as DRAFT to be rewritten around the chosen headline.
 Failed / abandoned: none. Note the J-lens package's transformers pin conflicts with ours; the readout is small enough to re-implement against the reference formula if Nimun prefers not to bump.
 Check this yourself: `curl -sL https://huggingface.co/api/models/camilablank/workspace-lenses?blobs=true | python3 -c "import json,sys;[print(s['rfilename']) for s in json.load(sys.stdin)['siblings'] if 'qwen3.5-9b' in s['rfilename']]"`
+
+## [2026-09-04 23:35 EDT] Pivot approved — launching   (agent-active: 0h 10m, cumulative: 7h 15m)
+Did: Nimun approved Option J (J-lens on Qwen3.5-9B), the reimplementation route (no `transformers` bump, no install), the ~1 GB lens download, and the true-success confession test. Wrote `experiments/step2d_controls_confession.py` (direct and indirect follow-up on the 25 possible-control responses, paired seeds) and launched it. Started the lens download. Checkpoint before the long job per CLAUDE.md 5(c).
+Decided: Take the reimplementation route: the readout is `lm_head(final_norm(J_l @ h))` with `J` and `source_layers` in a documented `lens.pt`; ~20 lines against our pinned stack beats bumping a pin that every existing script depends on. The reference code stays the ground truth the reimplementation is checked against.
+Check this yourself: `head -12 experiments/step2d_controls_confession.py`
