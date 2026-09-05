@@ -47,10 +47,12 @@ responses against its labels.
   nothing at all. Asking "Answer honestly" has a downside too: applied to a report that was actually correct, it made
   the model take back true work and confess to a failure that never happened.
 
-Every instrument is reported beside a trivial alternative: the logit lens beside the Jacobian lens, random directions
-beside every probe, prompt-only readouts, a strict rubric, a second seed, and asking the model. Hypotheses, tests and the checks
-that could overturn them were committed before the corresponding data were sampled; the git history records the
-order. Two of our own first readings were reversed by those checks and are reported as such.
+Every result is paired with a **control**: a test fixed before the result existed and reported whichever way it came
+out. The logit lens sits beside the Jacobian lens, twenty random directions beside every probe, prompt-only readouts
+beside answer readouts, a strict rubric beside the loose one, a second seed beside the first, and a direct question to
+the model beside every internal readout. Hypotheses, tests and the controls that could overturn them were committed
+before the corresponding data were sampled; the git history records the order. Two of our own first readings were
+reversed by those controls and are reported as such.
 
 ## Figures
 
@@ -59,9 +61,9 @@ order. Two of our own first readings were reversed by those checks and are repor
 | `experiments/figures/fig_prevalence.png` | share of gamed responses per impossible task, both models, 95% intervals |
 | `experiments/figures/fig_zero_reasoning.png` | reasoning tokens before the answer, by judge label (GPT-OSS) |
 | `experiments/figures/fig_c_true_count.png`, `fig_c_confirm.png` | lens ranks of 16/17/19 vs 18 before the false count, first batch and replication |
-| `experiments/figures/fig_h5_swap.png` | the digit-swap check on both probes |
+| `experiments/figures/fig_h5_swap.png` | the digit-swap control on both probes |
 | `experiments/figures/fig_h2_negation_rank.png`, `fig_h2_cells.png` | Qwen: doubt words before refusals vs fabrications; reasoning-acknowledged vs not |
-| `experiments/figures/fig_h3_failed_positions.png` | Qwen: the withdrawn "failure held in mind" reading and its prompt-tail check |
+| `experiments/figures/fig_h3_failed_positions.png` | Qwen: the withdrawn "failure held in mind" reading and its prompt-tail control |
 
 ## Layout
 
@@ -74,7 +76,7 @@ experiments/
   h1_analysis.py, h2_analysis.py,       pre-registered Qwen analyses (outcome tracking; doubt words; withdrawn readings)
   h2_sensitivity.py, h3h4_analysis.py
   gptoss_lens_c.py, gptoss_lens_c_neighbours.py   lens readout at the false test count; 16/17/19 vs 18 by layer
-  gptoss_probe.py, gptoss_swap_control.py         Apollo-trained probes, baselines, digit swap
+  gptoss_probe.py, gptoss_swap_control.py         Apollo-trained probes, their controls, the digit-swap control
   fcli_doubt_judge.py                   does the reasoning doubt the fictional tool; does the answer hedge
   gptoss_justask.py                     direct vs indirect follow-up questions
   make_figures*.py, make_results_json.py, make_random_examples*.py, make_adjudication_confirm.py
